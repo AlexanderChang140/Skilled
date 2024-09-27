@@ -1,0 +1,88 @@
+{
+  "placeholder_small": {
+  "title" : "N/A",
+  "icon" : {
+    "type": "item",
+    "data": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "rewards": [
+    ]
+  },
+  "placeholder_large": {
+    "title" : "N/A",
+    "icon" : {
+      "type": "item",
+      "data": {
+        "item": "minecraft:diamond"
+      }
+    },
+    "rewards": [
+    ]
+  },
+  "ranged_damage+2%": {
+    "title" : "+2% Ranged Damage",
+    "icon" : {
+      "type": "item",
+      "data": {
+        "item": "minecraft:bow"
+      }
+    },
+    "rewards": [
+      {
+        "type": "puffish_skills:attribute",
+        "data": {
+          "attribute": "puffish_skills:player.ranged_damage",
+          "value": 0.02,
+          "operation": "multiply_base"
+        }
+      }
+    ]
+  },
+  "melee_damage+2%": {
+    "title" : "+2% Melee Damage",
+    "icon" : {
+      "type": "item",
+      "data": {
+        "item": "minecraft:iron_sword"
+      }
+    },
+    "rewards": [
+      {
+        "type": "puffish_skills:attribute",
+        "data": {
+          "attribute": "puffish_skills:player.melee_damage",
+          "value": 0.02,
+          "operation": "multiply_base"
+        }
+      }
+    ]
+  },
+  "barrier+1": {
+    "title": "+1 Barrier",
+    "icon": {
+      "type": "effect",
+      "data": {
+        "effect": "skilled:barrier"
+      }
+    },
+    "rewards": [
+      {
+        "type": "puffish_skills:skill",
+        "data": {
+          "skill": "barrierAbility",
+          "value": 1
+        }
+      },
+      {
+        "type": "puffish_skills:forge_attribute",
+        "data": {
+          "attribute": "skilled:barrier_level",
+          "value" : 1,
+          "operation": "addition"
+        }
+      }
+    ]
+  }
+}

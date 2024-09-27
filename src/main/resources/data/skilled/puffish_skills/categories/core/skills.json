@@ -1,0 +1,374 @@
+{
+	"9n02vojwgu2eb4n7": {
+		"definition": "placeholder_large",
+		"x": -80,
+		"y": 46.18802153517006,
+		"root": true
+	},
+	"gdjyrbq9fbxs900s": {
+		"definition": "placeholder_small",
+		"x": -120,
+		"y": 69.28203230275508,
+		"root": false
+	},
+	"4or2bm8teahhfmv9": {
+		"definition": "placeholder_small",
+		"x": -160,
+		"y": 92.37604307034012,
+		"root": false
+	},
+	"auj7241uteq2uysh": {
+		"definition": "placeholder_small",
+		"x": -200,
+		"y": 115.47005383792515,
+		"root": false
+	},
+	"pji8kcwc3x3e9e14": {
+		"definition": "placeholder_small",
+		"x": -120,
+		"y": 23.094010767585033,
+		"root": false
+	},
+	"bl134da3bgwk8hp9": {
+		"definition": "placeholder_small",
+		"x": -160,
+		"y": 0,
+		"root": false
+	},
+	"rras12dq1xy786oy": {
+		"definition": "placeholder_small",
+		"x": -200,
+		"y": -23.094010767585033,
+		"root": false
+	},
+	"kvr0o9m12056l8yy": {
+		"definition": "placeholder_small",
+		"x": -80,
+		"y": 92.3760430703401,
+		"root": false
+	},
+	"47jany05c7wx1w52": {
+		"definition": "placeholder_small",
+		"x": -80,
+		"y": 138.56406460551017,
+		"root": false
+	},
+	"zxjwkcyo3154sm5b": {
+		"definition": "placeholder_small",
+		"x": -80,
+		"y": 184.75208614068023,
+		"root": false
+	},
+	"x01x28q3ke0ad3vw": {
+		"definition": "placeholder_large",
+		"x": -240,
+		"y": -46.18802153517005,
+		"root": false
+	},
+	"zl4co1h4kys2ojj9": {
+		"definition": "placeholder_large",
+		"x": -240,
+		"y": 138.56406460551017,
+		"root": false
+	},
+	"lx9hm740hztfa8fm": {
+		"definition": "placeholder_large",
+		"x": -80,
+		"y": 230.94010767585027,
+		"root": false
+	},
+	"49g6xle7288eaxwy": {
+		"definition": "placeholder_small",
+		"x": -240,
+		"y": 0,
+		"root": false
+	},
+	"dtuggrpi8lo3thdv": {
+		"definition": "placeholder_small",
+		"x": -280,
+		"y": -23.094010767585047,
+		"root": false
+	},
+	"dfespug3x4mdg56l": {
+		"definition": "placeholder_small",
+		"x": -280,
+		"y": -69.2820323027551,
+		"root": false
+	},
+	"n6i9ive4z84xjgdm": {
+		"definition": "placeholder_small",
+		"x": -240,
+		"y": -92.3760430703401,
+		"root": false
+	},
+	"cpdjrx5bug8vl8lb": {
+		"definition": "placeholder_small",
+		"x": -200,
+		"y": -69.28203230275508,
+		"root": false
+	},
+	"o6li4yzm7nwild2y": {
+		"definition": "placeholder_small",
+		"x": -240,
+		"y": 92.37604307034013,
+		"root": false
+	},
+	"57as5t84bcc2628v": {
+		"definition": "placeholder_small",
+		"x": -280,
+		"y": 115.47005383792512,
+		"root": false
+	},
+	"57nqbom48sg36b03": {
+		"definition": "placeholder_small",
+		"x": -280,
+		"y": 161.65807537309522,
+		"root": false
+	},
+	"avi0clnush9aw5m8": {
+		"definition": "placeholder_small",
+		"x": -240,
+		"y": 184.75208614068026,
+		"root": false
+	},
+	"vjh0j53ozqtwkk0v": {
+		"definition": "placeholder_small",
+		"x": -200,
+		"y": 161.6580753730952,
+		"root": false
+	},
+	"mkrue6rw2xjkp2h2": {
+		"definition": "placeholder_small",
+		"x": -120,
+		"y": 207.84609690826525,
+		"root": false
+	},
+	"3cajcuhz5jyqe6vq": {
+		"definition": "placeholder_small",
+		"x": -120,
+		"y": 254.03411844343535,
+		"root": false
+	},
+	"dazng67dncbolaqv": {
+		"definition": "placeholder_small",
+		"x": -80,
+		"y": 277.1281292110204,
+		"root": false
+	},
+	"ydi4mie160n9bqzn": {
+		"definition": "placeholder_small",
+		"x": -40,
+		"y": 254.03411844343532,
+		"root": false
+	},
+	"ibsxex71wjnk1xba": {
+		"definition": "placeholder_small",
+		"x": -40,
+		"y": 207.84609690826528,
+		"root": false
+	},
+	"shf6yzja7ytzvu3b": {
+		"definition": "placeholder_small",
+		"x": -80,
+		"y": 323.31615074619043,
+		"root": false
+	},
+	"afpmthcre03mpxrx": {
+		"definition": "placeholder_small",
+		"x": -80,
+		"y": 369.50417228136047,
+		"root": false
+	},
+	"gqzalmnmcvne0c6l": {
+		"definition": "placeholder_small",
+		"x": -120,
+		"y": 392.59818304894554,
+		"root": false
+	},
+	"6xk1dm5vmsxcq08j": {
+		"definition": "placeholder_small",
+		"x": -120,
+		"y": 438.7862045841156,
+		"root": false
+	},
+	"03n02q9nsoblqcin": {
+		"definition": "placeholder_small",
+		"x": -40,
+		"y": 392.5981830489455,
+		"root": false
+	},
+	"upczpc00xw4d0fse": {
+		"definition": "placeholder_small",
+		"x": -40,
+		"y": 438.7862045841156,
+		"root": false
+	},
+	"i5kh4tkgnnugqml5": {
+		"definition": "placeholder_small",
+		"x": -80,
+		"y": 461.8802153517006,
+		"root": false
+	},
+	"v4kpwgwfmmztih4f": {
+		"definition": "placeholder_small",
+		"x": -320,
+		"y": 184.75208614068023,
+		"root": false
+	},
+	"oc9tddfu7i99kgaj": {
+		"definition": "placeholder_small",
+		"x": -360,
+		"y": 207.84609690826525,
+		"root": false
+	},
+	"30972qqj9t9hw1m6": {
+		"definition": "placeholder_small",
+		"x": -400,
+		"y": 184.7520861406802,
+		"root": false
+	},
+	"k857qk3csab3sd5i": {
+		"definition": "placeholder_small",
+		"x": -440,
+		"y": 254.03411844343532,
+		"root": false
+	},
+	"ftvrwcl6p1musfrs": {
+		"definition": "placeholder_small",
+		"x": -400,
+		"y": 277.12812921102034,
+		"root": false
+	},
+	"mega7eer6o55m2y6": {
+		"definition": "placeholder_small",
+		"x": -360,
+		"y": 254.03411844343535,
+		"root": false
+	},
+	"pzwz6yv5gybwyari": {
+		"definition": "placeholder_small",
+		"x": -320,
+		"y": -92.37604307034012,
+		"root": false
+	},
+	"dzcmwtwboyqeh7lt": {
+		"definition": "placeholder_small",
+		"x": -360,
+		"y": -115.47005383792514,
+		"root": false
+	},
+	"b59nycub4u1mwjyd": {
+		"definition": "placeholder_small",
+		"x": -400,
+		"y": -92.37604307034013,
+		"root": false
+	},
+	"y6v5y2mz4ivtsjd2": {
+		"definition": "placeholder_small",
+		"x": -440,
+		"y": -115.47005383792515,
+		"root": false
+	},
+	"r2ze4wpgi8uepd8m": {
+		"definition": "placeholder_small",
+		"x": -440,
+		"y": -161.6580753730952,
+		"root": false
+	},
+	"pahz2htuoop5248r": {
+		"definition": "placeholder_small",
+		"x": -400,
+		"y": -184.75208614068023,
+		"root": false
+	},
+	"xjk9coitj4tctary": {
+		"definition": "placeholder_small",
+		"x": -360,
+		"y": -161.6580753730952,
+		"root": false
+	},
+	"4l70qb1uk91f8byv": {
+		"definition": "placeholder_large",
+		"x": -400,
+		"y": -138.56406460551017,
+		"root": false
+	},
+	"iem4qryhetxeskm6": {
+		"definition": "placeholder_large",
+		"x": -400,
+		"y": 230.9401076758503,
+		"root": false
+	},
+	"6pivg6jx86gq14ez": {
+		"definition": "placeholder_large",
+		"x": -80,
+		"y": 415.69219381653056,
+		"root": false
+	},
+	"ghensci6fucctzlr": {
+		"definition": "placeholder_small",
+		"x": -320,
+		"y": 277.12812921102034,
+		"root": false
+	},
+	"7us9b0o6r7idg03z": {
+		"definition": "placeholder_small",
+		"x": -280,
+		"y": 300.22213997860536,
+		"root": false
+	},
+	"hq8y5zjp1fmrn4yu": {
+		"definition": "placeholder_small",
+		"x": -240,
+		"y": 323.31615074619043,
+		"root": false
+	},
+	"jmvzkca9drmie5qi": {
+		"definition": "placeholder_small",
+		"x": -160,
+		"y": 369.50417228136047,
+		"root": false
+	},
+	"9an9qqmr9oo5sh8k": {
+		"definition": "placeholder_small",
+		"x": -200,
+		"y": 346.41016151377545,
+		"root": false
+	},
+	"ykzkt3yswhjqozo5": {
+		"definition": "placeholder_small",
+		"x": -400,
+		"y": 138.56406460551017,
+		"root": false
+	},
+	"1ccluu92bxnup0vv": {
+		"definition": "placeholder_small",
+		"x": -400,
+		"y": 92.37604307034013,
+		"root": false
+	},
+	"r0fc8o718ir65w4k": {
+		"definition": "placeholder_small",
+		"x": -400,
+		"y": 46.18802153517004,
+		"root": false
+	},
+	"1p36ju04dylqib34": {
+		"definition": "placeholder_small",
+		"x": -400,
+		"y": 0,
+		"root": false
+	},
+	"3z4xikxwim5xl4zp": {
+		"definition": "placeholder_small",
+		"x": -400,
+		"y": -46.188021535170066,
+		"root": false
+	},
+	"lf60lgc52dr1kqow": {
+		"definition": "placeholder_small",
+		"x": -440,
+		"y": 207.84609690826528,
+		"root": false
+	}
+}

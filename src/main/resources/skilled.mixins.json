@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.cat.skilled.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "skilled.refmap.json",
+  "mixins": [
+    "LocalPlayerMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
