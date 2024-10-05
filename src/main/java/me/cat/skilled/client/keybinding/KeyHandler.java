@@ -11,11 +11,5 @@ import net.minecraftforge.fml.common.Mod;
 public class KeyHandler {
     @Mod.EventBusSubscriber(modid = Skilled.MODID, value = Dist.CLIENT)
     public static class ClientForgeEvents {
-        @SubscribeEvent
-        public static void onKeyInput(InputEvent.Key event) {
-            if (KeyBinding.PRIMARY_ABILITY_KEY.consumeClick()) {
-                Minecraft.getInstance().player.sendSystemMessage(Component.literal("Pressed key"));
-            }
-        }
     }
 }
