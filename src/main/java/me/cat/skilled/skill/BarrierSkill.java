@@ -25,7 +25,7 @@ public class BarrierSkill {
             return;
         }
 
-        boolean hasSkill = SkillUtil.hasSkill(event.player, SkillIds.BARRIER_SKILL);
+        boolean hasSkill = SkillUtil.hasSkill(event.player, SkillIds.BARRIER);
         var attributeInstance = event.player.getAttribute(AttributeRegistry.BARRIER_LEVEL.get());
         int barrierLevel = attributeInstance != null ? (int) attributeInstance.getValue() : 0;
 

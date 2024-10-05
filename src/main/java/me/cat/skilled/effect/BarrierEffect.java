@@ -10,8 +10,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 public class BarrierEffect extends MobEffect {
-    public BarrierEffect(MobEffectCategory mobEffectCategory, int color) {
-        super(mobEffectCategory, color);
+    public BarrierEffect(MobEffectCategory pCategory, int pColor) {
+        super(pCategory, pColor);
     }
 
     @Override

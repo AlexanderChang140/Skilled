@@ -13,7 +13,7 @@ public class LifestealSkill {
 
     @SubscribeEvent
     public static void onLivingAttackEvent(LivingAttackEvent event) {
-        if (event.getSource().getDirectEntity() instanceof ServerPlayer serverPlayer && SkillUtil.hasSkill(serverPlayer, SkillIds.LIFESTEAL_SKILL)) {
+        if (event.getSource().getDirectEntity() instanceof ServerPlayer serverPlayer && SkillUtil.hasSkill(serverPlayer, SkillIds.LIFESTEAL)) {
             serverPlayer.heal(event.getAmount() * HEAL_PERCENT);
         }
     }

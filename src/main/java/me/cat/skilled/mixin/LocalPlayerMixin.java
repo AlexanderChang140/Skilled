@@ -18,7 +18,7 @@ public class LocalPlayerMixin {
     @Redirect(method = "aiStep()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F"))
     public float redirectClamp(float pValue, float pMin, float pMax) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        if (FleetfootedSkill.hasSkill(player)) {
+        if (SkillUtil.hasSkill(player, SkillIds.FLEETFOOTED)) {
             return FleetfootedSkill.CROUCH_MOVEMENT_SPEED;
         }
         else {
@@ -29,7 +29,7 @@ public class LocalPlayerMixin {
     @Redirect(method = "aiStep()V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/Input;leftImpulse:F", opcode = Opcodes.PUTFIELD))
     private void redirectLeftImpulse(Input input, float value) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        if (!(player.getUseItem().getItem() instanceof ProjectileWeaponItem) || !SkillUtil.hasSkill(player, SkillIds.FLEETFOOTED_SKILL)) {
+        if (!(player.getUseItem().getItem() instanceof ProjectileWeaponItem) || !SkillUtil.hasSkill(player, SkillIds.FLEETFOOTED)) {
             input.leftImpulse *= 0.2F;
         }
         player.setSprinting(false);
@@ -38,7 +38,7 @@ public class LocalPlayerMixin {
     @Redirect(method = "aiStep()V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/Input;forwardImpulse:F", opcode = Opcodes.PUTFIELD))
     private void redirectForwardImpulse(Input input, float value) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        if (!(player.getUseItem().getItem() instanceof ProjectileWeaponItem) || !SkillUtil.hasSkill(player, SkillIds.FLEETFOOTED_SKILL)) {
+        if (!(player.getUseItem().getItem() instanceof ProjectileWeaponItem) || !SkillUtil.hasSkill(player, SkillIds.FLEETFOOTED)) {
             input.forwardImpulse *= 0.2F;
         }
         player.setSprinting(false);
