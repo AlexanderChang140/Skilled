@@ -12,8 +12,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 public class EnderShotEffect extends MobEffect {
-    public EnderShotEffect(MobEffectCategory mobEffectCategory, int color) {
-        super(mobEffectCategory, color);
+    public EnderShotEffect(MobEffectCategory pCategory, int pColor) {
+        super(pCategory, pColor);
     }
 
     @Override

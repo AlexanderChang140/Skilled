@@ -13,8 +13,8 @@ public class PowerShotEffect extends MobEffect {
     private static final double VELOCITY_MULTIPLIER = 1.25;
     private static final double DAMAGE_MULTIPLIER = 1.25;
 
-    public PowerShotEffect(MobEffectCategory mobEffectCategory, int color) {
-        super(mobEffectCategory, color);
+    public PowerShotEffect(MobEffectCategory pCategory, int pColor) {
+        super(pCategory, pColor);
     }
 
     @Override

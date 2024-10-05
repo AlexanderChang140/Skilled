@@ -1,33 +1,41 @@
 package me.cat.skilled.skill;
 
+import me.cat.skilled.Skilled;
+import me.cat.skilled.client.keybinding.KeyBinding;
+import me.cat.skilled.network.Messenger;
+import me.cat.skilled.network.packet.AddSkillEffectC2SPacket;
 import me.cat.skilled.registry.EffectRegistry;
 import me.cat.skilled.util.SkillIds;
-import me.cat.skilled.util.SkillUtil;
 import me.cat.skilled.util.TickTimer;
-import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber
 public class EnderShotSkill {
     private static final TickTimer timer = new TickTimer(200);
+    private static boolean isAbilityReady = true;
 
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.player.level().isClientSide) {
-            return;
+    @Mod.EventBusSubscriber(modid = Skilled.MODID, value = Dist.CLIENT)
+    public static class ClientForgeEvents {
+        @SubscribeEvent
+        public static void onKeyInput(InputEvent.Key event) {
+            if (KeyBinding.PRIMARY_ABILITY_KEY.consumeClick() && isAbilityReady) {
+                isAbilityReady = false;
+                Messenger.sendToServer(new AddSkillEffectC2SPacket(SkillIds.ENDER_SHOT, EffectRegistry.ENDER_SHOT.get(), -1, 0, false, false));
+            }
         }
+    }
 
-        boolean hasSkill = SkillUtil.hasSkill(event.player, SkillIds.ENDER_SHOT_SKILL);
-        boolean hasEffect = event.player.hasEffect(EffectRegistry.ENDER_SHOT.get());
-
-        if (!hasSkill
-                || hasEffect
-                || !timer.doTick()) {
-            return;
+    @Mod.EventBusSubscriber
+    public static class ServerForgeEvents {
+        @SubscribeEvent
+        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+            if (event.side == LogicalSide.SERVER && !isAbilityReady && timer.doTick()) {
+                isAbilityReady = true;
+            }
         }
-
-        event.player.addEffect(new MobEffectInstance(EffectRegistry.ENDER_SHOT.get(), -1, 0, false, false));
     }
 }
