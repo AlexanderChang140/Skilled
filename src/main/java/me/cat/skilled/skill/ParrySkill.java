@@ -1,5 +1,7 @@
 package me.cat.skilled.skill;
 
+import me.cat.skilled.util.SkillIds;
+import me.cat.skilled.util.SkillUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -20,6 +22,7 @@ public class ParrySkill {
     @SubscribeEvent
     public static void onLivingAttack(LivingAttackEvent event) {
         if (event.getEntity() instanceof ServerPlayer serverPlayer
+                && SkillUtil.hasSkill(serverPlayer, SkillIds.PARRY)
                 && event.getEntity().getUseItem().getItem() instanceof ShieldItem
                 && event.getSource().getDirectEntity() instanceof LivingEntity source) {
             double xDir = serverPlayer.position().x - source.position().x;
