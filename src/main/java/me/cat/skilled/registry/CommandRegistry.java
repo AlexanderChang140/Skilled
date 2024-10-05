@@ -1,5 +1,6 @@
 package me.cat.skilled.registry;
 
+import me.cat.skilled.command.AddSkillCommand;
 import me.cat.skilled.command.ClearSkillCommand;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -11,6 +12,7 @@ public class CommandRegistry {
     @SubscribeEvent
     public static void onCommandsRegiser(RegisterCommandsEvent event) {
         new ClearSkillCommand(event.getDispatcher());
+        new AddSkillCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }
