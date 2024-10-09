@@ -4,13 +4,9 @@ import me.cat.skilled.registry.AttributeRegistry;
 import me.cat.skilled.registry.EffectRegistry;
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.EffectUtil;
-import me.cat.skilled.util.SkillIds;
-import me.cat.skilled.util.SkillUtil;
 import me.cat.skilled.util.TickTimer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.Objects;
 

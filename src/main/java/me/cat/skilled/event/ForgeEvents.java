@@ -27,11 +27,9 @@ public class ForgeEvents {
     public static void onPlayerCloned(PlayerEvent.Clone event) {
         if (event.isWasDeath()) {
             event.getOriginal().reviveCaps();
-            event.getOriginal().getCapability(PlayerSkillsProvider.PLAYER_SKILLS).ifPresent(oldStore -> {
-                event.getEntity().getCapability(PlayerSkillsProvider.PLAYER_SKILLS).ifPresent(newStore -> {
-                    newStore.copyFrom(oldStore);
-                });
-            });
+            event.getOriginal().getCapability(PlayerSkillsProvider.PLAYER_SKILLS).ifPresent(
+                    oldStore -> event.getEntity().getCapability(PlayerSkillsProvider.PLAYER_SKILLS).ifPresent(
+                            newStore -> newStore.copyFrom(oldStore)));
             event.getOriginal().invalidateCaps();
         }
     }
