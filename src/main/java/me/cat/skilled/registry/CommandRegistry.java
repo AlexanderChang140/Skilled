@@ -1,7 +1,7 @@
 package me.cat.skilled.registry;
 
-import me.cat.skilled.command.AddSkillCommand;
-import me.cat.skilled.command.ClearSkillCommand;
+import me.cat.skilled.command.PrimarySkillCommand;
+import me.cat.skilled.command.SkillCommand;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -10,9 +10,9 @@ import net.minecraftforge.server.command.ConfigCommand;
 @Mod.EventBusSubscriber
 public class CommandRegistry {
     @SubscribeEvent
-    public static void onCommandsRegiser(RegisterCommandsEvent event) {
-        new ClearSkillCommand(event.getDispatcher());
-        new AddSkillCommand(event.getDispatcher());
+    public static void onCommandsRegister(RegisterCommandsEvent event) {
+        new SkillCommand(event.getDispatcher());
+        new PrimarySkillCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }

@@ -35,6 +35,4 @@ public class ForgeEvents {
             event.getOriginal().invalidateCaps();
         }
     }
-
-
 }

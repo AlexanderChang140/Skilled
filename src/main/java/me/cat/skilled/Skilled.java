@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 public class Skilled {
 
     public static final String MODID = "skilled";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public Skilled() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

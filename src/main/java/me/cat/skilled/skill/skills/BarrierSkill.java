@@ -1,7 +1,8 @@
-package me.cat.skilled.skill;
+package me.cat.skilled.skill.skills;
 
 import me.cat.skilled.registry.AttributeRegistry;
 import me.cat.skilled.registry.EffectRegistry;
+import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.EffectUtil;
 import me.cat.skilled.util.SkillIds;
 import me.cat.skilled.util.SkillUtil;
@@ -14,27 +15,22 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.Objects;
 
 
-@Mod.EventBusSubscriber
-public class BarrierSkill {
+public class BarrierSkill extends Skill {
 
-    private static final TickTimer timer = new TickTimer(200);
+    private final TickTimer timer = new TickTimer(200);
 
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.player.level().isClientSide) {
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (!timer.doTick()) {
             return;
         }
 
-        boolean hasSkill = SkillUtil.hasSkill(event.player, SkillIds.BARRIER);
         var attributeInstance = event.player.getAttribute(AttributeRegistry.BARRIER_LEVEL.get());
         int barrierLevel = attributeInstance != null ? (int) attributeInstance.getValue() : 0;
 
         boolean hasEffect = event.player.hasEffect(EffectRegistry.BARRIER.get());
         int currentAmplifier = hasEffect ? Objects.requireNonNull(event.player.getEffect(EffectRegistry.BARRIER.get())).getAmplifier() : -1;
 
-        if (!hasSkill
-                || !(currentAmplifier + 1 < barrierLevel)
-                || !timer.doTick()) {
+        if (!(currentAmplifier + 1 < barrierLevel) || !timer.doTick()) {
             return;
         }
 

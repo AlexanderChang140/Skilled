@@ -1,6 +1,7 @@
 package me.cat.skilled.effect;
 
 import me.cat.skilled.registry.EffectRegistry;
+import me.cat.skilled.util.EffectUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -32,6 +33,7 @@ public class PowerShotEffect extends MobEffect {
                 arrow.setDeltaMovement(arrow.getDeltaMovement().scale(VELOCITY_MULTIPLIER));
                 arrow.hasImpulse = true;
                 arrow.setBaseDamage(arrow.getBaseDamage() * DAMAGE_MULTIPLIER);
+                EffectUtil.decrementEffect(serverPlayer, EffectRegistry.POWER_SHOT.get());
             }
         }
     }

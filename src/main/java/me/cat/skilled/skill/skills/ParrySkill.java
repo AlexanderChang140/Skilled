@@ -1,30 +1,23 @@
-package me.cat.skilled.skill;
+package me.cat.skilled.skill.skills;
 
-import me.cat.skilled.util.SkillIds;
-import me.cat.skilled.util.SkillUtil;
+import me.cat.skilled.skill.Skill;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber
-public class ParrySkill {
+public class ParrySkill extends Skill {
     private static final float KNOCKBACK_STRENGTH = 1;
     private static final int WEAKNESS_DURATION = 60;
     private static final int WEAKNESS_AMPLIFIER = 1;
     private static final int SLOWNESS_DURATION = 60;
     private static final int SLOWNESS_AMPLIFIER = 2;
 
-    @SubscribeEvent
-    public static void onLivingAttack(LivingAttackEvent event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer
-                && SkillUtil.hasSkill(serverPlayer, SkillIds.PARRY)
-                && event.getEntity().getUseItem().getItem() instanceof ShieldItem
-                && event.getSource().getDirectEntity() instanceof LivingEntity source) {
+    public void onLivingAttack(LivingAttackEvent event) {
+        ServerPlayer serverPlayer = (ServerPlayer) event.getEntity();
+        if (event.getEntity().getUseItem().getItem() instanceof ShieldItem && event.getSource().getDirectEntity() instanceof LivingEntity source) {
             double xDir = serverPlayer.position().x - source.position().x;
             double zDir = serverPlayer.position().z - source.position().z;
             source.knockback(KNOCKBACK_STRENGTH, xDir, zDir);

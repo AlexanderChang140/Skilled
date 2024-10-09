@@ -1,6 +1,6 @@
 package me.cat.skilled.mixin;
 
-import me.cat.skilled.skill.FleetfootedSkill;
+import me.cat.skilled.skill.skills.FleetfootedSkill;
 import me.cat.skilled.util.SkillIds;
 import me.cat.skilled.util.SkillUtil;
 import net.minecraft.client.player.Input;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(LocalPlayer.class)
 public class LocalPlayerMixin {
-
+    // FleetfootedSkill
     @Redirect(method = "aiStep()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F"))
     public float redirectClamp(float pValue, float pMin, float pMax) {
         LocalPlayer player = (LocalPlayer) (Object) this;

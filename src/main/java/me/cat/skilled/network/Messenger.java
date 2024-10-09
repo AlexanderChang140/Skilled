@@ -1,7 +1,7 @@
 package me.cat.skilled.network;
 
 import me.cat.skilled.Skilled;
-import me.cat.skilled.network.packet.AddSkillEffectC2SPacket;
+import me.cat.skilled.network.packet.ActivatePrimarySkillC2SPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -25,10 +25,10 @@ public class Messenger {
                 .serverAcceptedVersions(s -> true)
                 .simpleChannel();
 
-        INSTANCE.messageBuilder(AddSkillEffectC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(AddSkillEffectC2SPacket::new)
-                .encoder(AddSkillEffectC2SPacket::toBytes)
-                .consumerMainThread(AddSkillEffectC2SPacket::handle)
+        INSTANCE.messageBuilder(ActivatePrimarySkillC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(ActivatePrimarySkillC2SPacket::new)
+                .encoder(ActivatePrimarySkillC2SPacket::toBytes)
+                .consumerMainThread(ActivatePrimarySkillC2SPacket::handle)
                 .add();
     }
 

@@ -21,6 +21,35 @@
     "rewards": [
     ]
   },
+
+
+  "ranger": {
+    "title" : "Ranger",
+    "icon" : {
+      "type": "item",
+      "data": {
+        "item": "minecraft:bow"
+      }
+    },
+    "rewards": [
+      {
+        "type": "puffish_skills:attribute",
+        "data": {
+          "attribute": "puffish_skills:player.movement_speed",
+          "value": 0.20,
+          "operation": "multiply_base"
+        }
+      },
+      {
+        "type": "puffish_skills:attribute",
+        "data": {
+          "attribute": "puffish_skills:player.ranged_damage",
+          "value": 0.10,
+          "operation": "multiply_base"
+        }
+      }
+    ]
+  },
   "ranged_damage+2%": {
     "title" : "+2% Ranged Damage",
     "icon" : {
@@ -34,6 +63,27 @@
         "type": "puffish_skills:attribute",
         "data": {
           "attribute": "puffish_skills:player.ranged_damage",
+          "value": 0.02,
+          "operation": "multiply_base"
+        }
+      }
+    ]
+  },
+
+
+  "warrior": {
+    "title" : "+2% Melee Damage",
+    "icon" : {
+      "type": "item",
+      "data": {
+        "item": "minecraft:iron_sword"
+      }
+    },
+    "rewards": [
+      {
+        "type": "puffish_skills:attribute",
+        "data": {
+          "attribute": "puffish_skills:player.melee_damage",
           "value": 0.02,
           "operation": "multiply_base"
         }

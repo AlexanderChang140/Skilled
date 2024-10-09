@@ -3,7 +3,6 @@ package me.cat.skilled.util;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 
 public class EffectUtil {
 

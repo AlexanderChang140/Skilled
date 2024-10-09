@@ -14,4 +14,7 @@ public class SkillIds {
     public final static String LAST_STAND = "last_stand";
     public final static String WHIRLWIND = "whirlwind";
     public final static String PARRY = "parry";
+
+    public final static String DASH = "dash";
+
 }

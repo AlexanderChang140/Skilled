@@ -1,6 +1,6 @@
 package me.cat.skilled.reward;
 
-import me.cat.skilled.capability.PlayerSkillsProvider;
+import me.cat.skilled.util.SkillUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.puffish.skillsmod.SkillsMod;
 import net.puffish.skillsmod.api.SkillsAPI;
@@ -13,7 +13,7 @@ import net.puffish.skillsmod.api.reward.RewardUpdateContext;
 import net.puffish.skillsmod.api.util.Problem;
 import net.puffish.skillsmod.api.util.Result;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class SkillReward implements Reward {
     public static final ResourceLocation ID = SkillsMod.createIdentifier("skill");
@@ -55,9 +55,7 @@ public class SkillReward implements Reward {
     @Override
     public void update(RewardUpdateContext rewardUpdateContext) {
         int count = rewardUpdateContext.getCount();
-
-        rewardUpdateContext.getPlayer().getCapability(PlayerSkillsProvider.PLAYER_SKILLS).ifPresent(skills ->
-                skills.setSkillLevel(skillId, count));
+        SkillUtil.updateSkill(rewardUpdateContext.getPlayer(), skillId, count);
     }
 
     @Override
