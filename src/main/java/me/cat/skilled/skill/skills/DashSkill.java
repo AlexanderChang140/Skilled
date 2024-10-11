@@ -48,7 +48,7 @@ public class DashSkill extends ActiveSkill {
             isDashing = false;
             return;
         }
-        System.out.println("1");
+
         AABB area = new AABB(
                 player.getX() - DASH_HIT_RADIUS,
                 player.getY() - DASH_HIT_RADIUS,
@@ -69,7 +69,6 @@ public class DashSkill extends ActiveSkill {
                 livingEntity.hurt(livingEntity.damageSources().generic(), DASH_HIT_DAMAGE);
             }
         }
-        System.out.println("2");
     }
 
     public void onLivingAttack(LivingAttackEvent event) {
