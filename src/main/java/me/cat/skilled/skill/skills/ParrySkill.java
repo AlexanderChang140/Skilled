@@ -9,7 +9,7 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 public class ParrySkill extends Skill {
-    private static final float KNOCKBACK_STRENGTH = 1;
+    private static final double KNOCKBACK_STRENGTH = 1;
     private static final int WEAKNESS_DURATION = 60;
     private static final int WEAKNESS_AMPLIFIER = 1;
     private static final int SLOWNESS_DURATION = 60;

@@ -32,7 +32,7 @@ public abstract class ActiveSkill extends Skill {
         return false;
     }
 
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+    public void checkSkillReady(TickEvent.PlayerTickEvent event) {
         if (event.side == LogicalSide.SERVER && !isSkillReady && doTick()) {
             isSkillReady = true;
         }

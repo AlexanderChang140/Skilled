@@ -19,7 +19,7 @@ public class SkillEvents {
         if (event.player instanceof ServerPlayer serverPlayer) {
             ActiveSkill activeSkill = SkillUtil.getPrimarySkillInstance(serverPlayer);
             if (activeSkill != null) {
-                activeSkill.onPlayerTick(event);
+                activeSkill.checkSkillReady(event);
             }
             if (SkillUtil.getSkillInstance(serverPlayer, SkillIds.BARRIER) instanceof BarrierSkill barrierSkill) {
                 barrierSkill.onPlayerTick(event);

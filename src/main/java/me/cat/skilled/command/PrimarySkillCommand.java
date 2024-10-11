@@ -43,9 +43,7 @@ public class PrimarySkillCommand {
     private int getPrimarySkill(CommandSourceStack source) throws CommandSyntaxException {
         try {
             ServerPlayer serverPlayer = source.getPlayerOrException();
-            Skilled.LOGGER.info(String.valueOf(serverPlayer));
             String primarySkillId = SkillUtil.getPrimarySkillId(serverPlayer);
-            Skilled.LOGGER.info(primarySkillId);
 
             source.sendSystemMessage(Component.literal(Objects.requireNonNullElse(primarySkillId, "No primary skill set")));
             return 1;

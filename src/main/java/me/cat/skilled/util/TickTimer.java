@@ -16,4 +16,8 @@ public class TickTimer {
         }
         return false;
     }
+
+    public void setTickCounter(int ticks) {
+        this.tickCounter = ticks;
+    }
 }
