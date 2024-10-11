@@ -41,7 +41,10 @@ public class PlayerSkills {
             }
         }
         else {
-            skillMap.put(skillId, new SkillWrapper(level, SkillFactory.getSkill(skillId)));
+            Skill skillInstance = SkillFactory.getSkill(skillId);
+            if (skillInstance != null) {
+                skillMap.put(skillId, new SkillWrapper(level, skillInstance));
+            }
         }
     }
 
@@ -78,20 +81,35 @@ public class PlayerSkills {
     }
 
     public void saveNBTData(CompoundTag nbt) {
-        CompoundTag mapTag = new CompoundTag();
+        CompoundTag skillLevelTag = new CompoundTag();
+        CompoundTag skillDataTag = new CompoundTag();
         for (Map.Entry<String, SkillWrapper> entry : skillMap.entrySet()) {
-            mapTag.putInt(entry.getKey(), entry.getValue().getSkillLevel());
+            String skillId = entry.getKey();
+            SkillWrapper wrapper = entry.getValue();
+
+            skillLevelTag.putInt(skillId, wrapper.getSkillLevel());
+            if (wrapper.getSkillInstance() instanceof SerializedSkill serializedSkill) {
+                skillDataTag.put(skillId, serializedSkill.saveNbt());
+            }
         }
-        nbt.put("skills", mapTag);
+        nbt.put("skill_level", skillLevelTag);
+        nbt.put("skill_data", skillDataTag);
         nbt.putString("primary_skill_id", primarySkillId);
     }
 
     public void loadNBTData(CompoundTag nbt) {
         skillMap.clear();
-        CompoundTag mapTag = nbt.getCompound("skills");
-        for (String key : mapTag.getAllKeys()) {
-            int value = mapTag.getInt(key);
-            skillMap.put(key, new SkillWrapper(value, SkillFactory.getSkill(key)));
+        CompoundTag skillLevelTag = nbt.getCompound("skill_level");
+        CompoundTag skillDataTag = nbt.getCompound("skill_data");
+        for (String skillId : skillLevelTag.getAllKeys()) {
+            int level = skillLevelTag.getInt(skillId);
+            Skill skillInstance = SkillFactory.getSkill(skillId);
+
+            if (skillInstance instanceof SerializedSkill serializedSkill) {
+                serializedSkill.loadNbt(skillDataTag.getCompound(skillId));
+            }
+
+            skillMap.put(skillId, new SkillWrapper(level, skillInstance));
         }
         primarySkillId = nbt.getString("primary_skill_id");
     }
