@@ -32,7 +32,7 @@ public class SkillEvents {
             }
 
             if (SkillUtil.getSkillInstance(serverPlayer, SkillIds.LIFESTEAL) instanceof LastStandSkill lastStandSkill) {
-                lastStandSkill.onPlayerTick(event);
+                lastStandSkill.onPlayerTick();
             }
         }
     }

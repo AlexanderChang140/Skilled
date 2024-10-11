@@ -6,7 +6,6 @@ import me.cat.skilled.util.TickTimer ;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
 public class LastStandSkill extends Skill implements SerializedSkill {
@@ -16,7 +15,7 @@ public class LastStandSkill extends Skill implements SerializedSkill {
     private boolean isSkillReady = false;
     private boolean isInvuln = false;
 
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+    public void onPlayerTick() {
         if (!isSkillReady && skillCooldown.doTick()) {
             isSkillReady = true;
         }
