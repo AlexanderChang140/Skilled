@@ -17,6 +17,7 @@ public class SkillFactory {
             case SkillIds.FRENZY -> new FrenzySkill();
             case SkillIds.PARRY -> new ParrySkill();
             case SkillIds.LIFESTEAL -> new LifestealSkill();
+            case SkillIds.LAST_STAND -> new LastStandSkill();
 
             default -> null;
         };

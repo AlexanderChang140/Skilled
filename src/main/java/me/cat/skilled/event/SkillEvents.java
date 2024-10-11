@@ -7,6 +7,7 @@ import me.cat.skilled.util.SkillUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -28,6 +29,10 @@ public class SkillEvents {
 
             if (SkillUtil.getSkillInstance(serverPlayer, SkillIds.DASH) instanceof DashSkill dashSkill) {
                 dashSkill.onPlayerTick(event);
+            }
+
+            if (SkillUtil.getSkillInstance(serverPlayer, SkillIds.LIFESTEAL) instanceof LastStandSkill lastStandSkill) {
+                lastStandSkill.onPlayerTick(event);
             }
         }
     }
@@ -54,6 +59,15 @@ public class SkillEvents {
 
             if (SkillUtil.getSkillInstance(serverPlayer, SkillIds.DASH) instanceof DashSkill dashSkill) {
                 dashSkill.onLivingAttack(event);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDamaage(LivingDamageEvent event) {
+        if (event.getEntity() instanceof  ServerPlayer serverPlayer) {
+            if (SkillUtil.getSkillInstance(serverPlayer, SkillIds.LAST_STAND) instanceof LastStandSkill lastStandSkill) {
+                lastStandSkill.onLivingDamage(event);
             }
         }
     }
