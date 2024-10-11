@@ -21,9 +21,8 @@ public class SkillUtil {
 
     public static boolean isActiveSkill(Player player, String skillId) {
         return player.getCapability(PlayerSkillsProvider.PLAYER_SKILLS)
-                .map(skills -> skills.getSkillInstance(skillId))
-                .map(skill -> skill instanceof ActiveSkill)
-                .orElseThrow(() -> new IllegalArgumentException("Skill not found"));
+                .map(skills -> skills.getSkillInstance(skillId) instanceof  ActiveSkill)
+                .orElse(false);
     }
 
     public static void updateSkill(Player player, String skillId, int level) {
@@ -46,7 +45,6 @@ public class SkillUtil {
 
     public static String getPrimarySkillId(Player player) {
         return player.getCapability(PlayerSkillsProvider.PLAYER_SKILLS)
-                .resolve()
                 .map(PlayerSkills::getPrimarySkillId)
                 .orElse(null);
     }
