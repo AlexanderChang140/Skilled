@@ -2,6 +2,7 @@ package me.cat.skilled.network;
 
 import me.cat.skilled.Skilled;
 import me.cat.skilled.network.packet.ActivatePrimarySkillC2SPacket;
+import me.cat.skilled.network.packet.DashS2CPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -29,6 +30,12 @@ public class Messenger {
                 .decoder(ActivatePrimarySkillC2SPacket::new)
                 .encoder(ActivatePrimarySkillC2SPacket::toBytes)
                 .consumerMainThread(ActivatePrimarySkillC2SPacket::handle)
+                .add();
+
+        INSTANCE.messageBuilder(DashS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(DashS2CPacket::new)
+                .encoder(DashS2CPacket::toBytes)
+                .consumerMainThread(DashS2CPacket::handle)
                 .add();
     }
 

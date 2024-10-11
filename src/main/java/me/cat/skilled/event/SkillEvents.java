@@ -21,8 +21,13 @@ public class SkillEvents {
             if (activeSkill != null) {
                 activeSkill.checkSkillReady(event);
             }
+
             if (SkillUtil.getSkillInstance(serverPlayer, SkillIds.BARRIER) instanceof BarrierSkill barrierSkill) {
                 barrierSkill.onPlayerTick(event);
+            }
+
+            if (SkillUtil.getSkillInstance(serverPlayer, SkillIds.DASH) instanceof DashSkill dashSkill) {
+                dashSkill.onPlayerTick(event);
             }
         }
     }
@@ -45,6 +50,10 @@ public class SkillEvents {
 
             if (SkillUtil.getSkillInstance(serverPlayer, SkillIds.LIFESTEAL) instanceof LifestealSkill lifestealSkill) {
                 lifestealSkill.onLivingAttackEvent(event);
+            }
+
+            if (SkillUtil.getSkillInstance(serverPlayer, SkillIds.DASH) instanceof DashSkill dashSkill) {
+                dashSkill.onLivingAttack(event);
             }
         }
     }
