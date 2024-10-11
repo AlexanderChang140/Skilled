@@ -23,8 +23,8 @@ public class ActivatePrimarySkillC2SPacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             ServerPlayer serverPlayer = context.getSender();
-            String primarySkillId = SkillUtil.getPrimarySkillId(serverPlayer);
-            if (SkillUtil.getSkillInstance(serverPlayer, primarySkillId) instanceof ActiveSkill activeSkill) {
+            ActiveSkill activeSkill = SkillUtil.getPrimarySkillInstance(serverPlayer);
+            if (activeSkill != null) {
                 activeSkill.activateSkill(serverPlayer);
             }
         });

@@ -46,8 +46,9 @@ public class SkillUtil {
 
     public static String getPrimarySkillId(Player player) {
         return player.getCapability(PlayerSkillsProvider.PLAYER_SKILLS)
+                .resolve()
                 .map(PlayerSkills::getPrimarySkillId)
-                .orElseThrow();
+                .orElse(null);
     }
 
     public static void setPrimarySkillId(Player player, String skillId) {
@@ -57,7 +58,7 @@ public class SkillUtil {
 
     public static ActiveSkill getPrimarySkillInstance(Player player) {
         String primarySkillId = SkillUtil.getPrimarySkillId(player);
-        if (SkillUtil.getSkillInstance(player, primarySkillId) instanceof ActiveSkill activeSkill) {
+        if (primarySkillId != null && SkillUtil.getSkillInstance(player, primarySkillId) instanceof ActiveSkill activeSkill) {
             return activeSkill;
         }
         return null;
