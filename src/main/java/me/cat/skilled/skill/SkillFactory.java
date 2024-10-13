@@ -15,7 +15,7 @@ public class SkillFactory {
             case SkillIds.ENDER_SHOT -> new EnderShotSkill();
             case SkillIds.POWER_SHOT -> new PowerShotSkill();
             case SkillIds.FLEETFOOTED -> new FleetfootedSkill();
-            case SkillIds.BARRIER -> new BarrierSkill();
+            case SkillIds.STEALTH -> new StealthSkill();
 
             // Warrior
             case SkillIds.DASH -> new DashSkill();

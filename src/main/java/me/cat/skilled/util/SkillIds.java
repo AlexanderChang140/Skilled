@@ -7,6 +7,8 @@ public class SkillIds {
     public final static String POWER_SHOT = "power_shot";
     public final static String ENDER_SHOT = "ender_shot";
     public final static String FLEETFOOTED = "fleetfooted";
+    public final static String STEALTH = "stealth";
+    public final static String EVASION = "evasion";
 
     // Warrior
     public final static String LIFESTEAL = "lifesteal";

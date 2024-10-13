@@ -4,6 +4,7 @@ import me.cat.skilled.Skilled;
 import me.cat.skilled.effect.BarrierEffect;
 import me.cat.skilled.effect.FrenzyEffect;
 import me.cat.skilled.effect.PowerShotEffect;
+import me.cat.skilled.effect.StealthEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -35,6 +36,9 @@ public class EffectRegistry {
                         FRENZY_ATTACK_SPEED_UUID.toString(),
                         FRENZY_ATTACK_SPEED_INCREASE,
                         AttributeModifier.Operation.MULTIPLY_TOTAL));
+
+    public static final RegistryObject<MobEffect> STEALTH = MOB_EFFECTS.register("stealth",
+            () -> new StealthEffect(MobEffectCategory.BENEFICIAL, 0));
 
     public static void register(IEventBus eventBus) {
         MOB_EFFECTS.register(eventBus);
