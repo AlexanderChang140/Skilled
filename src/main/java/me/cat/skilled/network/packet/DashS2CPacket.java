@@ -2,8 +2,8 @@ package me.cat.skilled.network.packet;
 
 import me.cat.skilled.skill.warrior.DashSkill;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -23,17 +23,17 @@ public class DashS2CPacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             double DASH_SPEED = DashSkill.DASH_SPEED;
-            Player player = Minecraft.getInstance().player;
-                    Vec3 motion = player.getDeltaMovement();
-            Vec3 lookDirection = player.getLookAngle();
+            LocalPlayer localPlayer = Minecraft.getInstance().player;
+                    Vec3 motion = localPlayer.getDeltaMovement();
+            Vec3 lookDirection = localPlayer.getLookAngle();
             Vec3 dashVelocity = new Vec3(
                     lookDirection.x * DASH_SPEED,
                     lookDirection.y * DASH_SPEED,
                     lookDirection.z * DASH_SPEED
             );
 
-            player.setDeltaMovement(motion.add(dashVelocity));
-            player.fallDistance = 0.0F;
+            localPlayer.setDeltaMovement(motion.add(dashVelocity));
+            localPlayer.fallDistance = 0.0F;
         });
         return true;
     }
