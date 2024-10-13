@@ -13,9 +13,11 @@ public class EffectUtil {
 
         MobEffectInstance mobEffectInstance = livingEntity.getEffect(effect);
         int amplifier = mobEffectInstance.getAmplifier();
+        boolean ambient = mobEffectInstance.isAmbient();
+        boolean visible = mobEffectInstance.isVisible();
 
         livingEntity.removeEffect(effect);
-        livingEntity.addEffect(new MobEffectInstance(effect, duration, amplifier, false, false));
+        livingEntity.addEffect(new MobEffectInstance(effect, duration, amplifier, ambient, visible));
     }
 
     public static void incrementEffect(LivingEntity livingEntity, MobEffect effect) {
@@ -26,9 +28,11 @@ public class EffectUtil {
         MobEffectInstance mobEffectInstance = livingEntity.getEffect(effect);
         int duration = mobEffectInstance.getDuration();
         int amplifier = mobEffectInstance.getAmplifier();
+        boolean ambient = mobEffectInstance.isAmbient();
+        boolean visible = mobEffectInstance.isVisible();
 
         livingEntity.removeEffect(effect);
-        livingEntity.addEffect(new MobEffectInstance(effect, duration, amplifier + 1, false, false));
+        livingEntity.addEffect(new MobEffectInstance(effect, duration, amplifier + 1, ambient, visible));
     }
 
     public static void incrementEffect(LivingEntity livingEntity, MobEffect effect, int amount) {
@@ -39,19 +43,8 @@ public class EffectUtil {
         MobEffectInstance mobEffectInstance = livingEntity.getEffect(effect);
         int duration = mobEffectInstance.getDuration();
         int amplifier = mobEffectInstance.getAmplifier();
-
-        livingEntity.removeEffect(effect);
-        livingEntity.addEffect(new MobEffectInstance(effect, duration, amplifier + amount, false, false));
-    }
-
-    public static void incrementEffect(LivingEntity livingEntity, MobEffect effect, int amount, boolean ambient, boolean visible) {
-        if (!livingEntity.hasEffect(effect) || amount <= 0) {
-            return;
-        }
-
-        MobEffectInstance mobEffectInstance = livingEntity.getEffect(effect);
-        int duration = mobEffectInstance.getDuration();
-        int amplifier = mobEffectInstance.getAmplifier();
+        boolean ambient = mobEffectInstance.isAmbient();
+        boolean visible = mobEffectInstance.isVisible();
 
         livingEntity.removeEffect(effect);
         livingEntity.addEffect(new MobEffectInstance(effect, duration, amplifier + amount, ambient, visible));
@@ -65,10 +58,12 @@ public class EffectUtil {
         MobEffectInstance mobEffectInstance = livingEntity.getEffect(effect);
         int duration = mobEffectInstance.getDuration();
         int amplifier = mobEffectInstance.getAmplifier();
+        boolean ambient = mobEffectInstance.isAmbient();
+        boolean visible = mobEffectInstance.isVisible();
 
         livingEntity.removeEffect(effect);
         if (amplifier > 0) {
-            livingEntity.addEffect(new MobEffectInstance(effect, duration, amplifier - 1, false, false));
+            livingEntity.addEffect(new MobEffectInstance(effect, duration, amplifier - 1, ambient, visible));
         }
     }
 
@@ -80,21 +75,8 @@ public class EffectUtil {
         MobEffectInstance mobEffectInstance = livingEntity.getEffect(effect);
         int duration = mobEffectInstance.getDuration();
         int amplifier = mobEffectInstance.getAmplifier();
-
-        livingEntity.removeEffect(effect);
-        if (amplifier > 0) {
-            livingEntity.addEffect(new MobEffectInstance(effect, duration, Math.max(amplifier - amount, 0), false, false));
-        }
-    }
-
-    public static void decrementEffect(LivingEntity livingEntity, MobEffect effect, int amount, boolean ambient, boolean visible) {
-        if (!livingEntity.hasEffect(effect)) {
-            return;
-        }
-
-        MobEffectInstance mobEffectInstance = livingEntity.getEffect(effect);
-        int duration = mobEffectInstance.getDuration();
-        int amplifier = mobEffectInstance.getAmplifier();
+        boolean ambient = mobEffectInstance.isAmbient();
+        boolean visible = mobEffectInstance.isVisible();
 
         livingEntity.removeEffect(effect);
         if (amplifier > 0) {
