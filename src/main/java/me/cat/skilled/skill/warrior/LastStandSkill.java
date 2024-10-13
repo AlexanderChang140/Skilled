@@ -16,20 +16,19 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
 public class LastStandSkill extends Skill implements SerializedSkill {
-
-    private final TickTimer skillCooldown = new TickTimer(12000);
+    private final TickTimer lastStandCooldown = new TickTimer(12000);
     private final TickTimer invulnTimer = new TickTimer(100);
-    private boolean isSkillReady = false;
+    private boolean isLastStandReady = true;
     private boolean isInvuln = false;
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.player instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.LAST_STAND) instanceof LastStandSkill lastStandSkill) {
-            if (!lastStandSkill.isSkillReady && lastStandSkill.skillCooldown.doTick()) {
-                lastStandSkill.isSkillReady = true;
+            if (!lastStandSkill.isLastStandReady && lastStandSkill.lastStandCooldown.doTick()) {
+                lastStandSkill.isLastStandReady = true;
             }
 
-            if (lastStandSkill.isInvuln && lastStandSkill.skillCooldown.doTick()) {
+            if (lastStandSkill.isInvuln && lastStandSkill.lastStandCooldown.doTick()) {
                 lastStandSkill.isInvuln = false;
             }
         }

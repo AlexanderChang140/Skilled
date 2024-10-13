@@ -13,12 +13,12 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
 public class StealthSkill extends Skill {
-    private final TickTimer skillCooldown = new TickTimer(200);
+    private final TickTimer stealthCooldown = new TickTimer(200);
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.player instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.STEALTH) instanceof  StealthSkill stealthSkill) {
-            if (!serverPlayer.hasEffect(EffectRegistry.STEALTH.get()) && stealthSkill.skillCooldown.doTick()) {
+            if (!serverPlayer.hasEffect(EffectRegistry.STEALTH.get()) && stealthSkill.stealthCooldown.doTick()) {
                 serverPlayer.addEffect(new MobEffectInstance(EffectRegistry.STEALTH.get(), -1, 0, false, false));
             }
         }
