@@ -2,7 +2,7 @@ package me.cat.skilled.event;
 
 import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.PlayerSkillsProvider;
-import me.cat.skilled.util.SkillIds;
+import me.cat.skilled.skill.ActiveSkill;
 import me.cat.skilled.util.SkillUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -46,7 +46,12 @@ public class ForgeEvents {
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        System.out.println(SkillUtil.hasSkill(event.player, SkillIds.FLEETFOOTED));
+    private static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.player instanceof ServerPlayer serverPlayer) {
+            ActiveSkill activeSkill = SkillUtil.getPrimarySkillInstance(serverPlayer);
+            if (activeSkill != null) {
+                activeSkill.checkSkillReady(event);
+            }
+        }
     }
 }

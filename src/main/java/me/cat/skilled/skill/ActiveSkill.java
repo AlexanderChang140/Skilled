@@ -6,7 +6,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber
 public abstract class ActiveSkill extends Skill implements SerializedSkill {
     private final TickTimer skillCooldown;
     private boolean isSkillReady = true;
