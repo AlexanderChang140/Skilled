@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.skills;
+package me.cat.skilled.skill.warrior;
 
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.DashS2CPacket;

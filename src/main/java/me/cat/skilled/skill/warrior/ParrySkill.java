@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.skills;
+package me.cat.skilled.skill.warrior;
 
 import me.cat.skilled.skill.Skill;
 import net.minecraft.server.level.ServerPlayer;

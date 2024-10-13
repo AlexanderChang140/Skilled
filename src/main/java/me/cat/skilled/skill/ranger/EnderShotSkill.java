@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.skills;
+package me.cat.skilled.skill.ranger;
 
 import me.cat.skilled.registry.EffectRegistry;
 import me.cat.skilled.skill.ActiveSkill;

@@ -1,6 +1,6 @@
 package me.cat.skilled.mixin;
 
-import me.cat.skilled.skill.skills.FleetfootedSkill;
+import me.cat.skilled.skill.ranger.FleetfootedSkill;
 import me.cat.skilled.util.SkillIds;
 import me.cat.skilled.util.SkillUtil;
 import net.minecraft.client.player.Input;

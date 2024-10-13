@@ -1,11 +1,16 @@
 package me.cat.skilled.skill;
 
-import me.cat.skilled.skill.skills.*;
+import me.cat.skilled.skill.generic.*;
+import me.cat.skilled.skill.ranger.*;
+import me.cat.skilled.skill.warrior.*;
 import me.cat.skilled.util.SkillIds;
 
 public class SkillFactory {
     public static Skill getSkill(String skillId) {
         return switch (skillId) {
+            // Generic
+            case SkillIds.BARRIER -> new BarrierSkill();
+
             // Ranger
             case SkillIds.ENDER_SHOT -> new EnderShotSkill();
             case SkillIds.POWER_SHOT -> new PowerShotSkill();

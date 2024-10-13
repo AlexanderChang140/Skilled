@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.skills;
+package me.cat.skilled.skill.warrior;
 
 import me.cat.skilled.capability.SerializedSkill;
 import me.cat.skilled.skill.Skill;
