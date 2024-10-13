@@ -1,10 +1,13 @@
 package me.cat.skilled.capability;
 
+import me.cat.skilled.network.Messenger;
+import me.cat.skilled.network.packet.SyncCapabilityS2CPacket;
 import me.cat.skilled.skill.ActiveSkill;
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.skill.SkillFactory;
 import me.cat.skilled.skill.SkillWrapper;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 
 import java.util.HashMap;
@@ -73,6 +76,10 @@ public class PlayerSkills {
 
     public Map<String, SkillWrapper> getMap() {
         return skillMap;
+    }
+
+    public void syncCapability(ServerPlayer serverPlayer) {
+        Messenger.sendToPlayer(new SyncCapabilityS2CPacket(this), serverPlayer);
     }
 
     public void copyFrom(PlayerSkills source) {

@@ -5,6 +5,7 @@ import me.cat.skilled.capability.PlayerSkillsProvider;
 import me.cat.skilled.skill.ActiveSkill;
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.skill.SkillWrapper;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
 import java.lang.reflect.Field;
@@ -13,6 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 public class SkillUtil {
+    public static void syncCapability(ServerPlayer serverPlayer) {
+        serverPlayer.getCapability(PlayerSkillsProvider.PLAYER_SKILLS)
+                .ifPresent(skills -> skills.syncCapability(serverPlayer));
+    }
+
     public static boolean hasSkill(Player player, String skillId) {
         return player.getCapability(PlayerSkillsProvider.PLAYER_SKILLS)
                 .map(skills -> skills.hasSkill(skillId))

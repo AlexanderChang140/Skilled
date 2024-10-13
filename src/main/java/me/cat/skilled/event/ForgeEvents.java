@@ -2,10 +2,14 @@ package me.cat.skilled.event;
 
 import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.PlayerSkillsProvider;
+import me.cat.skilled.util.SkillIds;
+import me.cat.skilled.util.SkillUtil;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,6 +28,13 @@ public class ForgeEvents {
     }
 
     @SubscribeEvent
+    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof ServerPlayer serverPlayer) {
+            SkillUtil.syncCapability(serverPlayer);
+        }
+    }
+
+    @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
         if (event.isWasDeath()) {
             event.getOriginal().reviveCaps();
@@ -32,5 +43,10 @@ public class ForgeEvents {
                             newStore -> newStore.copyFrom(oldStore)));
             event.getOriginal().invalidateCaps();
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        System.out.println(SkillUtil.hasSkill(event.player, SkillIds.FLEETFOOTED));
     }
 }

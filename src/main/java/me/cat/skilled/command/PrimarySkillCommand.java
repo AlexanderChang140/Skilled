@@ -62,6 +62,7 @@ public class PrimarySkillCommand {
                 throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().create();
             } else {
                 SkillUtil.setPrimarySkillId(serverPlayer, skillId);
+                SkillUtil.syncCapability(serverPlayer);
                 source.sendSystemMessage(Component.literal("Primary skill set"));
                 return 1;
             }

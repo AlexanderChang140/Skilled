@@ -61,6 +61,7 @@ public class SkillCommand {
                 throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().create();
             } else {
                 SkillUtil.updateSkill(serverPlayer, skillId, level);
+                SkillUtil.syncCapability(serverPlayer);
                 source.sendSystemMessage(Component.literal("Skill added"));
                 return 1;
             }
@@ -89,8 +90,9 @@ public class SkillCommand {
 
     private int clearSkill(CommandSourceStack source) throws CommandSyntaxException {
         try {
-            ServerPlayer player = source.getPlayerOrException();
-            player.getCapability(PlayerSkillsProvider.PLAYER_SKILLS).ifPresent(PlayerSkills::clearSkills);
+            ServerPlayer serverPlayer = source.getPlayerOrException();
+            serverPlayer.getCapability(PlayerSkillsProvider.PLAYER_SKILLS).ifPresent(PlayerSkills::clearSkills);
+            SkillUtil.syncCapability(serverPlayer);
             source.sendSystemMessage(Component.literal("Skills cleared"));
             return 1;
         }
