@@ -7,7 +7,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 
 public class PowerShotSkill extends ActiveSkill {
     public PowerShotSkill() {
-        super(200);
+        super(1, 1, 200);
     }
 
     @Override

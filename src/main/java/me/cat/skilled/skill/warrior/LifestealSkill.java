@@ -12,6 +12,10 @@ import net.minecraftforge.fml.common.Mod;
 public class LifestealSkill extends Skill {
     private final static float HEAL_PERCENT = 0.25F;
 
+    public LifestealSkill() {
+        super(1, 1);
+    }
+
     @SubscribeEvent
     public static void onLivingAttackEvent(LivingAttackEvent event) {
         if (event.getEntity() instanceof ServerPlayer serverPlayer && SkillUtil.hasSkill(serverPlayer, SkillIds.LIFESTEAL)) {

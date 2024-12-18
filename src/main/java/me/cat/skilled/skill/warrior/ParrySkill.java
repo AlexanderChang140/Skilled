@@ -1,6 +1,5 @@
 package me.cat.skilled.skill.warrior;
 
-import me.cat.skilled.capability.SerializedSkill;
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.SkillIds;
 import me.cat.skilled.util.SkillUtil;
@@ -17,7 +16,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
-public class ParrySkill extends Skill implements SerializedSkill {
+public class ParrySkill extends Skill {
     private static final double KNOCKBACK_STRENGTH = 1;
     private static final int WEAKNESS_DURATION = 60;
     private static final int WEAKNESS_AMPLIFIER = 1;
@@ -26,6 +25,10 @@ public class ParrySkill extends Skill implements SerializedSkill {
 
     private final TickTimer parryCooldown = new TickTimer(100);
     private boolean isParryReady = true;
+
+    public ParrySkill() {
+        super(1, 1);
+    }
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -52,7 +55,7 @@ public class ParrySkill extends Skill implements SerializedSkill {
 
     @Override
     public CompoundTag saveNbt() {
-        CompoundTag tag = new CompoundTag();
+        CompoundTag tag = super.saveNbt();
         tag.putInt("parry_cooldown", parryCooldown.getTickCounter());
         tag.putBoolean("is_parry_ready", isParryReady);
         return tag;
@@ -60,6 +63,7 @@ public class ParrySkill extends Skill implements SerializedSkill {
 
     @Override
     public void loadNbt(CompoundTag tag) {
+        super.loadNbt(tag);
         parryCooldown.setTickCounter(tag.getInt("parry_cooldown"));
         isParryReady = tag.getBoolean("is_parry_ready");
     }

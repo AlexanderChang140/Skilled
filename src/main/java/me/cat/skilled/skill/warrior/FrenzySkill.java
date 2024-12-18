@@ -15,6 +15,10 @@ import net.minecraftforge.fml.common.Mod;
 public class FrenzySkill extends Skill {
     private static final int FRENZY_DURATION = 100;
 
+    public FrenzySkill() {
+        super(1, 1);
+    }
+
     @SubscribeEvent
     public static void onAttackEntity(AttackEntityEvent event) {
         if (event.getEntity() instanceof ServerPlayer serverPlayer && SkillUtil.hasSkill(serverPlayer, SkillIds.FRENZY)) {

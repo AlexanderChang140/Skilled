@@ -1,6 +1,5 @@
 package me.cat.skilled.skill.warrior;
 
-import me.cat.skilled.capability.SerializedSkill;
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.SkillIds;
 import me.cat.skilled.util.SkillUtil;
@@ -15,11 +14,15 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
-public class LastStandSkill extends Skill implements SerializedSkill {
+public class LastStandSkill extends Skill {
     private final TickTimer lastStandCooldown = new TickTimer(12000);
     private final TickTimer invulnTimer = new TickTimer(100);
     private boolean isLastStandReady = true;
     private boolean isInvuln = false;
+
+    public LastStandSkill() {
+        super(1, 1);
+    }
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -40,10 +43,10 @@ public class LastStandSkill extends Skill implements SerializedSkill {
             LivingEntity livingEntity = event.getEntity();
             float damage = event.getAmount();
 
-            if (lastStandSkill.isSkillReady && damage >= livingEntity.getHealth()) {
+            if (lastStandSkill.isLastStandReady && damage >= livingEntity.getHealth()) {
                 event.setCanceled(true);
 
-                lastStandSkill.isSkillReady = false;
+                lastStandSkill.isLastStandReady = false;
                 lastStandSkill.isInvuln = false;
 
                 livingEntity.getCombatTracker().recordDamage(event.getSource(), damage);
@@ -56,19 +59,20 @@ public class LastStandSkill extends Skill implements SerializedSkill {
 
     @Override
     public CompoundTag saveNbt() {
-        CompoundTag tag = new CompoundTag();
-        tag.putInt("skill_cooldown", skillCooldown.getTickCounter());
+        CompoundTag tag = super.saveNbt();
+        tag.putInt("skill_cooldown", lastStandCooldown.getTickCounter());
         tag.putInt("invuln_timer", invulnTimer.getTickCounter());
-        tag.putBoolean("is_skill_ready", isSkillReady);
+        tag.putBoolean("is_skill_ready", isLastStandReady);
         tag.putBoolean("is_invuln", isInvuln);
         return tag;
     }
 
     @Override
     public void loadNbt(CompoundTag tag) {
-        skillCooldown.setTickCounter(tag.getInt("skill_cooldown"));
+        super.loadNbt(tag);
+        lastStandCooldown.setTickCounter(tag.getInt("skill_cooldown"));
         invulnTimer.setTickCounter(tag.getInt("invuln_timer"));
-        isSkillReady = tag.getBoolean("is_skill_ready");
+        isLastStandReady = tag.getBoolean("is_skill_ready");
         isInvuln = tag.getBoolean("is_invuln");
     }
 }

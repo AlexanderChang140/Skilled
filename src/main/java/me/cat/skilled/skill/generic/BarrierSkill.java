@@ -1,6 +1,5 @@
 package me.cat.skilled.skill.generic;
 
-import me.cat.skilled.capability.SerializedSkill;
 import me.cat.skilled.registry.AttributeRegistry;
 import me.cat.skilled.registry.EffectRegistry;
 import me.cat.skilled.skill.Skill;
@@ -18,8 +17,12 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.Objects;
 
 @Mod.EventBusSubscriber
-public class BarrierSkill extends Skill implements SerializedSkill {
+public class BarrierSkill extends Skill {
     private final TickTimer barrierCooldown = new TickTimer(200);
+
+    public BarrierSkill() {
+        super(1, 1);
+    }
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -45,13 +48,14 @@ public class BarrierSkill extends Skill implements SerializedSkill {
 
     @Override
     public CompoundTag saveNbt() {
-        CompoundTag tag = new CompoundTag();
+        CompoundTag tag = super.saveNbt();
         tag.putInt("barrier_cooldown", barrierCooldown.getTickCounter());
         return tag;
     }
 
     @Override
     public void loadNbt(CompoundTag tag) {
+        super.loadNbt(tag);
         barrierCooldown.setTickCounter(tag.getInt("barrier_cooldown"));
     }
 }

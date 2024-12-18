@@ -7,7 +7,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 
 public class EnderShotSkill extends ActiveSkill {
     public EnderShotSkill() {
-        super(200);
+        super(1, 1,200);
     }
 
     @Override

@@ -15,6 +15,10 @@ import net.minecraftforge.fml.common.Mod;
 public class StealthSkill extends Skill {
     private final TickTimer stealthCooldown = new TickTimer(200);
 
+    public StealthSkill() {
+        super(1, 1);
+    }
+
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.player instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.STEALTH) instanceof  StealthSkill stealthSkill) {

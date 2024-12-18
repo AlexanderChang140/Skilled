@@ -7,7 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import me.cat.skilled.Skilled;
-import me.cat.skilled.skill.SkillWrapper;
+import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.SkillUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -45,7 +45,13 @@ public class PrimarySkillCommand {
             ServerPlayer serverPlayer = source.getPlayerOrException();
             String primarySkillId = SkillUtil.getPrimarySkillId(serverPlayer);
 
-            source.sendSystemMessage(Component.literal(Objects.requireNonNullElse(primarySkillId, "No primary skill set")));
+            if (primarySkillId == null || primarySkillId.isBlank()) {
+                source.sendSystemMessage(Component.literal("No primary skill set"));
+            }
+            else {
+                source.sendSystemMessage(Component.literal(primarySkillId));
+            }
+
             return 1;
         }
         catch (Exception e) {
@@ -78,7 +84,7 @@ public class PrimarySkillCommand {
             ServerPlayer serverPlayer = context.getSource().getPlayerOrException();
             var map = SkillUtil.getMap(serverPlayer);
 
-            for (Map.Entry<String, SkillWrapper> entry : map.entrySet()) {
+            for (Map.Entry<String, Skill> entry : map.entrySet()) {
                 String skillId = entry.getKey();
                 if (SkillUtil.isActiveSkill(serverPlayer, skillId)) {
                     builder.suggest(skillId);

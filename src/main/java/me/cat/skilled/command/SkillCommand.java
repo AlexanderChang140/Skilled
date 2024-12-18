@@ -8,7 +8,7 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.PlayerSkills;
 import me.cat.skilled.capability.PlayerSkillsProvider;
-import me.cat.skilled.skill.SkillWrapper;
+import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.SkillUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -77,8 +77,13 @@ public class SkillCommand {
             ServerPlayer serverPlayer = source.getPlayerOrException();
             var map = SkillUtil.getMap(serverPlayer);
 
-            for (Map.Entry<String, SkillWrapper> entry : map.entrySet()) {
-                source.sendSystemMessage(Component.literal(entry.getKey() + " : level " + entry.getValue().getSkillLevel()));
+            if (map.isEmpty()) {
+                source.sendSystemMessage(Component.literal("No skills found"));
+            }
+            else {
+                for (Map.Entry<String, Skill> entry : map.entrySet()) {
+                    source.sendSystemMessage(Component.literal(entry.getKey() + " : level " + entry.getValue().getLevel()));
+                }
             }
             return 1;
         }

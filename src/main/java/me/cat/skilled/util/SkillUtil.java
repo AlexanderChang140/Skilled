@@ -4,7 +4,6 @@ import me.cat.skilled.capability.PlayerSkills;
 import me.cat.skilled.capability.PlayerSkillsProvider;
 import me.cat.skilled.skill.ActiveSkill;
 import me.cat.skilled.skill.Skill;
-import me.cat.skilled.skill.SkillWrapper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
@@ -68,7 +67,7 @@ public class SkillUtil {
         return null;
     }
 
-    public static Map<String, SkillWrapper> getMap(Player player) {
+    public static Map<String, Skill> getMap(Player player) {
         return player.getCapability(PlayerSkillsProvider.PLAYER_SKILLS)
                 .map(PlayerSkills::getMap)
                 .orElseThrow();

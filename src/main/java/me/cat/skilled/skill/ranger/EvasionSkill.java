@@ -1,6 +1,5 @@
 package me.cat.skilled.skill.ranger;
 
-import me.cat.skilled.capability.SerializedSkill;
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.SkillIds;
 import me.cat.skilled.util.SkillUtil;
@@ -16,7 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.Random;
 
 @Mod.EventBusSubscriber
-public class EvasionSkill extends Skill implements SerializedSkill {
+public class EvasionSkill extends Skill{
     private static final double MAX_EVASION = 80;
     private static final int TICKS_BEFORE_START_RECHARGE = 200;
     private static final int TICKS_TO_FULL_RECHARGE = 200;
@@ -24,6 +23,10 @@ public class EvasionSkill extends Skill implements SerializedSkill {
     private final TickTimer rechargeStartTimer = new TickTimer(TICKS_BEFORE_START_RECHARGE);
     private boolean isRecharging = false;
     private double currEvasion = MAX_EVASION;
+
+    public EvasionSkill() {
+        super(1, 3);
+    }
 
     @SubscribeEvent
     public static void onLivingEntityAttack(LivingAttackEvent event) {
@@ -59,7 +62,7 @@ public class EvasionSkill extends Skill implements SerializedSkill {
 
     @Override
     public CompoundTag saveNbt() {
-        CompoundTag tag = new CompoundTag();
+        CompoundTag tag = super.saveNbt();
         tag.putInt("recharge_start_timer", rechargeStartTimer.getTickCounter());
         tag.putBoolean("is_recharging", isRecharging);
         tag.putDouble("curr_evasion", currEvasion);
@@ -68,6 +71,7 @@ public class EvasionSkill extends Skill implements SerializedSkill {
 
     @Override
     public void loadNbt(CompoundTag tag) {
+        super.loadNbt(tag);
         rechargeStartTimer.setTickCounter(tag.getInt("recharge_start_timer"));
         isRecharging = tag.getBoolean("is_recharging");
         currEvasion = tag.getDouble("curr_evasion");
