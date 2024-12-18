@@ -1,11 +1,11 @@
 {
-    "unlocked_by_default": true,
-    "exclusive_root": true,
-    "title": "Classes",
+    "unlocked_by_default": false,
+    "exclusive_root": false,
+    "title": "Ranger",
     "icon": {
         "type": "item",
         "data": {
-            "item": "dirt"
+            "item": "minecraft:bow"
         }
     },
     "background": "textures/gui/advancements/backgrounds/stone.png"

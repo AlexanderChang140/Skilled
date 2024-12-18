@@ -4,6 +4,8 @@
   "show_warnings": true,
 
   "categories": [
-    "core"
+    "core",
+    "ranger",
+    "warrior"
   ]
 }

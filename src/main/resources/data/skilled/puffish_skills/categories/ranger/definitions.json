@@ -1,0 +1,138 @@
+{
+    "ranger": {
+        "title": "Ranger",
+        "icon": {
+            "type": "item",
+            "data": {
+                "item": "minecraft:bow"
+            }
+        },
+        "rewards": [
+            {
+                "type": "puffish_skills:attribute",
+                "data": {
+                    "attribute": "minecraft:generic.movement_speed",
+                    "value": 0.20,
+                    "operation": "multiply_base"
+                }
+            },
+            {
+                "type": "puffish_skills:attribute",
+                "data": {
+                    "attribute": "puffish_skills:player.ranged_damage",
+                    "value": 0.10,
+                    "operation": "multiply_base"
+                }
+            }
+        ]
+    },
+    "ranged_damage+2%": {
+        "title": "+2% Ranged Damage",
+        "icon": {
+            "type": "item",
+            "data": {
+                "item": "minecraft:bow"
+            }
+        },
+        "rewards": [
+            {
+                "type": "puffish_skills:attribute",
+                "data": {
+                    "attribute": "puffish_skills:player.ranged_damage",
+                    "value": 0.02,
+                    "operation": "multiply_base"
+                }
+            }
+        ]
+    },
+    "ender_shot": {
+        "title": "Ender Shot",
+        "icon": {
+            "type": "effect",
+            "data": {
+                "effect": "skilled:ender_shot"
+            }
+        },
+        "rewards": [
+            {
+                "type": "puffish_skills:skill",
+                "data": {
+                    "skill": "ender_shot",
+                    "value": 1
+                }
+            }
+        ]
+    },
+    "power_shot": {
+        "title": "Power Shot",
+        "icon": {
+            "type": "effect",
+            "data": {
+                "effect": "skilled:power_shot"
+            }
+        },
+        "rewards": [
+            {
+                "type": "puffish_skills:skill",
+                "data": {
+                    "skill": "power_shot",
+                    "value": 1
+                }
+            }
+        ]
+    },
+    "evasion": {
+        "title": "Evasion",
+        "icon": {
+            "type": "item",
+            "data": {
+                "item": "minecraft:dirt"
+            }
+        },
+        "rewards": [
+            {
+                "type": "puffish_skills:skill",
+                "data": {
+                    "skill": "evasion",
+                    "value": 1
+                }
+            }
+        ]
+    },
+    "fleetfooted": {
+        "title": "Fleetfooted",
+        "icon": {
+            "type": "item",
+            "data": {
+                "item": "minecraft:dirt"
+            }
+        },
+        "rewards": [
+            {
+                "type": "puffish_skills:skill",
+                "data": {
+                    "skill": "fleetfooted",
+                    "value": 1
+                }
+            }
+        ]
+    },
+    "stealth": {
+        "title": "Stealth",
+        "icon": {
+            "type": "item",
+            "data": {
+                "item": "minecraft:dirt"
+            }
+        },
+        "rewards": [
+            {
+                "type": "puffish_skills:skill",
+                "data": {
+                    "skill": "stealth",
+                    "value": 1
+                }
+            }
+        ]
+    }
+}
