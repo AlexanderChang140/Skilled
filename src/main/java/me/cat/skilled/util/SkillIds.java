@@ -9,6 +9,8 @@ public class SkillIds {
     public final static String FLEETFOOTED = "fleetfooted";
     public final static String STEALTH = "stealth";
     public final static String EVASION = "evasion";
+    public final static String IMMOBILIZING_SHOT = "immobilizing_shot";
+    public final static String MARK = "mark";
 
     // Warrior
     public final static String LIFESTEAL = "lifesteal";

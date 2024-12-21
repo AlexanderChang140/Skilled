@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.warrior;
+package me.cat.skilled.skill.warrior.passive;
 
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.SkillIds;
@@ -13,7 +13,7 @@ public class LifestealSkill extends Skill {
     private final static float HEAL_PERCENT = 0.25F;
 
     public LifestealSkill() {
-        super(1, 1);
+        super(1);
     }
 
     @SubscribeEvent

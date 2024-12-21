@@ -12,8 +12,8 @@ public abstract class ActiveSkill extends Skill {
     private final TickTimer skillCooldown;
     private boolean isSkillReady = true;
 
-    protected ActiveSkill(int level, int maxLevel, int ticksPerAction) {
-        super(level, maxLevel);
+    protected ActiveSkill(int maxLevel, int ticksPerAction) {
+        super(maxLevel);
         skillCooldown = new TickTimer(ticksPerAction);
     }
 

@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.warrior;
+package me.cat.skilled.skill.warrior.passive;
 
 import me.cat.skilled.registry.EffectRegistry;
 import me.cat.skilled.skill.Skill;
@@ -14,20 +14,22 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class FrenzySkill extends Skill {
     private static final int FRENZY_DURATION = 100;
+    private static final int MAX_FRENZY_STACKS = 4;
 
     public FrenzySkill() {
-        super(1, 1);
+        super(1);
     }
 
     @SubscribeEvent
     public static void onAttackEntity(AttackEntityEvent event) {
         if (event.getEntity() instanceof ServerPlayer serverPlayer && SkillUtil.hasSkill(serverPlayer, SkillIds.FRENZY)) {
             if (serverPlayer.hasEffect(EffectRegistry.FRENZY.get())) {
-                if (serverPlayer.getEffect(EffectRegistry.FRENZY.get()).getAmplifier() < 4) {
+                if (serverPlayer.getEffect(EffectRegistry.FRENZY.get()).getAmplifier() < MAX_FRENZY_STACKS) {
                     EffectUtil.incrementEffect(serverPlayer, EffectRegistry.FRENZY.get());
                 }
                 EffectUtil.setEffectDuration(serverPlayer, EffectRegistry.FRENZY.get(), FRENZY_DURATION);
-            } else {
+            }
+            else {
                 var mobEffectInstance = new MobEffectInstance(EffectRegistry.FRENZY.get(), FRENZY_DURATION, 0, false, false);
                 serverPlayer.addEffect(mobEffectInstance);
             }

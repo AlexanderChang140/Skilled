@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.ranger;
+package me.cat.skilled.skill.ranger.passive;
 
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.SkillIds;
@@ -25,7 +25,7 @@ public class EvasionSkill extends Skill{
     private double currEvasion = MAX_EVASION;
 
     public EvasionSkill() {
-        super(1, 3);
+        super(3);
     }
 
     @SubscribeEvent
@@ -59,6 +59,8 @@ public class EvasionSkill extends Skill{
             }
         }
     }
+
+
 
     @Override
     public CompoundTag saveNbt() {

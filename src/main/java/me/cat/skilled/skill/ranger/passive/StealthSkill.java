@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.ranger;
+package me.cat.skilled.skill.ranger.passive;
 
 import me.cat.skilled.registry.EffectRegistry;
 import me.cat.skilled.skill.Skill;
@@ -16,12 +16,12 @@ public class StealthSkill extends Skill {
     private final TickTimer stealthCooldown = new TickTimer(200);
 
     public StealthSkill() {
-        super(1, 1);
+        super(1);
     }
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.player instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.STEALTH) instanceof  StealthSkill stealthSkill) {
+        if (event.player instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.STEALTH) instanceof StealthSkill stealthSkill) {
             if (!serverPlayer.hasEffect(EffectRegistry.STEALTH.get()) && stealthSkill.stealthCooldown.doTick()) {
                 serverPlayer.addEffect(new MobEffectInstance(EffectRegistry.STEALTH.get(), -1, 0, false, false));
             }

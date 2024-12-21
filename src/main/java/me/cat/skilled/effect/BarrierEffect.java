@@ -6,7 +6,6 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -26,8 +25,7 @@ public class BarrierEffect extends MobEffect {
         public static void onLivingAttack(LivingAttackEvent event) {
             LivingEntity livingEntity = event.getEntity();
 
-            if (livingEntity.level().isClientSide() ||
-                    !livingEntity.hasEffect(EffectRegistry.BARRIER.get())) {
+            if (livingEntity.level().isClientSide() || !livingEntity.hasEffect(EffectRegistry.BARRIER.get())) {
                 return;
             }
 

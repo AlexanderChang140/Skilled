@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.ranger;
+package me.cat.skilled.skill.ranger.active;
 
 import me.cat.skilled.registry.EffectRegistry;
 import me.cat.skilled.skill.ActiveSkill;
@@ -7,7 +7,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 
 public class EnderShotSkill extends ActiveSkill {
     public EnderShotSkill() {
-        super(1, 1,200);
+        super(1,200);
     }
 
     @Override

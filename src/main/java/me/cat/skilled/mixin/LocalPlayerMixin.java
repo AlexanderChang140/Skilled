@@ -1,12 +1,13 @@
 package me.cat.skilled.mixin;
 
-import me.cat.skilled.skill.ranger.FleetfootedSkill;
+import me.cat.skilled.skill.ranger.passive.FleetfootedSkill;
 import me.cat.skilled.util.SkillIds;
 import me.cat.skilled.util.SkillUtil;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,8 +19,8 @@ public class LocalPlayerMixin {
     @Redirect(method = "aiStep()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F"))
     public float redirectClamp(float pValue, float pMin, float pMax) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        if (SkillUtil.hasSkill(player, SkillIds.FLEETFOOTED)) {
-            return FleetfootedSkill.CROUCH_MOVEMENT_SPEED;
+        if (SkillUtil.getSkillInstance(player, SkillIds.FLEETFOOTED) instanceof FleetfootedSkill fleetfootedSkill) {
+            return Mth.clamp(fleetfootedSkill.getCrouchMovementSpeed() + EnchantmentHelper.getSneakingSpeedBonus(player), pMin, pMax);
         }
         else {
             return Mth.clamp(pValue, pMin, pMax);

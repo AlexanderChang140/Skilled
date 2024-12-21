@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.warrior;
+package me.cat.skilled.skill.warrior.active;
 
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.DashS2CPacket;
@@ -31,7 +31,7 @@ public class DashSkill extends ActiveSkill {
     private boolean isDashing = false;
 
     public DashSkill() {
-        super(1, 1, 200);
+        super(1, 200);
     }
 
     @Override

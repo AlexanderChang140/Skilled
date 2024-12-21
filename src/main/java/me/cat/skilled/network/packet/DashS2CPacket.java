@@ -1,6 +1,6 @@
 package me.cat.skilled.network.packet;
 
-import me.cat.skilled.skill.warrior.DashSkill;
+import me.cat.skilled.skill.warrior.active.DashSkill;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;

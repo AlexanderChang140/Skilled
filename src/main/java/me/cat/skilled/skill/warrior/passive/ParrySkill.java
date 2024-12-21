@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.warrior;
+package me.cat.skilled.skill.warrior.passive;
 
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.SkillIds;
@@ -27,7 +27,7 @@ public class ParrySkill extends Skill {
     private boolean isParryReady = true;
 
     public ParrySkill() {
-        super(1, 1);
+        super(1);
     }
 
     @SubscribeEvent

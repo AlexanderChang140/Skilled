@@ -21,7 +21,7 @@ public class BarrierSkill extends Skill {
     private final TickTimer barrierCooldown = new TickTimer(200);
 
     public BarrierSkill() {
-        super(1, 1);
+        super(1);
     }
 
     @SubscribeEvent

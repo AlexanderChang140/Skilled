@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.warrior;
+package me.cat.skilled.skill.warrior.passive;
 
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.SkillIds;
@@ -16,12 +16,12 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class LastStandSkill extends Skill {
     private final TickTimer lastStandCooldown = new TickTimer(12000);
-    private final TickTimer invulnTimer = new TickTimer(100);
     private boolean isLastStandReady = true;
+    private final TickTimer invulnTimer = new TickTimer(100);
     private boolean isInvuln = false;
 
     public LastStandSkill() {
-        super(1, 1);
+        super(1);
     }
 
     @SubscribeEvent
@@ -31,7 +31,7 @@ public class LastStandSkill extends Skill {
                 lastStandSkill.isLastStandReady = true;
             }
 
-            if (lastStandSkill.isInvuln && lastStandSkill.lastStandCooldown.doTick()) {
+            if (lastStandSkill.isInvuln && lastStandSkill.invulnTimer.doTick()) {
                 lastStandSkill.isInvuln = false;
             }
         }
