@@ -4,10 +4,7 @@ import me.cat.skilled.skill.generic.*;
 import me.cat.skilled.skill.ranger.active.EnderShotSkill;
 import me.cat.skilled.skill.ranger.active.MarkSkill;
 import me.cat.skilled.skill.ranger.active.PowerShotSkill;
-import me.cat.skilled.skill.ranger.passive.EvasionSkill;
-import me.cat.skilled.skill.ranger.passive.FleetfootedSkill;
-import me.cat.skilled.skill.ranger.passive.ImmobilizingShotSkill;
-import me.cat.skilled.skill.ranger.passive.StealthSkill;
+import me.cat.skilled.skill.ranger.passive.*;
 import me.cat.skilled.skill.warrior.active.DashSkill;
 import me.cat.skilled.skill.warrior.passive.FrenzySkill;
 import me.cat.skilled.skill.warrior.passive.LastStandSkill;
@@ -29,6 +26,7 @@ public class SkillFactory {
             case SkillIds.EVASION -> new EvasionSkill();
             case SkillIds.IMMOBILIZING_SHOT -> new ImmobilizingShotSkill();
             case SkillIds.MARK -> new MarkSkill();
+            case SkillIds.HOMING_SHOT -> new HomingShotSkill();
 
             // Warrior
             case SkillIds.DASH -> new DashSkill();

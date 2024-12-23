@@ -11,6 +11,7 @@ public class SkillIds {
     public final static String EVASION = "evasion";
     public final static String IMMOBILIZING_SHOT = "immobilizing_shot";
     public final static String MARK = "mark";
+    public final static String HOMING_SHOT = "homing_shot";
 
     // Warrior
     public final static String LIFESTEAL = "lifesteal";

@@ -9,14 +9,18 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashSet;
 
 @Mod.EventBusSubscriber
 public class MarkedEffect extends MobEffect {
     private static final float DAMAGE_MULTIPLIER = 0.1F;
     private static final String TEAM_NAME = "marked_team";
+    public static final HashSet<LivingEntity> MARKED_LIST = new HashSet<>();
 
     public MarkedEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
@@ -32,6 +36,7 @@ public class MarkedEffect extends MobEffect {
         if (!pLivingEntity.level().isClientSide) {
             pLivingEntity.setGlowingTag(true);
             assignTeam(pLivingEntity);
+            MARKED_LIST.add(pLivingEntity);
         }
         super.addAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
     }
@@ -39,9 +44,7 @@ public class MarkedEffect extends MobEffect {
     @Override
     public void removeAttributeModifiers(LivingEntity pLivingEntity, @NotNull AttributeMap attributeMap, int amplifier) {
         if (!pLivingEntity.level().isClientSide) {
-            Scoreboard scoreboard = pLivingEntity.level().getScoreboard();
-            pLivingEntity.setGlowingTag(false);
-            scoreboard.removePlayerFromTeam(TEAM_NAME);
+            removeTeam(pLivingEntity);
         }
         super.removeAttributeModifiers(pLivingEntity, attributeMap, amplifier);
     }
@@ -60,11 +63,25 @@ public class MarkedEffect extends MobEffect {
         scoreboard.addPlayerToTeam(livingEntity.getStringUUID(), team);
     }
 
+    private static void removeTeam(LivingEntity livingEntity) {
+        Scoreboard scoreboard = livingEntity.level().getScoreboard();
+        livingEntity.setGlowingTag(false);
+        scoreboard.removePlayerFromTeam(TEAM_NAME);
+        MARKED_LIST.remove(livingEntity);
+    }
+
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent event) {
         LivingEntity livingEntity = event.getEntity();
         if (livingEntity.hasEffect(EffectRegistry.MARKED.get())) {
             event.setAmount(event.getAmount() * (1 + DAMAGE_MULTIPLIER * livingEntity.getEffect(EffectRegistry.MARKED.get()).getAmplifier()));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDeath(LivingDeathEvent event) {
+        if (!event.getEntity().level().isClientSide()) {
+            MARKED_LIST.remove(event.getEntity());
         }
     }
 }
