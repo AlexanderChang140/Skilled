@@ -42,9 +42,7 @@ public class PlayerSkills {
                 if (skill == null) {
                     skill = SkillFactory.getSkill(id);
                 }
-                if (skill != null) {
-                    skill.setLevel(level);
-                }
+                skill.setLevel(level);
                 return skill;
             });
         }
@@ -60,10 +58,8 @@ public class PlayerSkills {
         else {
             if (level != 0) {
                 Skill skillInstance = SkillFactory.getSkill(skillId);
-                if (skillInstance != null) {
-                    skillInstance.setLevel(level);
-                    skillMap.put(skillId, skillInstance);
-                }
+                skillInstance.setLevel(level);
+                skillMap.put(skillId, skillInstance);
             }
         }
     }
