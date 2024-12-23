@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "skilled.refmap.json",
   "mixins": [
+    "ClientboundSetEntityMotionPacketMixin",
     "LocalPlayerMixin"
   ],
   "client": [
