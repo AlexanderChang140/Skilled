@@ -21,10 +21,17 @@ public class StealthSkill extends Skill {
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.player instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.STEALTH) instanceof StealthSkill stealthSkill) {
-            if (!serverPlayer.hasEffect(EffectRegistry.STEALTH.get()) && stealthSkill.stealthCooldown.doTick()) {
-                serverPlayer.addEffect(new MobEffectInstance(EffectRegistry.STEALTH.get(), -1, 0, false, false));
-            }
+        if (!(event.player instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
+
+        if (!(SkillUtil.getSkillInstance(serverPlayer, SkillIds.STEALTH) instanceof StealthSkill stealthSkill)) {
+            return;
+        }
+
+        if (!serverPlayer.hasEffect(EffectRegistry.STEALTH.get()) && stealthSkill.stealthCooldown.doTick()) {
+            MobEffectInstance mobEffectInstance = new MobEffectInstance(EffectRegistry.STEALTH.get(), -1, 0, false, false);
+            serverPlayer.addEffect(mobEffectInstance);
         }
     }
 }

@@ -9,14 +9,13 @@ import me.cat.skilled.util.TickTimer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Mod.EventBusSubscriber
@@ -27,7 +26,7 @@ public class DashSkill extends ActiveSkill {
     private static final double DASH_HIT_KNOCKBACK = 1;
 
     private final TickTimer dashDuration = new TickTimer(20);
-    private final List<Entity> hitList = new ArrayList<>();
+    private final HashSet<Entity> hitSet = new HashSet<>();
     private boolean isDashing = false;
 
     public DashSkill() {
@@ -42,50 +41,59 @@ public class DashSkill extends ActiveSkill {
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.player instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.DASH) instanceof DashSkill dashSkill) {
+        if (!(event.player instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
 
-            if (!dashSkill.isDashing) {
-                return;
-            }
+        if (!(SkillUtil.getSkillInstance(serverPlayer, SkillIds.DASH) instanceof DashSkill dashSkill)) {
+            return;
+        }
 
-            Player player = event.player;
+        if (!dashSkill.isDashing) {
+            return;
+        }
 
-            if (dashSkill.dashDuration.doTick()) {
-                dashSkill.dashDuration.setTickCounter(0);
-                dashSkill.hitList.clear();
-                dashSkill.isDashing = false;
-                return;
-            }
+        if (dashSkill.dashDuration.doTick()) {
+            dashSkill.dashDuration.resetTickCounter();
+            dashSkill.hitSet.clear();
+            dashSkill.isDashing = false;
+            return;
+        }
 
-            AABB area = new AABB(
-                    player.getX() - DASH_HIT_RADIUS,
-                    player.getY() - DASH_HIT_RADIUS,
-                    player.getZ() - DASH_HIT_RADIUS,
-                    player.getX() + DASH_HIT_RADIUS,
-                    player.getY() + DASH_HIT_RADIUS,
-                    player.getZ() + DASH_HIT_RADIUS
-            );
+        AABB area = new AABB(
+                serverPlayer.getX() - DASH_HIT_RADIUS,
+                serverPlayer.getY() - DASH_HIT_RADIUS,
+                serverPlayer.getZ() - DASH_HIT_RADIUS,
+                serverPlayer.getX() + DASH_HIT_RADIUS,
+                serverPlayer.getY() + DASH_HIT_RADIUS,
+                serverPlayer.getZ() + DASH_HIT_RADIUS
+        );
 
-            List<Entity> nearbyEntities = event.player.level().getEntities(player, area, entity -> entity instanceof LivingEntity && !dashSkill.hitList.contains(entity));
-            dashSkill.hitList.addAll(nearbyEntities);
+        List<Entity> nearbyEntities = event.player.level().getEntities(serverPlayer, area, entity -> entity instanceof LivingEntity && !dashSkill.hitSet.contains(entity));
+        dashSkill.hitSet.addAll(nearbyEntities);
 
-            for (Entity entity : nearbyEntities) {
-                if (entity instanceof LivingEntity livingEntity) {
-                    double xDir = player.position().x - livingEntity.position().x;
-                    double zDir = player.position().z - livingEntity.position().z;
-                    livingEntity.knockback(DASH_HIT_KNOCKBACK, xDir, zDir);
-                    livingEntity.hurt(livingEntity.damageSources().generic(), DASH_HIT_DAMAGE);
-                }
+        for (Entity entity : nearbyEntities) {
+            if (entity instanceof LivingEntity livingEntity) {
+                double xDir = serverPlayer.position().x - livingEntity.position().x;
+                double zDir = serverPlayer.position().z - livingEntity.position().z;
+                livingEntity.knockback(DASH_HIT_KNOCKBACK, xDir, zDir);
+                livingEntity.hurt(livingEntity.damageSources().generic(), DASH_HIT_DAMAGE);
             }
         }
     }
 
     @SubscribeEvent
     public static void onLivingAttack(LivingAttackEvent event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.DASH) instanceof DashSkill dashSkill) {
-            if (dashSkill.isDashing) {
-                event.setCanceled(true);
-            }
+        if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
+
+        if (!(SkillUtil.getSkillInstance(serverPlayer, SkillIds.DASH) instanceof DashSkill dashSkill)) {
+            return;
+        }
+
+        if (dashSkill.isDashing) {
+            event.setCanceled(true);
         }
     }
 }

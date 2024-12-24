@@ -32,25 +32,46 @@ public class ParrySkill extends Skill {
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.player instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.PARRY) instanceof ParrySkill parrySkill) {
-            if (!parrySkill.isParryReady && parrySkill.parryCooldown.doTick()) {
-                parrySkill.isParryReady = true;
-            }
+        if (!(event.player instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
+        if (!(SkillUtil.getSkillInstance(serverPlayer, SkillIds.PARRY) instanceof ParrySkill parrySkill)) {
+            return;
+        }
+
+        if (!parrySkill.isParryReady && parrySkill.parryCooldown.doTick()) {
+            parrySkill.isParryReady = true;
         }
     }
 
     @SubscribeEvent
     public void onLivingAttack(LivingAttackEvent event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.PARRY) instanceof ParrySkill parrySkill) {
-            if (parrySkill.isParryReady && event.getEntity().getUseItem().getItem() instanceof ShieldItem && event.getSource().getDirectEntity() instanceof LivingEntity source) {
-                double xDir = serverPlayer.position().x - source.position().x;
-                double zDir = serverPlayer.position().z - source.position().z;
-                source.knockback(KNOCKBACK_STRENGTH, xDir, zDir);
-                source.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, WEAKNESS_DURATION, WEAKNESS_AMPLIFIER));
-                source.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, SLOWNESS_DURATION, SLOWNESS_AMPLIFIER));
-                parrySkill.isParryReady = false;
-            }
+        if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) {
+            return;
         }
+
+        if (!(SkillUtil.getSkillInstance(serverPlayer, SkillIds.PARRY) instanceof ParrySkill parrySkill)) {
+            return;
+        }
+
+        if (!parrySkill.isParryReady) {
+            return;
+        }
+
+        if (!(event.getEntity().getUseItem().getItem() instanceof ShieldItem)) {
+            return;
+        }
+
+        if (!(event.getSource().getDirectEntity() instanceof LivingEntity source)) {
+            return;
+        }
+
+        double xDir = serverPlayer.position().x - source.position().x;
+        double zDir = serverPlayer.position().z - source.position().z;
+        source.knockback(KNOCKBACK_STRENGTH, xDir, zDir);
+        source.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, WEAKNESS_DURATION, WEAKNESS_AMPLIFIER));
+        source.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, SLOWNESS_DURATION, SLOWNESS_AMPLIFIER));
+        parrySkill.isParryReady = false;
     }
 
     @Override

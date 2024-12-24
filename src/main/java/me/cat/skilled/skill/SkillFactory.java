@@ -3,7 +3,7 @@ package me.cat.skilled.skill;
 import me.cat.skilled.skill.generic.*;
 import me.cat.skilled.skill.ranger.active.EnderShotSkill;
 import me.cat.skilled.skill.ranger.active.MarkSkill;
-import me.cat.skilled.skill.ranger.active.PowerShotSkill;
+import me.cat.skilled.skill.ranger.passive.PowerShotSkill;
 import me.cat.skilled.skill.ranger.passive.*;
 import me.cat.skilled.skill.warrior.active.DashSkill;
 import me.cat.skilled.skill.warrior.passive.FrenzySkill;

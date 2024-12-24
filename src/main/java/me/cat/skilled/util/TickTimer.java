@@ -1,5 +1,7 @@
 package me.cat.skilled.util;
 
+import net.minecraft.util.Mth;
+
 public class TickTimer {
     private int tickCounter = 0;
     private final int TICKS_PER_ACTION;
@@ -19,10 +21,13 @@ public class TickTimer {
 
     public int getTickCounter() {
         return this.tickCounter;
-
     }
 
     public void setTickCounter(int ticks) {
-        this.tickCounter = ticks;
+        this.tickCounter = Mth.clamp(ticks, 0, TICKS_PER_ACTION);
+    }
+
+    public void resetTickCounter() {
+        this.tickCounter = 0;
     }
 }

@@ -22,17 +22,23 @@ public class FrenzySkill extends Skill {
 
     @SubscribeEvent
     public static void onAttackEntity(AttackEntityEvent event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer && SkillUtil.hasSkill(serverPlayer, SkillIds.FRENZY)) {
-            if (serverPlayer.hasEffect(EffectRegistry.FRENZY.get())) {
-                if (serverPlayer.getEffect(EffectRegistry.FRENZY.get()).getAmplifier() < MAX_FRENZY_STACKS) {
-                    EffectUtil.incrementEffect(serverPlayer, EffectRegistry.FRENZY.get());
-                }
-                EffectUtil.setEffectDuration(serverPlayer, EffectRegistry.FRENZY.get(), FRENZY_DURATION);
-            }
-            else {
-                var mobEffectInstance = new MobEffectInstance(EffectRegistry.FRENZY.get(), FRENZY_DURATION, 0, false, false);
-                serverPlayer.addEffect(mobEffectInstance);
-            }
+        if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) {
+            return;
         }
+
+        if (!(SkillUtil.hasSkill(serverPlayer, SkillIds.FRENZY))) {
+            return;
+        }
+
+        if (!serverPlayer.hasEffect(EffectRegistry.FRENZY.get())) {
+            MobEffectInstance mobEffectInstance = new MobEffectInstance(EffectRegistry.FRENZY.get(), FRENZY_DURATION, 0, false, false);
+            serverPlayer.addEffect(mobEffectInstance);
+            return;
+        }
+
+        if (serverPlayer.getEffect(EffectRegistry.FRENZY.get()).getAmplifier() < MAX_FRENZY_STACKS) {
+            EffectUtil.incrementEffect(serverPlayer, EffectRegistry.FRENZY.get());
+        }
+        EffectUtil.setEffectDuration(serverPlayer, EffectRegistry.FRENZY.get(), FRENZY_DURATION);
     }
 }

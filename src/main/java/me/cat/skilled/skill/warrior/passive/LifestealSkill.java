@@ -18,8 +18,14 @@ public class LifestealSkill extends Skill {
 
     @SubscribeEvent
     public static void onLivingAttackEvent(LivingAttackEvent event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer && SkillUtil.hasSkill(serverPlayer, SkillIds.LIFESTEAL)) {
-            serverPlayer.heal(event.getAmount() * HEAL_PERCENT);
+        if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) {
+            return;
         }
+
+        if (!(SkillUtil.hasSkill(serverPlayer, SkillIds.LIFESTEAL))) {
+            return;
+        }
+
+        serverPlayer.heal(event.getAmount() * HEAL_PERCENT);
     }
 }

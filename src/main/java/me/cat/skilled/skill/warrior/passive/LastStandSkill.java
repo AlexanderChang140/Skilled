@@ -26,34 +26,51 @@ public class LastStandSkill extends Skill {
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.player instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.LAST_STAND) instanceof LastStandSkill lastStandSkill) {
-            if (!lastStandSkill.isLastStandReady && lastStandSkill.lastStandCooldown.doTick()) {
-                lastStandSkill.isLastStandReady = true;
-            }
+        if (!(event.player instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
 
-            if (lastStandSkill.isInvuln && lastStandSkill.invulnTimer.doTick()) {
-                lastStandSkill.isInvuln = false;
-            }
+        if (!(SkillUtil.getSkillInstance(serverPlayer, SkillIds.LAST_STAND) instanceof LastStandSkill lastStandSkill)) {
+            return;
+        }
+
+        if (!lastStandSkill.isLastStandReady && lastStandSkill.lastStandCooldown.doTick()) {
+            lastStandSkill.isLastStandReady = true;
+        }
+
+        if (lastStandSkill.isInvuln && lastStandSkill.invulnTimer.doTick()) {
+            lastStandSkill.isInvuln = false;
         }
     }
 
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer && SkillUtil.getSkillInstance(serverPlayer, SkillIds.LAST_STAND) instanceof LastStandSkill lastStandSkill) {
-            LivingEntity livingEntity = event.getEntity();
-            float damage = event.getAmount();
+        if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
 
-            if (lastStandSkill.isLastStandReady && damage >= livingEntity.getHealth()) {
-                event.setCanceled(true);
+        if (!(SkillUtil.getSkillInstance(serverPlayer, SkillIds.LAST_STAND) instanceof LastStandSkill lastStandSkill)) {
+            return;
+        }
 
-                lastStandSkill.isLastStandReady = false;
-                lastStandSkill.isInvuln = false;
+        if (lastStandSkill.isInvuln) {
+            event.setCanceled(true);
+            return;
+        }
 
-                livingEntity.getCombatTracker().recordDamage(event.getSource(), damage);
-                livingEntity.setHealth(1);
-                livingEntity.setAbsorptionAmount(0);
-                livingEntity.gameEvent(GameEvent.ENTITY_DAMAGE);
-            }
+        LivingEntity livingEntity = event.getEntity();
+        float damage = event.getAmount();
+
+        if (lastStandSkill.isLastStandReady && damage >= livingEntity.getHealth()) {
+            event.setCanceled(true);
+
+            lastStandSkill.isLastStandReady = false;
+            lastStandSkill.isInvuln = true;
+
+            livingEntity.getCombatTracker().recordDamage(event.getSource(), damage);
+            livingEntity.setHealth(1);
+            livingEntity.setAbsorptionAmount(0);
+            livingEntity.gameEvent(GameEvent.ENTITY_DAMAGE);
         }
     }
 

@@ -22,11 +22,19 @@ public class ImmobilizingShotSkill extends Skill {
 
     @SubscribeEvent
     public static void onLivingAttackEvent(LivingAttackEvent event) {
-        if (event.getSource().getEntity() instanceof ServerPlayer serverPlayer &&
-                SkillUtil.getSkillInstance(serverPlayer, SkillIds.IMMOBILIZING_SHOT) instanceof ImmobilizingShotSkill immobilizingShotSkill &&
-                event.getSource().getDirectEntity() instanceof Projectile) {
-            var mobEffectInstance = new MobEffectInstance(EffectRegistry.IMMOBILIZED.get(), IMMOBILIZED_DURATION, immobilizingShotSkill.level - 1, false, false);
-            event.getEntity().addEffect(mobEffectInstance);
+        if (!(event.getSource().getEntity() instanceof ServerPlayer serverPlayer)) {
+            return;
         }
+
+        if (!(SkillUtil.getSkillInstance(serverPlayer, SkillIds.IMMOBILIZING_SHOT) instanceof ImmobilizingShotSkill immobilizingShotSkill)) {
+            return;
+        }
+
+        if (!(event.getSource().getDirectEntity() instanceof Projectile)) {
+            return;
+        }
+
+        var mobEffectInstance = new MobEffectInstance(EffectRegistry.IMMOBILIZED.get(), IMMOBILIZED_DURATION, immobilizingShotSkill.level - 1, false, false);
+        event.getEntity().addEffect(mobEffectInstance);
     }
 }

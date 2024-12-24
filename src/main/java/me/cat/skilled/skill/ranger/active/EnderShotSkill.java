@@ -12,6 +12,7 @@ public class EnderShotSkill extends ActiveSkill {
 
     @Override
     public void onActivateSkill(ServerPlayer serverPlayer) {
-        serverPlayer.addEffect(new MobEffectInstance(EffectRegistry.ENDER_SHOT.get(), -1, 0, false, false));
+        MobEffectInstance mobEffectInstance = new MobEffectInstance(EffectRegistry.ENDER_SHOT.get(), -1, 0, false, false);
+        serverPlayer.addEffect(mobEffectInstance);
     }
 }

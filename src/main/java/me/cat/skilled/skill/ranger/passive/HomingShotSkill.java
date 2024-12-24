@@ -22,7 +22,7 @@ import java.util.HashSet;
 public class HomingShotSkill extends Skill {
     private static final double HOMING_DISTANCE = 10;
     private static final double HOMING_SPEED = 0.5;
-    private static final HashSet<Projectile> PROJECTILE_LIST = new HashSet<>();
+    private static final HashSet<Projectile> PROJECTILE_SET = new HashSet<>();
 
     public HomingShotSkill() {
         super(3);
@@ -30,39 +30,59 @@ public class HomingShotSkill extends Skill {
 
     @SubscribeEvent
     public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
-        if (!event.getLevel().isClientSide &&
-                event.getEntity() instanceof Projectile projectile &&
-                projectile.getOwner() instanceof ServerPlayer serverPlayer &&
-                SkillUtil.getSkillInstance(serverPlayer, SkillIds.HOMING_SHOT) instanceof HomingShotSkill homingShotSkill) {
-            PROJECTILE_LIST.add(projectile);
+        if (event.getLevel().isClientSide()) {
+            return;
         }
+
+        if (!(event.getEntity() instanceof Projectile projectile)) {
+            return;
+        }
+
+        if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
+
+        if (!SkillUtil.hasSkill(serverPlayer, SkillIds.HOMING_SHOT)) {
+            return;
+        }
+
+        PROJECTILE_SET.add(projectile);
     }
 
     @SubscribeEvent
     public static void onEntityLeaveLevel(EntityLeaveLevelEvent event) {
-        if (!event.getLevel().isClientSide &&
-                event.getEntity() instanceof Projectile projectile) {
-            PROJECTILE_LIST.remove(projectile);
+        if (event.getLevel().isClientSide) {
+            return;
         }
+
+        if (!(event.getEntity() instanceof Projectile projectile)) {
+            return;
+        }
+
+        PROJECTILE_SET.remove(projectile);
     }
 
     @SubscribeEvent
     public static void onProjectileImpact(ProjectileImpactEvent event) {
-        if (!event.getProjectile().level().isClientSide) {
-            PROJECTILE_LIST.remove(event.getProjectile());
+        if (event.getProjectile().level().isClientSide) {
+            return;
         }
+
+        PROJECTILE_SET.remove(event.getProjectile());
     }
 
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
-        for (Projectile projectile: PROJECTILE_LIST) {
+        for (Projectile projectile : PROJECTILE_SET) {
             LivingEntity target = getClosestTarget(projectile.position());
-            if (target != null) {
-                Vec3 newVelocity = calculateVelocity(projectile, target);
-                setProjectileRotation(projectile, newVelocity);
-                projectile.setDeltaMovement(newVelocity);
-                projectile.hasImpulse = true;
+            if (target == null) {
+                continue;
             }
+
+            Vec3 newVelocity = calculateVelocity(projectile, target);
+            setProjectileRotation(projectile, newVelocity);
+            projectile.setDeltaMovement(newVelocity);
+            projectile.hasImpulse = true;
         }
     }
 
