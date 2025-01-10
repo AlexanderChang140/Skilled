@@ -4,15 +4,15 @@ import net.minecraft.util.Mth;
 
 public class TickTimer {
     private int tickCounter = 0;
-    private final int TICKS_PER_ACTION;
+    private final int ticksPerAction;
 
-    public TickTimer(int TICKS_PER_ACTION) {
-        this.TICKS_PER_ACTION = TICKS_PER_ACTION;
+    public TickTimer(int ticksPerAction) {
+        this.ticksPerAction = ticksPerAction;
     }
 
     public boolean doTick() {
         tickCounter++;
-        if (tickCounter >= TICKS_PER_ACTION) {
+        if (tickCounter >= ticksPerAction) {
             tickCounter = 0;
             return true;
         }
@@ -24,7 +24,11 @@ public class TickTimer {
     }
 
     public void setTickCounter(int ticks) {
-        this.tickCounter = Mth.clamp(ticks, 0, TICKS_PER_ACTION);
+        this.tickCounter = Mth.clamp(ticks, 0, ticksPerAction);
+    }
+
+    public int getTicksPerAction() {
+        return this.ticksPerAction;
     }
 
     public void resetTickCounter() {

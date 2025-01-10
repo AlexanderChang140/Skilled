@@ -11,6 +11,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import net.puffish.attributesmod.*;
+
 public class EffectRegistry {
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Skilled.MODID);
 
@@ -19,6 +21,13 @@ public class EffectRegistry {
 
     public static final RegistryObject<MobEffect> ENDER_SHOT = MOB_EFFECTS.register("ender_shot",
             () -> new EnderShotEffect(MobEffectCategory.BENEFICIAL, 0));
+
+
+    public static final RegistryObject<MobEffect> STEALTH = MOB_EFFECTS.register("stealth",
+            () -> new StealthEffect(MobEffectCategory.BENEFICIAL, 0));
+
+    public static final RegistryObject<MobEffect> MARKED = MOB_EFFECTS.register("marked",
+            () -> new MarkedEffect(MobEffectCategory.HARMFUL, 0));
 
     public static final RegistryObject<MobEffect> FRENZY = MOB_EFFECTS.register("frenzy",
             () -> new FrenzyEffect(MobEffectCategory.BENEFICIAL, 0)
@@ -29,9 +38,6 @@ public class EffectRegistry {
                             AttributeModifier.Operation.MULTIPLY_TOTAL
                     ));
 
-    public static final RegistryObject<MobEffect> STEALTH = MOB_EFFECTS.register("stealth",
-            () -> new StealthEffect(MobEffectCategory.BENEFICIAL, 0));
-
     public static final RegistryObject<MobEffect> IMMOBILIZED = MOB_EFFECTS.register("immobilized",
             () -> new ImmobilizedEffect(MobEffectCategory.HARMFUL, 0)
                     .addAttributeModifier(
@@ -41,8 +47,14 @@ public class EffectRegistry {
                             AttributeModifier.Operation.MULTIPLY_TOTAL
                     ));
 
-    public static final RegistryObject<MobEffect> MARKED = MOB_EFFECTS.register("marked",
-            () -> new MarkedEffect(MobEffectCategory.HARMFUL, 0));
+    public static final RegistryObject<MobEffect> PIERCING_MOMENTUM = MOB_EFFECTS.register("piercing_momentum",
+            () -> new PiercingMomentumEffect(MobEffectCategory.BENEFICIAL, 0)
+                    .addAttributeModifier(
+                            AttributesMod.RANGED_DAMAGE,
+                            PiercingMomentumEffect.PIERCING_MOMENTUM_UUID.toString(),
+                            PiercingMomentumEffect.DAMAGE_MULTIPLIER,
+                            AttributeModifier.Operation.MULTIPLY_TOTAL
+                    ));
 
     public static void register(IEventBus eventBus) {
         MOB_EFFECTS.register(eventBus);

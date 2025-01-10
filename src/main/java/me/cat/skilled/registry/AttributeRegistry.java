@@ -13,6 +13,7 @@ public class AttributeRegistry {
 
     public static final RegistryObject<Attribute> BARRIER_LEVEL = ATTRIBUTES.register("barrier_level",
             () -> new RangedAttribute("barrier_level", 0.0D, 0.0D, 1024.0D).setSyncable(true));
+
     public static final RegistryObject<Attribute> LIFESTEAL = ATTRIBUTES.register("lifesteal",
             () -> new RangedAttribute("lifesteal", 0.0D, 0.0D, 1024.0D).setSyncable(true));
 

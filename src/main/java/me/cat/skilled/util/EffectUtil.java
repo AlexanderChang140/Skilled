@@ -1,5 +1,6 @@
 package me.cat.skilled.util;
 
+import me.cat.skilled.registry.EffectRegistry;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,6 +19,21 @@ public class EffectUtil {
 
         livingEntity.removeEffect(effect);
         livingEntity.addEffect(new MobEffectInstance(effect, duration, amplifier, ambient, visible));
+    }
+
+    public static void stackEffect(LivingEntity livingEntity, boolean isDurationReset, int maxStacks, MobEffect effect, int duration, int amplifier, boolean ambient, boolean visible) {
+        if (livingEntity.hasEffect(effect) ) {
+            if (livingEntity.getEffect(effect).getAmplifier() < maxStacks - 1) {
+                EffectUtil.incrementEffect(livingEntity, effect, amplifier + 1);
+            }
+            if (isDurationReset) {
+                EffectUtil.setEffectDuration(livingEntity, effect, duration);
+            }
+        }
+        else {
+            MobEffectInstance mobEffectInstance = new MobEffectInstance(effect, duration, amplifier, ambient, visible);
+            livingEntity.addEffect(mobEffectInstance);
+        }
     }
 
     public static void incrementEffect(LivingEntity livingEntity, MobEffect effect) {

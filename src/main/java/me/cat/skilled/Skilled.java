@@ -4,8 +4,6 @@ import com.mojang.logging.LogUtils;
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.registry.AttributeRegistry;
 import me.cat.skilled.registry.EffectRegistry;
-import me.cat.skilled.reward.ForgeAttributeReward;
-import me.cat.skilled.reward.SkillReward;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -26,9 +24,6 @@ public class Skilled {
 
         EffectRegistry.register(modEventBus);
         AttributeRegistry.register(modEventBus);
-
-        SkillReward.register();
-        ForgeAttributeReward.register();
 
         modEventBus.addListener(this::commonSetup);
 

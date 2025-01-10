@@ -6,9 +6,11 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import me.cat.skilled.Skilled;
-import me.cat.skilled.capability.PlayerSkills;
-import me.cat.skilled.capability.PlayerSkillsProvider;
-import me.cat.skilled.skill.Skill;
+import me.cat.skilled.capability.ISkillCap;
+import me.cat.skilled.capability.SkillProvider;
+import me.cat.skilled.skill.data.SkillSlot;
+import me.cat.skilled.skill.instance.Skill;
+import me.cat.skilled.registry.SkillRegistry;
 import me.cat.skilled.util.SkillUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -21,7 +23,7 @@ import java.util.Map;
 import static net.minecraft.commands.Commands.literal;
 
 public class SkillCommand {
-    private static final SuggestionProvider<CommandSourceStack> sugg = (ctx, builder) -> SharedSuggestionProvider.suggest(SkillUtil.getSkillIds(), builder);
+    private static final SuggestionProvider<CommandSourceStack> sugg = (ctx, builder) -> SharedSuggestionProvider.suggest(SkillRegistry.getSkillIds(), builder);
 
     public SkillCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 
@@ -29,6 +31,8 @@ public class SkillCommand {
                 .then(literal("skill")
                         .then(literal("get")
                                 .executes(command -> getSkills(command.getSource())))
+                        .then(literal("get_active")
+                                .executes(command -> getActive(command.getSource())))
                         .then(literal("add")
                                 .then(Commands.argument("skills", StringArgumentType.string())
                                         .suggests(sugg)
@@ -57,11 +61,11 @@ public class SkillCommand {
         try {
             ServerPlayer serverPlayer = source.getPlayerOrException();
 
-            if (!SkillUtil.getSkillIds().contains(skillId)) {
+            if (!SkillRegistry.getSkillIds().contains(skillId)) {
                 throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().create();
             } else {
                 SkillUtil.updateSkill(serverPlayer, skillId, level);
-                SkillUtil.syncCapability(serverPlayer);
+                SkillUtil.syncSkillCap(serverPlayer);
                 source.sendSystemMessage(Component.literal("Skill added"));
                 return 1;
             }
@@ -75,14 +79,41 @@ public class SkillCommand {
     private int getSkills(CommandSourceStack source) throws CommandSyntaxException {
         try {
             ServerPlayer serverPlayer = source.getPlayerOrException();
-            var map = SkillUtil.getMap(serverPlayer);
+            var entrySet = SkillUtil.getSkillMap(serverPlayer).entrySet();
 
-            if (map.isEmpty()) {
+            if (entrySet.isEmpty()) {
                 source.sendSystemMessage(Component.literal("No skills found"));
             }
             else {
-                for (Map.Entry<String, Skill> entry : map.entrySet()) {
-                    source.sendSystemMessage(Component.literal(entry.getKey() + " : level " + entry.getValue().getLevel()));
+                for (Map.Entry<String, Skill> entry : entrySet) {
+                    String skillId = entry.getKey();
+                    int level = entry.getValue().getLevel();
+
+                    source.sendSystemMessage(Component.literal(skillId + " : level " + level));
+                }
+            }
+            return 1;
+        }
+        catch (Exception e) {
+            Skilled.LOGGER.error("An unexpected error occurred trying to execute that command", e);
+            throw e;
+        }
+    }
+
+    private int getActive(CommandSourceStack source) throws CommandSyntaxException {
+        try {
+            ServerPlayer serverPlayer = source.getPlayerOrException();
+            var entrySet = SkillUtil.getActiveSkillMap(serverPlayer).entrySet();
+
+            if (entrySet.isEmpty()) {
+                source.sendSystemMessage(Component.literal("No skills found"));
+            }
+            else {
+                for (Map.Entry<SkillSlot, String> entry : entrySet) {
+                    String skillSlot = entry.getKey().toString();
+                    String skillId = entry.getValue();
+
+                    source.sendSystemMessage(Component.literal(skillSlot + " : " + skillId));
                 }
             }
             return 1;
@@ -96,8 +127,8 @@ public class SkillCommand {
     private int clearSkill(CommandSourceStack source) throws CommandSyntaxException {
         try {
             ServerPlayer serverPlayer = source.getPlayerOrException();
-            serverPlayer.getCapability(PlayerSkillsProvider.PLAYER_SKILLS).ifPresent(PlayerSkills::clearSkills);
-            SkillUtil.syncCapability(serverPlayer);
+            serverPlayer.getCapability(SkillProvider.SKILLS).ifPresent(ISkillCap::clearSkills);
+            SkillUtil.syncSkillCap(serverPlayer);
             source.sendSystemMessage(Component.literal("Skills cleared"));
             return 1;
         }

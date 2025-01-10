@@ -105,7 +105,6 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("curse.maven:puffish-skills-835091:5551784")
     implementation fg.deobf("curse.maven:puffish-attributes-991341:5535410")
 }
 

@@ -27,13 +27,6 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
-modId = "puffish_skills"
-mandatory = true
-versionRange = "0.13.2"
-ordering = "NONE"
-side = "BOTH"
-
-[[dependencies."${mod_id}"]]
 modId = "puffish_attributes"
 mandatory = true
 versionRange = "0.5.0"

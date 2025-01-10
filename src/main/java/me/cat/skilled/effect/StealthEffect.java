@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
 public class StealthEffect extends MobEffect {
-    private static final double DETECTION_DECREASE = 0.2;
+    public static final double DETECTION_DECREASE = 0.2;
 
     public StealthEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
