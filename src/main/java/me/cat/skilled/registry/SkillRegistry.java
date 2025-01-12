@@ -39,6 +39,8 @@ public class SkillRegistry {
 
     public static final SkillData PIERCING_MOMENTUM = register(new PiercingMomentumData());
 
+    public static final SkillData SHRAPNEL_BARRAGE = register(new ShrapnelBarrageData());
+
     // Warrior
     public static final SkillData DASH = register(new DashData());
 
