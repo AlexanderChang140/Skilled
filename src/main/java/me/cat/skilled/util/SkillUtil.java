@@ -135,6 +135,7 @@ public class SkillUtil {
 
     public static ActiveSkill getActiveSkillInstance(Player player, SkillSlot skillSlot) {
         String activeSkillId = player.getCapability(SkillProvider.SKILLS)
+                .resolve()
                 .map(skills -> skills.getActiveSkillId(skillSlot))
                 .orElse(null);
         return (ActiveSkill) SkillUtil.getSkillInstance(player, activeSkillId);
