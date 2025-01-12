@@ -19,15 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PiercingMomentumSkill extends Skill {
-    public static int MAX_LEVEL = 3;
+    public static final int MAX_LEVEL = 3;
 
-    private static int EFFECT_DURATION = 100;
+    private static final int EFFECT_DURATION = 100;
 
     public final List<Projectile> projectileList = new ArrayList<>();
 
     @Override
     public int getMaxLevel() {
-        return 0;
+        return MAX_LEVEL;
     }
 
     @Mod.EventBusSubscriber
