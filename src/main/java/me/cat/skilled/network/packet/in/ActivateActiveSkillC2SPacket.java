@@ -32,6 +32,7 @@ public class ActivateActiveSkillC2SPacket {
             ActiveSkill activeSkill = SkillUtil.getActiveSkillInstance(serverPlayer, skillSlot);
             if (activeSkill != null) {
                 activeSkill.activateSkill(serverPlayer);
+                SkillUtil.syncSkillCap(serverPlayer);
             }
         });
         return true;

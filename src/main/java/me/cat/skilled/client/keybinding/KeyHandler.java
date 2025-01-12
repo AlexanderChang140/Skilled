@@ -6,10 +6,8 @@ import me.cat.skilled.client.gui.SkillScreen;
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.in.ActivateActiveSkillC2SPacket;
 import me.cat.skilled.skill.data.SkillSlot;
-import me.cat.skilled.skill.instance.ActiveSkill;
 import me.cat.skilled.util.SkillUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,11 +41,6 @@ public class KeyHandler {
     }
 
     private static void activateSkill(SkillSlot skillSlot) {
-        LocalPlayer localPlayer = Minecraft.getInstance().player;
-        ActiveSkill activeSkill = SkillUtil.getActiveSkillInstance(localPlayer, skillSlot);
-        if (activeSkill != null) {
-            activeSkill.activateSkill(localPlayer);
-        }
         Messenger.sendToServer(new ActivateActiveSkillC2SPacket(skillSlot));
     }
 }

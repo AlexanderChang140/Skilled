@@ -1,8 +1,8 @@
 package me.cat.skilled.skill.instance.ranger.passive;
 
-import me.cat.skilled.effect.MarkedEffect;
 import me.cat.skilled.skill.instance.Skill;
 import me.cat.skilled.registry.SkillRegistry;
+import me.cat.skilled.skill.instance.ranger.active.MarkSkill;
 import me.cat.skilled.util.SkillUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -35,67 +35,13 @@ public class HomingShotSkill extends Skill {
         return MAX_LEVEL;
     }
 
-    @SubscribeEvent
-    public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
-        if (event.getLevel().isClientSide()) {
-            return;
+    private static LivingEntity getClosestTarget(ServerPlayer serverPlayer, Vec3 position) {
+        if (!((SkillUtil.getSkillInstance(serverPlayer, SkillRegistry.MARK.getSkillId())) instanceof MarkSkill skill)) {
+            return null;
         }
 
-        if (!(event.getEntity() instanceof Projectile projectile)) {
-            return;
-        }
-
-        if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) {
-            return;
-        }
-
-        if (!SkillUtil.hasSkill(serverPlayer, SkillRegistry.HOMING_SHOT.getSkillId())) {
-            return;
-        }
-
-        PROJECTILE_SET.add(projectile);
-    }
-
-    @SubscribeEvent
-    public static void onEntityLeaveLevel(EntityLeaveLevelEvent event) {
-        if (event.getLevel().isClientSide) {
-            return;
-        }
-
-        if (!(event.getEntity() instanceof Projectile projectile)) {
-            return;
-        }
-
-        PROJECTILE_SET.remove(projectile);
-    }
-
-    @SubscribeEvent
-    public static void onProjectileImpact(ProjectileImpactEvent event) {
-        if (event.getProjectile().level().isClientSide) {
-            return;
-        }
-
-        PROJECTILE_SET.remove(event.getProjectile());
-    }
-
-    @SubscribeEvent
-    public static void onServerTick(TickEvent.ServerTickEvent event) {
-        for (Projectile projectile : PROJECTILE_SET) {
-            LivingEntity target = getClosestTarget(projectile.position());
-            if (target == null) {
-                continue;
-            }
-
-            Vec3 newVelocity = calculateVelocity(projectile, target);
-            setProjectileRotation(projectile, newVelocity);
-            projectile.setDeltaMovement(newVelocity);
-            projectile.hasImpulse = true;
-        }
-    }
-
-    private static LivingEntity getClosestTarget(Vec3 position) {
         LivingEntity target = null;
-        for (LivingEntity livingEntity : MarkedEffect.MARKED_LIST) {
+        for (LivingEntity livingEntity : skill.getMarkedEntities()) {
             double distance = (livingEntity.position().subtract(position)).length();
             if (distance <= HomingShotSkill.HOMING_DISTANCE) {
                 target = livingEntity;
@@ -108,7 +54,6 @@ public class HomingShotSkill extends Skill {
         float yaw = (float) (Math.toDegrees(Math.atan2(velocity.z, velocity.x)) - 90);
         float pitch = (float) (Math.toDegrees(-Math.atan2(velocity.y, Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z))));
         float alpha = 0.1f;
-
         projectile.setYRot(Mth.lerp(alpha, (float) projectile.getY(), yaw));
         projectile.setXRot(Mth.lerp(alpha, (float) projectile.getX(), pitch));
     }
@@ -126,5 +71,69 @@ public class HomingShotSkill extends Skill {
         double speed = projectile.getDeltaMovement().length();
 
         return newDirection.scale(speed);
+    }
+
+    @Mod.EventBusSubscriber
+    public static class EventHandler {
+        @SubscribeEvent
+        public static void onServerTick(TickEvent.ServerTickEvent event) {
+            for (Projectile projectile : PROJECTILE_SET) {
+                ServerPlayer serverPlayer = (ServerPlayer) projectile.getOwner();
+                LivingEntity target = getClosestTarget(serverPlayer, projectile.position());
+                if (target == null) {
+                    continue;
+                }
+
+                Vec3 newVelocity = calculateVelocity(projectile, target);
+                //setProjectileRotation(projectile, newVelocity); // Not working as intended
+                projectile.setDeltaMovement(newVelocity);
+                projectile.hasImpulse = true;
+            }
+        }
+
+        @SubscribeEvent
+        public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
+            if (event.getLevel().isClientSide()) {
+                return;
+            }
+
+            if (!(event.getEntity() instanceof Projectile projectile)) {
+                return;
+            }
+
+            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) {
+                return;
+            }
+
+            if (!(SkillUtil.hasSkill(serverPlayer, SkillRegistry.HOMING_SHOT.getSkillId()))) {
+                return;
+            }
+
+            PROJECTILE_SET.add(projectile);
+        }
+
+        @SubscribeEvent
+        public static void onEntityLeaveLevel(EntityLeaveLevelEvent event) {
+            if (event.getLevel().isClientSide) {
+                return;
+            }
+
+            if (!(event.getEntity() instanceof Projectile projectile)) {
+                return;
+            }
+
+            PROJECTILE_SET.remove(projectile);
+        }
+
+        @SubscribeEvent
+        public static void onProjectileImpact(ProjectileImpactEvent event) {
+            Projectile projectile = event.getProjectile();
+
+            if (projectile.level().isClientSide) {
+                return;
+            }
+
+            PROJECTILE_SET.remove(event.getProjectile());
+        }
     }
 }

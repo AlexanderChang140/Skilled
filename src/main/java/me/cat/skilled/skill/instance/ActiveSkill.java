@@ -3,7 +3,6 @@ package me.cat.skilled.skill.instance;
 import me.cat.skilled.util.TickTimer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 
 public abstract class ActiveSkill extends Skill {
     private final TickTimer skillCooldown;
@@ -14,17 +13,13 @@ public abstract class ActiveSkill extends Skill {
         skillCooldown = new TickTimer(ticksPerAction);
     }
 
-    protected abstract void onActivateSkill(ServerPlayer serverPlayer);
+    protected abstract boolean onActivateSkill(ServerPlayer serverPlayer);
 
-    public void activateSkill(Player player) {
+    public void activateSkill(ServerPlayer serverPlayer) {
         if (!isSkillReady) {
             return;
         }
-        isSkillReady = false;
-
-        if (player instanceof ServerPlayer serverPlayer) {
-            onActivateSkill(serverPlayer);
-        }
+        isSkillReady = !onActivateSkill(serverPlayer);
     }
 
     public void checkSkillReady() {

@@ -32,10 +32,10 @@ public class SkillCooldownHudOverlay {
         for (int i = 0; i < skillSlots.length - 1; i++) {
             SkillSlot skillSlot = skillSlots[i];
             String activeSkillId = SkillUtil.getActiveSkillId(localPlayer, skillSlot);
-            if (activeSkillId != null) {
+            ActiveSkill activeSkill = SkillUtil.getActiveSkillInstance(localPlayer, skillSlot);
+            if (activeSkill != null) {
                 // Skill icon render
                 SkillData skillData = SkillRegistry.getSkillData(activeSkillId);
-                ActiveSkill activeSkill = SkillUtil.getActiveSkillInstance(localPlayer, skillSlot);
                 int x = startX - (skillSlots.length - 1 - i) * xOffset;
 
                 guiGraphics.blit(FRAME, x, startY, 0, 0, size, size, size, size);

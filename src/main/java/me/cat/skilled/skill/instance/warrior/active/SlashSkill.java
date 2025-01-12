@@ -28,7 +28,7 @@ public class SlashSkill extends ActiveSkill {
     }
 
     @Override
-    protected void onActivateSkill(ServerPlayer serverPlayer) {
+    protected boolean onActivateSkill(ServerPlayer serverPlayer) {
         AABB area = new AABB(
                 serverPlayer.getX() - RADIUS,
                 serverPlayer.getY() - RADIUS,
@@ -58,5 +58,6 @@ public class SlashSkill extends ActiveSkill {
             double zDir = serverPlayer.position().z - livingEntity.position().z;
             livingEntity.knockback(KNOCKBACK, xDir, zDir);
         }
+        return true;
     }
 }

@@ -40,7 +40,7 @@ public class DashSkill extends ActiveSkill {
     }
 
     @Override
-    protected void onActivateSkill(ServerPlayer serverPlayer) {
+    protected boolean onActivateSkill(ServerPlayer serverPlayer) {
         isDashing = true;
 
         double DASH_SPEED = DashSkill.DASH_SPEED;
@@ -55,6 +55,7 @@ public class DashSkill extends ActiveSkill {
         serverPlayer.setDeltaMovement(motion.add(dashVelocity));
         serverPlayer.fallDistance = 0.0F;
         serverPlayer.hurtMarked = true;
+        return true;
     }
 
     @SubscribeEvent
