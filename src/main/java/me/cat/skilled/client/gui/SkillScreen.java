@@ -56,15 +56,6 @@ public class SkillScreen extends Screen {
         drawConnections();
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         renderToolTips(pGuiGraphics, pMouseX, pMouseY);
-        test(pGuiGraphics);
-    }
-
-    public void test(GuiGraphics guiGraphics) {
-        PoseStack poseStack = guiGraphics.pose();
-        poseStack.pushPose();
-        poseStack.scale(0.5f, 0.5f, 1);
-        guiGraphics.blit(new ResourceLocation(Skilled.MODID, "textures/skill/stealth.png"), centerX, centerY, 0, 0, 32, 32, 32, 32);
-        poseStack.popPose();
     }
 
     public void addSkillButtons() {
@@ -129,7 +120,7 @@ public class SkillScreen extends Screen {
 
     private void renderToolTips(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         for (SkillButton skillButton : skillButtons) {
-            skillButton.createToolTip(guiGraphics, mouseX, mouseY);
+            skillButton.renderToolTip(guiGraphics, mouseX, mouseY);
         }
     }
 

@@ -6,15 +6,17 @@ import me.cat.skilled.Skilled;
 import me.cat.skilled.skill.data.SkillData;
 import me.cat.skilled.util.SkillUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Player;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SkillButton extends Button {
     private static final ResourceLocation FRAME = new ResourceLocation(Skilled.MODID, "textures/gui/frame.png");
@@ -51,7 +53,7 @@ public class SkillButton extends Button {
         pGuiGraphics.setColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
-    public void createToolTip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void renderToolTip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (!isMouseOver(mouseX, mouseY) || !visible) {
             return;
         }
@@ -65,17 +67,25 @@ public class SkillButton extends Button {
         int width = 100;
 
         Player player = Minecraft.getInstance().player;
-        FormattedText text = FormattedText.of(skillData.getTitle() + "\n" + skillData.getDesc(SkillUtil.getSkillLevel(player, skillData.getSkillId())));
+        Font font = Minecraft.getInstance().font;
+        int skillLevel = SkillUtil.getSkillLevel(player, skillData.getSkillId());
+        String title = String.format("%s (%d/%d)",
+                skillData.getTitle(),
+                skillLevel,
+                skillData.getMaxLevel()
+                );
+        String desc = skillData.getDesc(skillLevel);
+
+        List<Component> list = new ArrayList<>();
+        list.add(Component.literal(title));
+        list.add(Component.literal(desc));
+        List<FormattedCharSequence> wrappedLines = list.stream()
+                .flatMap(component -> font.split(component, width).stream())
+                .toList();
 
         poseStack.pushPose();
         poseStack.scale(scale, scale, 1);
-        guiGraphics.drawWordWrap(
-                Minecraft.getInstance().font,
-                text,
-                x,
-                y,
-                width,
-                Color.WHITE.hashCode());
+        guiGraphics.renderTooltip(font, wrappedLines, x, y);
         poseStack.popPose();
     }
 
