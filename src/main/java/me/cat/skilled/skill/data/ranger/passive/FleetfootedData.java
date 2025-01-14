@@ -17,7 +17,10 @@ public class FleetfootedData extends SkillData {
                 0,
 
                 "Fleetfooted",
-                (level) -> "You move at x% speed when crouching or drawing a bow",
+                (level) -> String.format(
+                        "You move at %.0f%% speed when crouching or using a ranged weapon.",
+                        toPercent(FleetfootedSkill.getCrouchMovementSpeed(level))
+                ),
                 new ResourceLocation(Skilled.MODID, "textures/skill/fleetfooted.png"),
                 Grid.lineX(3),
                 Grid.tierY(1),

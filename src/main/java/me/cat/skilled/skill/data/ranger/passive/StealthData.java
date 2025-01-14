@@ -18,7 +18,10 @@ public class StealthData extends SkillData {
                 StealthSkill::new,
 
                 "Stealth",
-                (level) -> String.format("Your detection range is reduced by %f%% while crouching. Attacking breaks stealth", toPercent(level * StealthEffect.DETECTION_DECREASE)),
+                (level) -> String.format(
+                        "Your detection range is reduced by %.0f%% while crouching. Attacking breaks stealth.",
+                        toPercent(level * StealthEffect.DETECTION_DECREASE)
+                ),
                 new ResourceLocation(Skilled.MODID, "textures/skill/stealth.png"),
                 Grid.lineX(3) + Grid.getPos(1),
                 Grid.tierY(1)

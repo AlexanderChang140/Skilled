@@ -17,7 +17,7 @@ public class HomingShotData extends SkillData {
                 HomingShotSkill::new,
 
                 "Homing Shot",
-                (level) -> "Arrows home in on marked enemies",
+                (level) -> "Your projectiles home in on §lMarked§l enemies.",
                 new ResourceLocation(Skilled.MODID, "textures/skill/homing_shot.png"),
                 Grid.lineX(1) + Grid.getPos(-1),
                 Grid.tierY(2)

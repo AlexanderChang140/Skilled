@@ -8,16 +8,12 @@ public class FleetfootedSkill extends Skill {
     public final static float START_CROUCH_MOVEMENT_SPEED = 0.3F;
     private final static float PER_LEVEL_ADDITIVE = 0.1F;
 
-    public FleetfootedSkill() {
-        super();
-    }
-
     @Override
     public int getMaxLevel() {
         return MAX_LEVEL;
     }
 
-    public float getCrouchMovementSpeed() {
+    public static float getCrouchMovementSpeed(int level) {
         return START_CROUCH_MOVEMENT_SPEED + PER_LEVEL_ADDITIVE * level;
     }
 }

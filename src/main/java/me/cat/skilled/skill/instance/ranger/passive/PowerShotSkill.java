@@ -16,10 +16,6 @@ public class PowerShotSkill extends Skill {
     private static final double START_VELOCITY_MULTIPLIER = 1.05;
     private static final double VELOCITY_PER_LEVEL_ADDITIVE = 0.05;
 
-    public PowerShotSkill() {
-        super();
-    }
-
     @Override
     public int getMaxLevel() {
         return MAX_LEVEL;

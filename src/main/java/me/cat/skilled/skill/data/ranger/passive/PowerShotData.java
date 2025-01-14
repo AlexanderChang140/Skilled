@@ -17,7 +17,9 @@ public class PowerShotData extends SkillData {
                 0,
 
                 "Power Shot",
-                (level) -> String.format("Your arrows move %.0f%% faster", toPercentOffset(PowerShotSkill.getVelocityMultiplier(level))),
+                (level) -> String.format("Your projectiles travel %.0f%% faster.",
+                        toPercentOffset(PowerShotSkill.getVelocityMultiplier(level))
+                ),
                 new ResourceLocation(Skilled.MODID, "textures/skill/power_shot.png"),
                 Grid.lineX(2),
                 Grid.tierY(1),

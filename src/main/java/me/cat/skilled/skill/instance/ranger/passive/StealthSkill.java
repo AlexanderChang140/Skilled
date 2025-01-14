@@ -17,10 +17,6 @@ public class StealthSkill extends Skill {
 
     private final TickTimer stealthCooldown = new TickTimer(200);
 
-    public StealthSkill() {
-        super();
-    }
-
     @Override
     public int getMaxLevel() {
         return MAX_LEVEL;

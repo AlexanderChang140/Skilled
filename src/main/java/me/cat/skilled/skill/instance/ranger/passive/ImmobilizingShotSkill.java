@@ -17,10 +17,6 @@ public class ImmobilizingShotSkill extends Skill {
 
     private static final int IMMOBILIZED_DURATION = 100;
 
-    public ImmobilizingShotSkill() {
-        super();
-    }
-
     @Override
     public int getMaxLevel() {
         return MAX_LEVEL;

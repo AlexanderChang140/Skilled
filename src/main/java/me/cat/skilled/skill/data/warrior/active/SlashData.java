@@ -5,6 +5,7 @@ import me.cat.skilled.registry.CategoryRegistry;
 import me.cat.skilled.skill.data.SkillSlot;
 import me.cat.skilled.skill.data.ActiveSkillData;
 import me.cat.skilled.skill.instance.warrior.active.SlashSkill;
+import me.cat.skilled.util.Grid;
 import net.minecraft.resources.ResourceLocation;
 
 public class SlashData extends ActiveSkillData {
@@ -16,10 +17,14 @@ public class SlashData extends ActiveSkillData {
                 SlashSkill.MAX_LEVEL,
                 SlashSkill::new,
                 "Slash",
-                (level) -> "Slash in front of you, dealing x damage",
+
+                (level) -> String.format(
+                        "Slash in front of you, dealing %.0f%% melee damage in an area.",
+                        toPercent(SlashSkill.getDamageMultiplier(level))
+                ),
                 new ResourceLocation(Skilled.MODID, "textures/gui/skill/slash.png"),
-                10,
-                10,
+                Grid.lineX(1),
+                Grid.tierY(2),
                 SkillSlot.PRIMARY
         );
     }

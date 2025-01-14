@@ -19,8 +19,8 @@ public class LocalPlayerMixin {
     @Redirect(method = "aiStep()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F"))
     public float redirectClamp(float pValue, float pMin, float pMax) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        if (SkillUtil.getSkillInstance(player, SkillRegistry.FLEETFOOTED.getSkillId()) instanceof FleetfootedSkill fleetfootedSkill) {
-            return Mth.clamp(fleetfootedSkill.getCrouchMovementSpeed() + EnchantmentHelper.getSneakingSpeedBonus(player), pMin, pMax);
+        if (SkillUtil.getSkillInstance(player, SkillRegistry.FLEETFOOTED.getSkillId()) instanceof FleetfootedSkill skill) {
+            return Mth.clamp(FleetfootedSkill.getCrouchMovementSpeed(skill.getLevel()) + EnchantmentHelper.getSneakingSpeedBonus(player), pMin, pMax);
         }
         else {
             return Mth.clamp(pValue, pMin, pMax);

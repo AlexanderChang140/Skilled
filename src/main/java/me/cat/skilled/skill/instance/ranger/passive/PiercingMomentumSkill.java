@@ -19,15 +19,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PiercingMomentumSkill extends Skill {
-    public static final int MAX_LEVEL = 3;
+    public static final int MAX_LEVEL = 1;
 
     private static final int EFFECT_DURATION = 100;
+    private static final int MAX_STACKS = 5;
 
     public final List<Projectile> projectileList = new ArrayList<>();
 
     @Override
     public int getMaxLevel() {
         return MAX_LEVEL;
+    }
+
+    public static int getMaxStacks() {
+        return MAX_STACKS;
     }
 
     @Mod.EventBusSubscriber
@@ -102,7 +107,7 @@ public class PiercingMomentumSkill extends Skill {
                 return;
             }
 
-            EffectUtil.stackEffect(serverPlayer, true, 5, EffectRegistry.PIERCING_MOMENTUM.get(), EFFECT_DURATION, 0, false, true);
+            EffectUtil.stackEffect(serverPlayer, true, getMaxStacks(), EffectRegistry.PIERCING_MOMENTUM.get(), EFFECT_DURATION, 0, false, true);
             skill.projectileList.remove(projectile);
         }
     }

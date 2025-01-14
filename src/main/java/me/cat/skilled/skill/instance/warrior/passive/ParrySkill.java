@@ -27,10 +27,6 @@ public class ParrySkill extends Skill {
     private final TickTimer parryCooldown = new TickTimer(100);
     private boolean isParryReady = true;
 
-    public ParrySkill() {
-        super();
-    }
-
     @Override
     public int getMaxLevel() {
         return MAX_LEVEL;

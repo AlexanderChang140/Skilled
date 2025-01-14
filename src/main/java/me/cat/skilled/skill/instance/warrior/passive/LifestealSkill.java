@@ -13,18 +13,18 @@ public class LifestealSkill extends Skill {
     public static final int MAX_LEVEL = 5;
     private final static float HEAL_PERCENT = 0.25F;
 
-    public LifestealSkill() {
-        super();
-    }
-
     @Override
     public int getMaxLevel() {
         return MAX_LEVEL;
     }
 
+    public static float getHealPercent() {
+        return HEAL_PERCENT;
+    }
+
     @SubscribeEvent
     public static void onLivingAttackEvent(LivingAttackEvent event) {
-        if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) {
+        if (!(event.getSource().getDirectEntity() instanceof ServerPlayer serverPlayer)) {
             return;
         }
 
@@ -32,6 +32,6 @@ public class LifestealSkill extends Skill {
             return;
         }
 
-        serverPlayer.heal(event.getAmount() * HEAL_PERCENT);
+        serverPlayer.heal(event.getAmount() * getHealPercent());
     }
 }

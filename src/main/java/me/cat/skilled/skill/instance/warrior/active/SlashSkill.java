@@ -15,7 +15,7 @@ public class SlashSkill extends ActiveSkill {
 
     public static final double RADIUS = 3.5;
     public static final double ANGLE = 90;
-    public static final float DAMAGE_MULTIPLIER = 10.0f;
+    public static final float DAMAGE_MULTIPLIER = 1.25f;
     public static final double KNOCKBACK = 0.5;
 
     public SlashSkill() {
@@ -25,6 +25,10 @@ public class SlashSkill extends ActiveSkill {
     @Override
     public int getMaxLevel() {
         return MAX_LEVEL;
+    }
+
+    public static float getDamageMultiplier(int level) {
+        return DAMAGE_MULTIPLIER;
     }
 
     @Override

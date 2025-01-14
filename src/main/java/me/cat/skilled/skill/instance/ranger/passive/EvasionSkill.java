@@ -16,7 +16,7 @@ import java.util.Random;
 @Mod.EventBusSubscriber
 public class EvasionSkill extends Skill {
     public static final int MAX_LEVEL = 5;
-    private static final double MAX_EVASION = 80;
+    private static final double MAX_EVASION = 80.0;
     private static final int TICKS_BEFORE_START_RECHARGE = 200;
     private static final int TICKS_TO_FULL_RECHARGE = 200;
 
@@ -24,13 +24,13 @@ public class EvasionSkill extends Skill {
     private boolean isRecharging = false;
     private double currEvasion = MAX_EVASION;
 
-    public EvasionSkill() {
-        super();
-    }
-
     @Override
     public int getMaxLevel() {
         return MAX_LEVEL;
+    }
+
+    public static double getMaxEvasion(int level) {
+        return MAX_EVASION;
     }
 
     @SubscribeEvent

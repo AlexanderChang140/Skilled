@@ -5,6 +5,8 @@ import me.cat.skilled.registry.CategoryRegistry;
 import me.cat.skilled.skill.data.SkillData;
 import me.cat.skilled.skill.instance.ranger.active.EnderShotSkill;
 import me.cat.skilled.skill.instance.ranger.active.MarkSkill;
+import me.cat.skilled.skill.instance.warrior.passive.LastStandSkill;
+import me.cat.skilled.util.Grid;
 import net.minecraft.resources.ResourceLocation;
 
 public class LastStandData extends SkillData {
@@ -15,10 +17,13 @@ public class LastStandData extends SkillData {
                 MarkSkill.MAX_LEVEL,
                 EnderShotSkill::new,
                 "Last Stand",
-                (level) -> "Upon taking lethal damage, gain invulnerability for x% seconds and...",
+                (level) -> String.format(
+                        "Upon taking lethal damage become invulnerable for %d seconds.",
+                        LastStandSkill.getInvulnDuration() / 20
+                ),
                 new ResourceLocation(Skilled.MODID, "textures/skill/last_stand.png"),
-                10,
-                10
+                Grid.lineX(2),
+                Grid.tierY(3)
         );
     }
 }

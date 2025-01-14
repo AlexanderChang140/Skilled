@@ -18,7 +18,10 @@ public class EvasionData extends SkillData {
                 15,
 
                 "Evasion",
-                (level) -> "You have a x%% chance to evade attacks",
+                (level) -> String.format(
+                        "You have a %.0f%% chance to evade attacks. This chance is reduced every hit evaded and recharges over time.",
+                        EvasionSkill.getMaxEvasion(level)
+                ),
                 new ResourceLocation(Skilled.MODID, "textures/skill/power_shot.png"),
                 Grid.lineX(3),
                 Grid.tierY(3),

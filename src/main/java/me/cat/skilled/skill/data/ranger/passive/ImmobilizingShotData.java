@@ -17,8 +17,8 @@ public class ImmobilizingShotData extends SkillData {
                 ImmobilizingShotSkill::new,
 
                 "Immobilizing Shot",
-                (level) -> "Your shots slow down hit enemies",
-                new ResourceLocation(Skilled.MODID, "textures/skill/mark.png"),
+                (level) -> "Your ranged attacks §lImmobilize§r enemies, slowing them.",
+                new ResourceLocation(Skilled.MODID, "textures/skill/immobilizing_shot.png"),
                 Grid.lineX(2) + Grid.getPos(1),
                 Grid.tierY(1)
         );

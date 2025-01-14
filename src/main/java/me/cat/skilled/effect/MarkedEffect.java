@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 @Mod.EventBusSubscriber
 public class MarkedEffect extends MobEffect {
-    private static final float DAMAGE_MULTIPLIER = 0.1F;
+    public static final float DAMAGE_MULTIPLIER = 0.25f;
     private static final String TEAM_NAME = "marked_team";
 
     public MarkedEffect(MobEffectCategory pCategory, int pColor) {

@@ -16,18 +16,22 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class LastStandSkill extends Skill {
     public static final int MAX_LEVEL = 1;
-    private final TickTimer lastStandCooldown = new TickTimer(12000);
-    private boolean isLastStandReady = true;
-    private final TickTimer invulnTimer = new TickTimer(100);
-    private boolean isInvuln = false;
 
-    public LastStandSkill() {
-        super();
-    }
+    private static final int COOLDOWN = 12000;
+    private static final int DURATION = 100;
+
+    private final TickTimer lastStandCooldown = new TickTimer(COOLDOWN);
+    private boolean isLastStandReady = true;
+    private final TickTimer invulnTimer = new TickTimer(DURATION);
+    private boolean isInvuln = false;
 
     @Override
     public int getMaxLevel() {
         return MAX_LEVEL;
+    }
+
+    public static int getInvulnDuration() {
+        return DURATION;
     }
 
     @SubscribeEvent

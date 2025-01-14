@@ -1,6 +1,7 @@
 package me.cat.skilled.skill.data.ranger.passive;
 
 import me.cat.skilled.Skilled;
+import me.cat.skilled.effect.PiercingMomentumEffect;
 import me.cat.skilled.registry.CategoryRegistry;
 import me.cat.skilled.skill.data.SkillData;
 import me.cat.skilled.skill.instance.ranger.passive.PiercingMomentumSkill;
@@ -18,9 +19,13 @@ public class PiercingMomentumData extends SkillData {
                 0,
 
                 "Piercing Momentum",
-                (level) -> "Consecutive arrow hits on an enemy increase your ranged damage. Stacks are lost on a missed shot.",
+                (level) ->  String.format(
+                        "Consecutive ranged attacks on an enemy increase your ranged damage by %.0f%% per hit (max %d stacks). Stacks are lost on a missed attack.",
+                        PiercingMomentumEffect.DAMAGE_MULTIPLIER,
+                        PiercingMomentumSkill.getMaxStacks()
+                ),
                 new ResourceLocation(Skilled.MODID, "textures/skill/piercing_momentum.png"),
-                Grid.lineX(0),
+                Grid.lineX(1),
                 Grid.tierY(1),
                 SIZE_SMALL
         );

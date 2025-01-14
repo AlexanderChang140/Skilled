@@ -4,6 +4,7 @@ import me.cat.skilled.Skilled;
 import me.cat.skilled.registry.CategoryRegistry;
 import me.cat.skilled.skill.data.SkillData;
 import me.cat.skilled.skill.instance.warrior.passive.ParrySkill;
+import me.cat.skilled.util.Grid;
 import net.minecraft.resources.ResourceLocation;
 
 public class ParryData extends SkillData {
@@ -13,11 +14,12 @@ public class ParryData extends SkillData {
                 CategoryRegistry.WARRIOR.getId(),
                 ParrySkill.MAX_LEVEL,
                 ParrySkill::new,
+
                 "Parry",
-                (level) -> "Blocking an enemy's attack with a shield knocks them back and slows them",
+                (level) -> "Blocking an enemy's attack with a shield knocks them back and slows them.",
                 new ResourceLocation(Skilled.MODID, "textures/skill/parry.png"),
-                10,
-                10
+                Grid.lineX(3) + Grid.getPos(1),
+                Grid.tierY(2)
         );
     }
 }

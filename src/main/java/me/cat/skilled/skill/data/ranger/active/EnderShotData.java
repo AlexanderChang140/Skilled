@@ -17,11 +17,11 @@ public class EnderShotData extends ActiveSkillData {
                 EnderShotSkill.MAX_LEVEL,
                 EnderShotSkill::new,
                 "Ender Shot",
-                (level) -> "Teleport to the position of your next shot",
+                (level) -> "Teleport to the position of your next shot.",
                 new ResourceLocation(Skilled.MODID, "textures/mob_effect/ender_shot.png"),
                 Grid.lineX(3),
                 Grid.tierY(2),
-                SkillSlot.PRIMARY
+                SkillSlot.SECONDARY
         );
     }
 
