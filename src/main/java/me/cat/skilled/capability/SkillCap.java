@@ -1,5 +1,6 @@
 package me.cat.skilled.capability;
 
+import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.out.SyncSkillCapS2CPacket;
@@ -195,6 +196,9 @@ public class SkillCap implements ISkillCap {
                 skillInstance.loadNbt(skillDataTag.getCompound(skillId));
                 skillMap.put(skillId, skillInstance);
             }
+            else {
+                Skilled.LOGGER.error("Attempted to load invalid skill");
+            }
         }
 
         CompoundTag activeSkillsTag = nbt.getCompound("active_skills");
@@ -202,6 +206,9 @@ public class SkillCap implements ISkillCap {
             if (PlayerSkillManager.skillExists(activeSkillsTag.getString(key))) {
                 int index = Integer.parseInt(key);
                 activeSkills.put(SkillSlot.fromNumber(index), activeSkillsTag.getString(key));
+            }
+            else {
+                Skilled.LOGGER.error("Attempted to load invalid active skill");
             }
         }
 
