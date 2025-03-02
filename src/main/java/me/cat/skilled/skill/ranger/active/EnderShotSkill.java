@@ -16,11 +16,10 @@ import net.minecraftforge.fml.common.Mod;
 import java.awt.*;
 
 public class EnderShotSkill extends ActiveSkill {
+    public static final int MAX_LEVEL = 1;
     private final TickTimer toggleTimer = new TickTimer(20);
     private boolean canToggle = true;
     private boolean isToggled = false;
-
-    public static final int MAX_LEVEL = 1;
 
     public EnderShotSkill() {
         super(200, 1);
