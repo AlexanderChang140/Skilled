@@ -5,7 +5,6 @@ import me.cat.skilled.capability.manager.PlayerSkillManager;
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.out.SyncSkillCapS2CPacket;
 import me.cat.skilled.skill.ActiveSkillData;
-import me.cat.skilled.skill.ActiveSkill;
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.registry.SkillRegistry;
 import me.cat.skilled.skill.SkillSlot;
@@ -216,34 +215,5 @@ public class SkillCap implements ISkillCap {
         playerExperience = nbt.getInt("player_experience");
         skillPoints = nbt.getInt("skill_points");
         category = nbt.getString("category");
-    }
-
-    public void saveClientNBTData(CompoundTag nbt) {
-        CompoundTag skillLevelTag = new CompoundTag();
-        for (Map.Entry<String, Skill> entry : skillMap.entrySet()) {
-            String skillId = entry.getKey();
-            int level = entry.getValue().getLevel();
-            skillLevelTag.putInt(skillId, level);
-        }
-
-        CompoundTag activeSkillDataTag = new CompoundTag();
-        for (Map.Entry<SkillSlot, String> entry : activeSkills.entrySet()) {
-            CompoundTag data = new CompoundTag();
-            int index = entry.getKey().getIndex();
-            String skillId = entry.getValue();
-            if (entry.getValue() != null) {
-                ActiveSkill activeSkill = (ActiveSkill) getSkillInstance(skillId);
-                data.putString("id", skillId);
-                data.putInt("curr_tick", activeSkill.getCurrTick());
-                data.putInt("max_tick", activeSkill.getMaxTick());
-                activeSkillDataTag.put(Integer.toString(index), data);
-            }
-        }
-
-        nbt.put("skill_level", skillLevelTag);
-        nbt.put("active_skill_data", activeSkillDataTag);
-        nbt.putInt("player_level", playerLevel);
-        nbt.putInt("skill_points", skillPoints);
-        nbt.putString("category", category);
     }
 }
