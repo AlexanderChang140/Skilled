@@ -9,12 +9,11 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 
 import java.awt.Color;
 
 public class CategoryButton extends Button {
-    private static final ResourceLocation FRAME = new ResourceLocation(Skilled.MODID, "textures/gui/frame.png");
+    private static final ResourceLocation FRAME = new ResourceLocation(Skilled.MODID, "textures/gui/skill_button_frame.png");
 
     private static final int BUTTON_WIDTH = 16;
     private static final int BUTTON_HEIGHT = 16;
@@ -33,16 +32,15 @@ public class CategoryButton extends Button {
         pGuiGraphics.blit(
                 category.getIcon(), getX(), getY(), 0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
         pGuiGraphics.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        createToolTip(pGuiGraphics, pMouseX, pMouseY);
     }
 
-    private void createToolTip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void renderToolTip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (!isMouseOver(mouseX, mouseY) || !visible) {
             return;
         }
 
         PoseStack poseStack = guiGraphics.pose();
-        float scale = 0.7f;
+        float scale = 1.0f;
         int offsetX = 5;
         int offsetY = 5;
         int x = (int) ((mouseX + offsetX) / scale);

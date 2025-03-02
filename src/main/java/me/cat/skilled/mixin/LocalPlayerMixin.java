@@ -1,8 +1,8 @@
 package me.cat.skilled.mixin;
 
 import me.cat.skilled.registry.SkillRegistry;
-import me.cat.skilled.skill.instance.ranger.passive.FleetfootedSkill;
-import me.cat.skilled.util.SkillUtil;
+import me.cat.skilled.skill.ranger.passive.FleetfootedSkill;
+import me.cat.skilled.capability.manager.PlayerSkillManager;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
@@ -19,7 +19,7 @@ public class LocalPlayerMixin {
     @Redirect(method = "aiStep()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F"))
     public float redirectClamp(float pValue, float pMin, float pMax) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        if (SkillUtil.getSkillInstance(player, SkillRegistry.FLEETFOOTED.getSkillId()) instanceof FleetfootedSkill skill) {
+        if (PlayerSkillManager.getSkillInstance(player, SkillRegistry.FLEETFOOTED.getSkillId()) instanceof FleetfootedSkill skill) {
             return Mth.clamp(FleetfootedSkill.getCrouchMovementSpeed(skill.getLevel()) + EnchantmentHelper.getSneakingSpeedBonus(player), pMin, pMax);
         }
         else {
@@ -30,7 +30,7 @@ public class LocalPlayerMixin {
     @Redirect(method = "aiStep()V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/Input;leftImpulse:F", opcode = Opcodes.PUTFIELD))
     private void redirectLeftImpulse(Input input, float value) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        if (!(player.getUseItem().getItem() instanceof ProjectileWeaponItem) || !SkillUtil.hasSkill(player, SkillRegistry.FLEETFOOTED.getSkillId())) {
+        if (!(player.getUseItem().getItem() instanceof ProjectileWeaponItem) || !PlayerSkillManager.hasSkill(player, SkillRegistry.FLEETFOOTED.getSkillId())) {
             input.leftImpulse *= 0.2F;
         }
         player.setSprinting(false);
@@ -39,7 +39,7 @@ public class LocalPlayerMixin {
     @Redirect(method = "aiStep()V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/Input;forwardImpulse:F", opcode = Opcodes.PUTFIELD))
     private void redirectForwardImpulse(Input input, float value) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        if (!(player.getUseItem().getItem() instanceof ProjectileWeaponItem) || !SkillUtil.hasSkill(player, SkillRegistry.FLEETFOOTED.getSkillId())) {
+        if (!(player.getUseItem().getItem() instanceof ProjectileWeaponItem) || !PlayerSkillManager.hasSkill(player, SkillRegistry.FLEETFOOTED.getSkillId())) {
             input.forwardImpulse *= 0.2F;
         }
         player.setSprinting(false);

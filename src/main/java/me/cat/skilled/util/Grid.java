@@ -1,7 +1,7 @@
 package me.cat.skilled.util;
 
 public class Grid {
-    private static final int DEFAULT_OFFSET = 20;
+    private static final int DEFAULT_OFFSET = 8;
     private static final int TIER_OFFSET = 30;
     private static final int LINE_OFFSET = 60;
 
@@ -9,7 +9,7 @@ public class Grid {
         return index * DEFAULT_OFFSET;
     }
 
-    public static int getPos(int offset, int index) {
+    public static int getPos(int index, int offset) {
         return offset * index;
     }
 

@@ -7,6 +7,7 @@ import me.cat.skilled.registry.CategoryRegistry;
 import me.cat.skilled.skill.category.Category;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -17,9 +18,10 @@ import java.util.Map;
 
 public class CategoryScreen extends Screen {
     private static final Component TITLE = Component.translatable("gui." + Skilled.MODID + ".category_screen");
-    private static final ResourceLocation BACKGROUND = new ResourceLocation(Skilled.MODID, "textures/gui/space.png");
+    private static final ResourceLocation WINDOW_BACKGROUND = new ResourceLocation(Skilled.MODID, "textures/gui/window_background.png");
+    private static final ResourceLocation SCREEN_COMPONENTS = new ResourceLocation(Skilled.MODID, "textures/gui/screen_components.png");
 
-    private final List<Button> categoryButtons = new ArrayList<>();
+    private final List<CategoryButton> categoryButtons = new ArrayList<>();
 
     private int centerX;
     private int centerY;
@@ -41,16 +43,42 @@ public class CategoryScreen extends Screen {
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         renderBackground(pGuiGraphics);
-        int backgroundWidth = 250;
-        int backgroundHeight = 150;
-        int x = centerX - (int) (backgroundWidth * 0.5);
-        int y = centerY - (int) (backgroundHeight * 0.5);
-
-        pGuiGraphics.blit(BACKGROUND, x, y, 0, 0, backgroundWidth, backgroundHeight);
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        renderWindow(pGuiGraphics);
+        renderWidgets(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        renderToolTips(pGuiGraphics, pMouseX, pMouseY);
     }
 
-    public void addCategoryButtons() {
+    private void renderWindow(GuiGraphics guiGraphics) {
+        int windowWidth = 250;
+        int windowHeight = 150;
+        int x = centerX - windowWidth / 2;
+        int y = centerY - windowHeight / 2;
+        int sliceSize = 9;
+
+        guiGraphics.blit(
+                WINDOW_BACKGROUND,
+                x, y,
+                0, 0,
+                windowWidth, windowHeight
+        );
+
+        guiGraphics.blitNineSliced(
+                SCREEN_COMPONENTS,
+                x - sliceSize, y - sliceSize,
+                windowWidth + sliceSize * 2, windowHeight + sliceSize * 2,
+                sliceSize,
+                27, 27,
+                1, 1
+        );
+    }
+
+    public void renderWidgets(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        for (Renderable renderable : this.renderables) {
+            renderable.render(guiGraphics, mouseX, mouseY, partialTick);
+        }
+    }
+
+    private void addCategoryButtons() {
         var categories = CategoryRegistry.getCategories();
         int count = categories.size();
         int spacing = 20;
@@ -59,13 +87,19 @@ public class CategoryScreen extends Screen {
 
         for (Map.Entry<String, Category> entry : categories) {
             Category category = entry.getValue();
-            Button button = addRenderableWidget(new CategoryButton(
+            CategoryButton categoryButton = addRenderableWidget(new CategoryButton(
                     startX + spacing * i,
                     centerY + 40,
                     (btn) -> onCategoryButtonClicked(btn, category),
                     category));
-            categoryButtons.add(button);
+            categoryButtons.add(categoryButton);
             i++;
+        }
+    }
+
+    private void renderToolTips(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        for (CategoryButton categoryButton : categoryButtons) {
+            categoryButton.renderToolTip(guiGraphics, mouseX, mouseY);
         }
     }
 
