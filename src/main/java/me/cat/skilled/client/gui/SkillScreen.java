@@ -72,8 +72,6 @@ public class SkillScreen extends Screen {
         renderButtonToolTips(pGuiGraphics, pMouseX, pMouseY);
     }
 
-
-
     private void renderWindow(GuiGraphics guiGraphics) {
         int x = centerX - WINDOW_WIDTH / 2;
         int y = centerY - WINDOW_HEIGHT / 2;
