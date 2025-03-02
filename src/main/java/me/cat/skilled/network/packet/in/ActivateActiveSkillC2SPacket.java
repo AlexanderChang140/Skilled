@@ -1,8 +1,9 @@
 package me.cat.skilled.network.packet.in;
 
-import me.cat.skilled.skill.data.SkillSlot;
-import me.cat.skilled.skill.instance.ActiveSkill;
-import me.cat.skilled.util.SkillUtil;
+import me.cat.skilled.capability.manager.SyncManager;
+import me.cat.skilled.skill.SkillSlot;
+import me.cat.skilled.skill.ActiveSkill;
+import me.cat.skilled.capability.manager.PlayerSkillManager;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
@@ -29,10 +30,10 @@ public class ActivateActiveSkillC2SPacket {
         context.enqueueWork(() -> {
             ServerPlayer serverPlayer = context.getSender();
             SkillSlot skillSlot = SkillSlot.fromNumber(index);
-            ActiveSkill activeSkill = SkillUtil.getActiveSkillInstance(serverPlayer, skillSlot);
+            ActiveSkill activeSkill = PlayerSkillManager.getActiveSkillInstance(serverPlayer, skillSlot);
             if (activeSkill != null) {
                 activeSkill.activateSkill(serverPlayer);
-                SkillUtil.syncSkillCap(serverPlayer);
+                SyncManager.syncSkillCap(serverPlayer);
             }
         });
         return true;

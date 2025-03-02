@@ -1,7 +1,7 @@
 package me.cat.skilled.capability;
 
-import me.cat.skilled.skill.data.SkillSlot;
-import me.cat.skilled.skill.instance.Skill;
+import me.cat.skilled.skill.SkillSlot;
+import me.cat.skilled.skill.Skill;
 
 import java.util.Collection;
 import java.util.Map;

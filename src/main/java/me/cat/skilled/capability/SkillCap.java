@@ -1,16 +1,16 @@
 package me.cat.skilled.capability;
 
+import me.cat.skilled.capability.manager.PlayerSkillManager;
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.out.SyncSkillCapS2CPacket;
-import me.cat.skilled.skill.data.ActiveSkillData;
-import me.cat.skilled.skill.instance.ActiveSkill;
-import me.cat.skilled.skill.instance.Skill;
+import me.cat.skilled.skill.ActiveSkillData;
+import me.cat.skilled.skill.ActiveSkill;
+import me.cat.skilled.skill.Skill;
 import me.cat.skilled.registry.SkillRegistry;
-import me.cat.skilled.skill.data.SkillSlot;
-import me.cat.skilled.util.SkillUtil;
+import me.cat.skilled.skill.SkillSlot;
+import me.cat.skilled.util.ExperienceUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 
 import java.util.*;
@@ -20,6 +20,8 @@ public class SkillCap implements ISkillCap {
     private Map<String, Skill> skillMap = new HashMap<>();
     private Map<SkillSlot, String> activeSkills = new EnumMap<>(SkillSlot.class);
     private int playerLevel = 1;
+    private int playerExperience = 0;
+    private int experienceToNextLevel = ExperienceUtil.levelToExperience(playerLevel + 1);
     private int skillPoints = 1;
     private String category = "";
 
@@ -30,7 +32,15 @@ public class SkillCap implements ISkillCap {
 
     @Override
     public void setPlayerLevel(int playerLevel) {
-        this.playerLevel = Math.min(playerLevel, 1);
+        this.playerLevel = playerLevel;
+    }
+
+    public int getPlayerExperience() {
+        return playerExperience;
+    }
+
+    public void setPlayerExperience(int playerExperience) {
+        this.playerExperience = playerExperience;
     }
 
     @Override
@@ -40,7 +50,7 @@ public class SkillCap implements ISkillCap {
 
     @Override
     public void setSkillPoints(int skillPoints) {
-        this.skillPoints = Mth.clamp(skillPoints, 0, playerLevel);
+        this.skillPoints = skillPoints;
     }
 
     @Override
@@ -118,9 +128,7 @@ public class SkillCap implements ISkillCap {
     @Override
     public void clearAll() {
         category = "";
-        skillPoints = playerLevel;
-        activeSkills.replaceAll((k, v) -> null);
-        skillMap.clear();
+        clearSkills();
     }
 
     @Override
@@ -172,6 +180,7 @@ public class SkillCap implements ISkillCap {
         nbt.put("skill_data", skillDataTag);
         nbt.put("active_skills", activeSkillsTag);
         nbt.putInt("player_level", playerLevel);
+        nbt.putInt("player_experience", playerExperience);
         nbt.putInt("skill_points", skillPoints);
         nbt.putString("category", category);
     }
@@ -181,7 +190,7 @@ public class SkillCap implements ISkillCap {
         activeSkills.clear();
         CompoundTag skillDataTag = nbt.getCompound("skill_data");
         for (String skillId : skillDataTag.getAllKeys()) {
-            if (SkillUtil.skillExists(skillId)) {
+            if (PlayerSkillManager.skillExists(skillId)) {
                 Skill skillInstance = SkillRegistry.getSkillData(skillId).getSkillInstance();
                 skillInstance.loadNbt(skillDataTag.getCompound(skillId));
                 skillMap.put(skillId, skillInstance);
@@ -190,13 +199,14 @@ public class SkillCap implements ISkillCap {
 
         CompoundTag activeSkillsTag = nbt.getCompound("active_skills");
         for (String key : activeSkillsTag.getAllKeys()) {
-            if (SkillUtil.skillExists(activeSkillsTag.getString(key))) {
+            if (PlayerSkillManager.skillExists(activeSkillsTag.getString(key))) {
                 int index = Integer.parseInt(key);
                 activeSkills.put(SkillSlot.fromNumber(index), activeSkillsTag.getString(key));
             }
         }
 
         playerLevel = nbt.getInt("player_level");
+        playerExperience = nbt.getInt("player_experience");
         skillPoints = nbt.getInt("skill_points");
         category = nbt.getString("category");
     }

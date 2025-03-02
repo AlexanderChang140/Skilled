@@ -1,12 +1,10 @@
 package me.cat.skilled.util;
 
-import me.cat.skilled.registry.EffectRegistry;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 
 public class EffectUtil {
-
     public static void setEffectDuration(LivingEntity livingEntity, MobEffect effect, int duration) {
         if (!livingEntity.hasEffect(effect)) {
             return;

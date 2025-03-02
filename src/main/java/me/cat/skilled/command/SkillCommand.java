@@ -8,10 +8,11 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.ISkillCap;
 import me.cat.skilled.capability.SkillProvider;
-import me.cat.skilled.skill.data.SkillSlot;
-import me.cat.skilled.skill.instance.Skill;
+import me.cat.skilled.capability.manager.SyncManager;
+import me.cat.skilled.skill.SkillSlot;
+import me.cat.skilled.skill.Skill;
 import me.cat.skilled.registry.SkillRegistry;
-import me.cat.skilled.util.SkillUtil;
+import me.cat.skilled.capability.manager.PlayerSkillManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -27,7 +28,8 @@ public class SkillCommand {
 
     public SkillCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 
-        dispatcher.register(literal("skilled")
+        dispatcher.register(literal("skilled_debug")
+                .requires(command -> command.hasPermission(4))
                 .then(literal("skill")
                         .then(literal("get")
                                 .executes(command -> getSkills(command.getSource())))
@@ -64,8 +66,7 @@ public class SkillCommand {
             if (!SkillRegistry.getSkillIds().contains(skillId)) {
                 throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().create();
             } else {
-                SkillUtil.updateSkill(serverPlayer, skillId, level);
-                SkillUtil.syncSkillCap(serverPlayer);
+                PlayerSkillManager.updateSkillLevel(serverPlayer, skillId, level);
                 source.sendSystemMessage(Component.literal("Skill added"));
                 return 1;
             }
@@ -79,7 +80,7 @@ public class SkillCommand {
     private int getSkills(CommandSourceStack source) throws CommandSyntaxException {
         try {
             ServerPlayer serverPlayer = source.getPlayerOrException();
-            var entrySet = SkillUtil.getSkillMap(serverPlayer).entrySet();
+            var entrySet = PlayerSkillManager.getSkillMap(serverPlayer).entrySet();
 
             if (entrySet.isEmpty()) {
                 source.sendSystemMessage(Component.literal("No skills found"));
@@ -103,7 +104,7 @@ public class SkillCommand {
     private int getActive(CommandSourceStack source) throws CommandSyntaxException {
         try {
             ServerPlayer serverPlayer = source.getPlayerOrException();
-            var entrySet = SkillUtil.getActiveSkillMap(serverPlayer).entrySet();
+            var entrySet = PlayerSkillManager.getActiveSkillMap(serverPlayer).entrySet();
 
             if (entrySet.isEmpty()) {
                 source.sendSystemMessage(Component.literal("No skills found"));
@@ -128,7 +129,7 @@ public class SkillCommand {
         try {
             ServerPlayer serverPlayer = source.getPlayerOrException();
             serverPlayer.getCapability(SkillProvider.SKILLS).ifPresent(ISkillCap::clearSkills);
-            SkillUtil.syncSkillCap(serverPlayer);
+            SyncManager.syncSkillCap(serverPlayer);
             source.sendSystemMessage(Component.literal("Skills cleared"));
             return 1;
         }

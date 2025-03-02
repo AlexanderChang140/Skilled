@@ -2,6 +2,8 @@ package me.cat.skilled.network;
 
 import me.cat.skilled.Skilled;
 import me.cat.skilled.network.packet.in.*;
+import me.cat.skilled.network.packet.out.ClearShaderS2C;
+import me.cat.skilled.network.packet.out.LoadShaderS2C;
 import me.cat.skilled.network.packet.out.SetScreenS2CPacket;
 import me.cat.skilled.network.packet.out.SyncSkillCapS2CPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -34,16 +36,10 @@ public class Messenger {
                 .consumerMainThread(ActivateActiveSkillC2SPacket::handle)
                 .add();
 
-        INSTANCE.messageBuilder(UpdateSkillC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(UpdateSkillC2SPacket::new)
-                .encoder(UpdateSkillC2SPacket::toBytes)
-                .consumerMainThread(UpdateSkillC2SPacket::handle)
-                .add();
-
-        INSTANCE.messageBuilder(LevelSkillC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(LevelSkillC2SPacket::new)
-                .encoder(LevelSkillC2SPacket::toBytes)
-                .consumerMainThread(LevelSkillC2SPacket::handle)
+        INSTANCE.messageBuilder(AddSkillLevelC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(AddSkillLevelC2SPacket::new)
+                .encoder(AddSkillLevelC2SPacket::toBytes)
+                .consumerMainThread(AddSkillLevelC2SPacket::handle)
                 .add();
 
         INSTANCE.messageBuilder(SetCategoryC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
@@ -63,6 +59,18 @@ public class Messenger {
                 .decoder(SetScreenS2CPacket::new)
                 .encoder(SetScreenS2CPacket::toBytes)
                 .consumerMainThread(SetScreenS2CPacket::handle)
+                .add();
+
+        INSTANCE.messageBuilder(LoadShaderS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(LoadShaderS2C::new)
+                .encoder(LoadShaderS2C::toBytes)
+                .consumerMainThread(LoadShaderS2C::handle)
+                .add();
+
+        INSTANCE.messageBuilder(ClearShaderS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(ClearShaderS2C::new)
+                .encoder(ClearShaderS2C::toBytes)
+                .consumerMainThread(ClearShaderS2C::handle)
                 .add();
     }
 

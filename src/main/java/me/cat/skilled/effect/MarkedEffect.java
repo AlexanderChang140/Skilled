@@ -1,7 +1,7 @@
 package me.cat.skilled.effect;
 
 import me.cat.skilled.registry.EffectRegistry;
-import me.cat.skilled.skill.instance.ranger.active.MarkSkill;
+import me.cat.skilled.skill.ranger.active.MarkSkill;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;

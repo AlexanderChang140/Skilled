@@ -5,8 +5,8 @@ import me.cat.skilled.client.gui.CategoryScreen;
 import me.cat.skilled.client.gui.SkillScreen;
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.in.ActivateActiveSkillC2SPacket;
-import me.cat.skilled.skill.data.SkillSlot;
-import me.cat.skilled.util.SkillUtil;
+import me.cat.skilled.skill.SkillSlot;
+import me.cat.skilled.capability.manager.PlayerSkillManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
@@ -26,12 +26,16 @@ public class KeyHandler {
             activateSkill(SkillSlot.SECONDARY);
         }
 
+        if (KeyBinding.TERTIARY_ABILITY_KEY.consumeClick()) {
+            activateSkill(SkillSlot.TERTIARY);
+        }
+
         if (KeyBinding.OPEN_SKILLS_KEY.consumeClick()) {
             Minecraft instance = Minecraft.getInstance();
             if (instance.screen instanceof SkillScreen || instance.screen instanceof CategoryScreen) {
                 instance.setScreen(null);
             }
-            else if (SkillUtil.getCategoryId(instance.player).isEmpty()) {
+            else if (PlayerSkillManager.getCategoryId(instance.player).isEmpty()) {
                 instance.setScreen(new CategoryScreen());
             }
             else {

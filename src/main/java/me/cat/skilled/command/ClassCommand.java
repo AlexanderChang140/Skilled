@@ -6,7 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import me.cat.skilled.Skilled;
 import me.cat.skilled.registry.CategoryRegistry;
-import me.cat.skilled.util.SkillUtil;
+import me.cat.skilled.capability.manager.PlayerSkillManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -19,8 +19,8 @@ public class ClassCommand {
     private static final SuggestionProvider<CommandSourceStack> sugg = (ctx, builder) -> SharedSuggestionProvider.suggest(CategoryRegistry.getCategoryIds(), builder);
 
     public ClassCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-
-        dispatcher.register(literal("skilled")
+        dispatcher.register(literal("skilled_debug")
+                .requires(command -> command.hasPermission(4))
                 .then(literal("category")
                         .then(literal("get")
                                 .executes(command -> getCategory(command.getSource())))
@@ -48,8 +48,8 @@ public class ClassCommand {
                 throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().create();
             }
             else {
-                SkillUtil.clearAll(serverPlayer);
-                SkillUtil.setCategoryId(serverPlayer, category);
+                PlayerSkillManager.clearAll(serverPlayer);
+                PlayerSkillManager.setCategoryId(serverPlayer, category);
                 source.sendSystemMessage(Component.literal("Class set to " + category));
                 return 1;
             }
@@ -63,7 +63,7 @@ public class ClassCommand {
     private int getCategory(CommandSourceStack source) throws CommandSyntaxException {
         try {
             ServerPlayer serverPlayer = source.getPlayerOrException();
-            String categoryId = SkillUtil.getCategoryId(serverPlayer);
+            String categoryId = PlayerSkillManager.getCategoryId(serverPlayer);
 
             if (!categoryId.isEmpty()) {
                 source.sendSystemMessage(Component.literal(categoryId));
@@ -82,7 +82,7 @@ public class ClassCommand {
     private int clearCategory(CommandSourceStack source) throws CommandSyntaxException {
         try {
             ServerPlayer serverPlayer = source.getPlayerOrException();
-            SkillUtil.clearAll(serverPlayer);
+            PlayerSkillManager.clearAll(serverPlayer);
             source.sendSystemMessage(Component.literal("Class cleared"));
             return 1;
         }

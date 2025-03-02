@@ -1,16 +1,17 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "me.cat.skilled.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "refmap": "skilled.refmap.json",
-  "mixins": [
-    "ClientboundSetEntityMotionPacketMixin"
-  ],
-  "client": [
-    "LocalPlayerMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
+    "required": true,
+    "minVersion": "0.8",
+    "package": "me.cat.skilled.mixin",
+    "compatibilityLevel": "JAVA_8",
+    "refmap": "skilled.refmap.json",
+    "mixins": [
+        "ClientboundSetEntityMotionPacketMixin"
+    ],
+    "client": [
+        "EntityRendererDispatcherMixin",
+        "LocalPlayerMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
   }
 }
