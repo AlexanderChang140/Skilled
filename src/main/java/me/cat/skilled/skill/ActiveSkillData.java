@@ -33,8 +33,9 @@ public class ActiveSkillData extends SkillData {
             Supplier<Skill> skillSupplier,
             int requiredPoints,
 
-            String title, Function<Integer,
-            String> desc, ResourceLocation icon,
+            String title,
+            Function<Integer, String> desc,
+            ResourceLocation icon,
             int x,
             int y,
             SkillSlot skillSlot
