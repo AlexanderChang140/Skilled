@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class ActiveSkillData extends SkillData {
+public abstract class ActiveSkillData extends SkillData {
     private final SkillSlot skillSlot;
 
     @Deprecated
