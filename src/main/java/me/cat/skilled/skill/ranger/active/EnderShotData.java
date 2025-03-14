@@ -15,6 +15,7 @@ public class EnderShotData extends ActiveSkillData {
                 CategoryRegistry.RANGER.getId(),
                 EnderShotSkill.MAX_LEVEL,
                 EnderShotSkill::new,
+
                 "Ender Shot",
                 (level) -> "Teleport to the position of your next shot.",
                 new ResourceLocation(Skilled.MODID, "textures/mob_effect/ender_shot.png"),
