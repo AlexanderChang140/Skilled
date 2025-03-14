@@ -1,6 +1,7 @@
 package me.cat.skilled.registry;
 
 import me.cat.skilled.skill.category.Category;
+import me.cat.skilled.skill.category.PaladinCategory;
 import me.cat.skilled.skill.category.RangerCategory;
 import me.cat.skilled.skill.category.WarriorCategory;
 
@@ -11,6 +12,8 @@ import java.util.Set;
 
 public class CategoryRegistry {
     private final static Map<String, Category> REGISTRY = new HashMap<>();
+
+    public static final Category PALADIN = register(new PaladinCategory());
 
     public static final Category RANGER = register(new RangerCategory());
 
