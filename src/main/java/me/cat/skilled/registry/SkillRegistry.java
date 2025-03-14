@@ -1,6 +1,7 @@
 package me.cat.skilled.registry;
 
 import me.cat.skilled.skill.SkillData;
+import me.cat.skilled.skill.paladin.active.DivineSmiteData;
 import me.cat.skilled.skill.ranger.active.VoidwalkerData;
 import me.cat.skilled.skill.ranger.active.EnderShotData;
 import me.cat.skilled.skill.ranger.active.MarkData;
@@ -41,6 +42,9 @@ public class SkillRegistry {
     public static final SkillData PARRY = register(new ParryData());
     public static final SkillData SLASH = register(new SlashData());
     public static final SkillData SECOND_WIND = register(new SecondWindData());
+
+    // Paladin
+    public static final SkillData DIVINE_SMITE = register(new DivineSmiteData());
 
     public static SkillData getSkillData(String skillId) {
         return REGISTRY.get(skillId);

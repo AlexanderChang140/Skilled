@@ -7,5 +7,7 @@
   "key.skilled.primary_ability": "Primary Ability",
   "key.skilled.secondary_ability": "Secondary Ability",
   "key.skilled.tertiary_ability": "Tertiary Ability",
-  "key.skilled.open_skills": "Open Skills"
+  "key.skilled.open_skills": "Open Skills",
+
+  "death.attack.skilled.holy" : "%1$s was smited down"
 }
