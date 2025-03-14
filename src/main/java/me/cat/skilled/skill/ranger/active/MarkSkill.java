@@ -20,8 +20,6 @@ import java.util.Collections;
 import java.util.HashSet;
 
 public class MarkSkill extends ActiveSkill {
-    public static final int MAX_LEVEL = 1;
-
     private static final double MARK_DISTANCE = 100.0;
     private static final int MARK_DURATION = 200;
 

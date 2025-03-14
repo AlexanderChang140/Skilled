@@ -13,7 +13,7 @@ public class MarkData extends ActiveSkillData {
         super(
                 "mark",
                 CategoryRegistry.RANGER.getId(),
-                MarkSkill.MAX_LEVEL,
+                1,
                 MarkSkill::new,
 
                 "Mark",
