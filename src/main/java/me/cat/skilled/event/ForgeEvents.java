@@ -4,14 +4,22 @@ import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.SkillProvider;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
 import me.cat.skilled.capability.manager.SyncManager;
+import me.cat.skilled.registry.DamageSourceRegistry;
 import me.cat.skilled.skill.ActiveSkill;
 import me.cat.skilled.skill.Skill;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -72,6 +80,14 @@ public class ForgeEvents {
             if (skill instanceof ActiveSkill activeSkill) {
                 activeSkill.tickSkillTimer();
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDamage(LivingDamageEvent event) {
+        LivingEntity livingEntity = event.getEntity();
+        if (livingEntity.getMobType() == MobType.UNDEAD && event.getSource().is(DamageSourceRegistry.HOLY)) {
+            event.setAmount(event.getAmount() * 2);
         }
     }
 }
