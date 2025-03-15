@@ -13,13 +13,13 @@ public class SlashData extends ActiveSkillData {
         super(
                 "slash",
                 CategoryRegistry.WARRIOR.getId(),
-                SlashSkill.MAX_LEVEL,
+                1,
                 SlashSkill::new,
                 "Slash",
 
                 (level) -> String.format(
                         "Slash in front of you, dealing %.0f%% melee damage in an area.",
-                        toPercent(SlashSkill.getDamageMultiplier(level))
+                        toPercent(SlashSkill.getDamageMultiplier())
                 ),
                 new ResourceLocation(Skilled.MODID, "textures/gui/skill/slash.png"),
                 Grid.lineX(1),

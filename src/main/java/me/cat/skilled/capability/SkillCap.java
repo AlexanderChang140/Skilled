@@ -21,7 +21,6 @@ public class SkillCap implements ISkillCap {
     private Map<SkillSlot, String> activeSkills = new EnumMap<>(SkillSlot.class);
     private int playerLevel = 1;
     private int playerExperience = 0;
-    private int experienceToNextLevel = ExperienceUtil.levelToExperience(playerLevel + 1);
     private int skillPoints = 1;
     private String category = "";
 

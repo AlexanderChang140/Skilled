@@ -11,7 +11,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class SyncSkillCapS2CPacket {
-    CompoundTag skillTag;
+    private final CompoundTag skillTag;
 
     public SyncSkillCapS2CPacket(SkillCap skillCap) {
         CompoundTag tag = new CompoundTag();
@@ -27,13 +27,12 @@ public class SyncSkillCapS2CPacket {
         buf.writeNbt(skillTag);
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> supplier) {
+    public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             LocalPlayer localPlayer = Minecraft.getInstance().player;
             localPlayer.getCapability(SkillProvider.SKILLS)
                     .ifPresent(skills -> skills.loadNBTData(skillTag));
         });
-        return true;
     }
 }

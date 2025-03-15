@@ -8,7 +8,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class LoadShaderS2C {
-    ResourceLocation resourceLocation;
+    private final ResourceLocation resourceLocation;
 
     public LoadShaderS2C(ResourceLocation resourceLocation) {
         this.resourceLocation = resourceLocation;
@@ -23,12 +23,11 @@ public class LoadShaderS2C {
         buf.writeUtf(resourceLocation.getPath());
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> supplier) {
+    public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             Minecraft instance = Minecraft.getInstance();
             instance.gameRenderer.loadEffect(resourceLocation);
         });
-        return true;
     }
 }

@@ -2,7 +2,6 @@ package me.cat.skilled.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.manager.PlayerLevelManager;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
@@ -20,38 +19,38 @@ public class AdminCommand {
                 .requires(command -> command.hasPermission(2))
                 .then(literal("reset_level")
                         .then(Commands.argument("player", EntityArgument.player())
-                                .executes(command -> resetLevel(command.getSource(), EntityArgument.getEntity(command, "player")))
+                                .executes(command -> resetLevel(EntityArgument.getEntity(command, "player")))
                         )
                 )
                 .then(literal("reset_skills")
                         .then(Commands.argument("player", EntityArgument.player())
-                                .executes(command -> resetSkills(command.getSource(), EntityArgument.getEntity(command, "player"))))
+                                .executes(command -> resetSkills(EntityArgument.getEntity(command, "player"))))
                 )
                 .then(literal("reset_class")
                         .then(Commands.argument("player", EntityArgument.player())
-                                .executes(command -> resetClass(command.getSource(), EntityArgument.getEntity(command, "player"))))
+                                .executes(command -> resetClass(EntityArgument.getEntity(command, "player"))))
                 )
                 .then(literal("add_level")
                         .then(Commands.argument("player", EntityArgument.player())
                                 .then(Commands.argument("level", IntegerArgumentType.integer(1))
-                                        .executes(command -> addLevel(command.getSource(), EntityArgument.getEntity(command, "player"), IntegerArgumentType.getInteger(command, "level")))
+                                        .executes(command -> addLevel(EntityArgument.getEntity(command, "player"), IntegerArgumentType.getInteger(command, "level")))
                                 )
                         )
                 )
                 .then(literal("add_experience")
                         .then(Commands.argument("player", EntityArgument.player())
                                 .then(Commands.argument("experience", IntegerArgumentType.integer(1))
-                                    .executes(command -> addExperience(command.getSource(), EntityArgument.getEntity(command, "player"), IntegerArgumentType.getInteger(command, "experience")))
+                                    .executes(command -> addExperience(EntityArgument.getEntity(command, "player"), IntegerArgumentType.getInteger(command, "experience")))
                                 )
                         )
                 )
         );
     }
 
-    private int resetLevel(CommandSourceStack source, Entity entity) throws CommandSyntaxException {
+    private int resetLevel(Entity entity) {
         try {
             ServerPlayer serverPlayer = (ServerPlayer) entity;
-            resetSkills(source, serverPlayer);
+            resetSkills(serverPlayer);
             PlayerLevelManager.updatePlayerLevel(serverPlayer, 1);
             return 1;
         }
@@ -61,7 +60,7 @@ public class AdminCommand {
         }
     }
 
-    private int resetClass(CommandSourceStack source, Entity entity) throws CommandSyntaxException {
+    private int resetClass(Entity entity) {
         try {
             ServerPlayer serverPlayer = (ServerPlayer) entity;
             PlayerSkillManager.clearAll(serverPlayer);
@@ -73,7 +72,7 @@ public class AdminCommand {
         }
     }
 
-    private int resetSkills(CommandSourceStack source, Entity entity) throws CommandSyntaxException {
+    private int resetSkills(Entity entity) {
         try {
             ServerPlayer serverPlayer = (ServerPlayer) entity;
             PlayerSkillManager.clearSkills(serverPlayer);
@@ -85,7 +84,7 @@ public class AdminCommand {
         }
     }
 
-    private int addLevel(CommandSourceStack source, Entity entity, int level) throws CommandSyntaxException {
+    private int addLevel(Entity entity, int level) {
         try {
             ServerPlayer serverPlayer = (ServerPlayer) entity;
             PlayerLevelManager.addPlayerLevel(serverPlayer, level);
@@ -97,7 +96,7 @@ public class AdminCommand {
         }
     }
 
-    private int addExperience(CommandSourceStack source, Entity entity, int experience) throws CommandSyntaxException {
+    private int addExperience(Entity entity, int experience) {
         try {
             ServerPlayer serverPlayer = (ServerPlayer) entity;
             PlayerLevelManager.addPlayerExperience(serverPlayer, experience);

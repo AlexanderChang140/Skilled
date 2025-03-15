@@ -16,12 +16,11 @@ public class ClearShaderS2C {
     public void toBytes(FriendlyByteBuf buf) {
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> supplier) {
+    public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             Minecraft instance = Minecraft.getInstance();
             instance.gameRenderer.shutdownEffect();
         });
-        return true;
     }
 }

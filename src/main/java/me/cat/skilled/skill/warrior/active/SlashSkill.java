@@ -11,8 +11,6 @@ import net.minecraft.world.phys.AABB;
 import java.util.List;
 
 public class SlashSkill extends ActiveSkill {
-    public static final int MAX_LEVEL = 1;
-
     public static final double RADIUS = 3.5;
     public static final double ANGLE = 90;
     public static final float DAMAGE_MULTIPLIER = 1.25f;
@@ -22,7 +20,7 @@ public class SlashSkill extends ActiveSkill {
         super(100, 1);
     }
 
-    public static float getDamageMultiplier(int level) {
+    public static float getDamageMultiplier() {
         return DAMAGE_MULTIPLIER;
     }
 

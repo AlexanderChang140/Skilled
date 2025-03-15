@@ -25,7 +25,7 @@ public class ActivateActiveSkillC2SPacket {
         buf.writeInt(index);
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> supplier) {
+    public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             ServerPlayer serverPlayer = context.getSender();
@@ -36,6 +36,5 @@ public class ActivateActiveSkillC2SPacket {
                 SyncManager.syncSkillCap(serverPlayer);
             }
         });
-        return true;
     }
 }

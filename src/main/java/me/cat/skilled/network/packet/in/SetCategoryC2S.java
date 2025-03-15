@@ -12,7 +12,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class SetCategoryC2S {
-    String categoryId;
+    private final String categoryId;
 
     public SetCategoryC2S(Category category) {
         categoryId = category.getId();
@@ -26,7 +26,7 @@ public class SetCategoryC2S {
         buf.writeUtf(categoryId);
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> supplier) {
+    public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             ServerPlayer serverPlayer = context.getSender();
@@ -35,6 +35,5 @@ public class SetCategoryC2S {
                 Messenger.sendToPlayer(new SetScreenS2CPacket(ScreenRegistry.SKILL), serverPlayer);
             }
         });
-        return true;
     }
 }

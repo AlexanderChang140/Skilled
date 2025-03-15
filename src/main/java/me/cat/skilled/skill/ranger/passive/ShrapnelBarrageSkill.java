@@ -16,11 +16,9 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.List;
 
 public class ShrapnelBarrageSkill extends Skill {
-    public static int MAX_LEVEL = 3;
-
-    public static double RADIUS = 5.0;
-    public static double BASE_DAMAGE_MULTIPLIER = 0.5;
-    public static double PER_LEVEL_ADDITIVE_DAMAGE_MULTIPLIER = 0.1;
+    public static final double RADIUS = 5.0;
+    public static final double BASE_DAMAGE_MULTIPLIER = 0.5;
+    public static final double PER_LEVEL_ADDITIVE_DAMAGE_MULTIPLIER = 0.1;
 
     public ShrapnelBarrageSkill() {
         super(1);

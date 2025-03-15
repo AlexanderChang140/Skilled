@@ -8,7 +8,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class SetScreenS2CPacket {
-    String screenId;
+    private final String screenId;
 
     public SetScreenS2CPacket(ScreenRegistry.ScreenData screenData) {
         screenId = screenData.getScreenId();
@@ -22,12 +22,11 @@ public class SetScreenS2CPacket {
         buf.writeUtf(screenId);
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> supplier) {
+    public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             Minecraft instance = Minecraft.getInstance();
             instance.setScreen(ScreenRegistry.getScreen(screenId));
         });
-        return true;
     }
 }

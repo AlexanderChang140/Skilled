@@ -24,7 +24,7 @@ public class AddSkillLevelC2SPacket {
         buf.writeUtf(skillId);
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> supplier) {
+    public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             ServerPlayer serverPlayer = context.getSender();
@@ -34,6 +34,5 @@ public class AddSkillLevelC2SPacket {
                 PlayerSkillManager.updateSkillLevel(serverPlayer, skillId, currlevel + 1);
             }
         });
-        return true;
     }
 }
