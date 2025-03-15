@@ -3,7 +3,7 @@ package me.cat.skilled.network.packet.in;
 import me.cat.skilled.client.gui.ScreenRegistry;
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.out.SetScreenS2CPacket;
-import me.cat.skilled.skill.category.Category;
+import me.cat.skilled.category.Category;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;

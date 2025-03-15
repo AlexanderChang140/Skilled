@@ -2,7 +2,7 @@ package me.cat.skilled.client.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.cat.skilled.Skilled;
-import me.cat.skilled.skill.category.Category;
+import me.cat.skilled.category.Category;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;

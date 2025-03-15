@@ -1,9 +1,12 @@
-package me.cat.skilled.skill.category;
+package me.cat.skilled.category;
 
+import me.cat.skilled.Skilled;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public class Category {
+    private static final String DEFAULT_PATH = "textures/category";
+
     private final String id;
     private final ResourceLocation icon;
     private final String title;
@@ -12,6 +15,13 @@ public class Category {
     public Category(String id, ResourceLocation icon, String title, String description) {
         this.id = id;
         this.icon = icon;
+        this.title = title;
+        this.description = description;
+    }
+
+    public Category(String id, String iconFileName, String title, String description) {
+        this.id = id;
+        this.icon = new ResourceLocation(Skilled.MODID, DEFAULT_PATH + iconFileName);
         this.title = title;
         this.description = description;
     }

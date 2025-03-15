@@ -4,7 +4,7 @@ import me.cat.skilled.Skilled;
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.in.SetCategoryC2S;
 import me.cat.skilled.registry.CategoryRegistry;
-import me.cat.skilled.skill.category.Category;
+import me.cat.skilled.category.Category;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
