@@ -26,7 +26,7 @@ public class PiercingMomentumData extends SkillData {
                 new ResourceLocation(Skilled.MODID, "textures/skill/piercing_momentum.png"),
                 Grid.lineX(1),
                 Grid.tierY(1),
-                SIZE
+                DEFAULT_SIZE
         );
     }
 }

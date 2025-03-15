@@ -23,7 +23,7 @@ public class ShrapnelBarrageData extends SkillData {
                 new ResourceLocation(Skilled.MODID, "textures/skill/shrapnel_barrage.png"),
                 Grid.lineX(1),
                 Grid.tierY(3),
-                SIZE
+                DEFAULT_SIZE
         );
     }
 }

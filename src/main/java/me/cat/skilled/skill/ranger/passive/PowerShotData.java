@@ -22,7 +22,7 @@ public class PowerShotData extends SkillData {
                 new ResourceLocation(Skilled.MODID, "textures/skill/power_shot.png"),
                 Grid.lineX(2),
                 Grid.tierY(1),
-                SIZE
+                DEFAULT_SIZE
         );
     }
 }

@@ -1,5 +1,6 @@
 package me.cat.skilled.skill;
 
+import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.manager.PlayerLevelManager;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +14,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class SkillData {
-    protected static final int SIZE = 16;
+    private static final String DEFAULT_ICON_PATH = "textures/skill/";
+    protected static final int DEFAULT_SIZE = 16;
 
     private final String skillId;
     private final String categoryId;
@@ -51,7 +53,7 @@ public abstract class SkillData {
         this.title = title;
         this.desc = desc;
         this.icon = icon;
-        this.size = SIZE;
+        this.size = DEFAULT_SIZE;
         this.x = x;
         this.y = y;
     }
@@ -93,8 +95,9 @@ public abstract class SkillData {
 
             String title,
             Function<Integer, String> desc,
-            ResourceLocation icon,
-            int size
+            String iconFileName,
+            int x,
+            int y
     ) {
         this.skillId = skillId;
         this.categoryId = categoryId;
@@ -104,10 +107,10 @@ public abstract class SkillData {
 
         this.title = title;
         this.desc = desc;
-        this.icon = icon;
-        this.size = size;
-        this.x = 0;
-        this.y = 0;
+        this.icon = new ResourceLocation(Skilled.MODID, DEFAULT_ICON_PATH + iconFileName);
+        this.size = DEFAULT_SIZE;
+        this.x = x;
+        this.y = y;
     }
 
     public boolean isUnlocked(Player player) {

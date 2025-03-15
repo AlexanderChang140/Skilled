@@ -24,7 +24,7 @@ public class EvasionData extends SkillData {
                 new ResourceLocation(Skilled.MODID, "textures/skill/power_shot.png"),
                 Grid.lineX(3),
                 Grid.tierY(3),
-                SIZE
+                DEFAULT_SIZE
         );
     }
 

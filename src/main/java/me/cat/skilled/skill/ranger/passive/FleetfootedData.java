@@ -23,7 +23,7 @@ public class FleetfootedData extends SkillData {
                 new ResourceLocation(Skilled.MODID, "textures/skill/fleetfooted.png"),
                 Grid.lineX(3),
                 Grid.tierY(1),
-                SIZE
+                DEFAULT_SIZE
         );
     }
 }

@@ -40,7 +40,7 @@ public abstract class ActiveSkillData extends SkillData {
             int y,
             SkillSlot skillSlot
     ) {
-        super(skillId, categoryId, maxLevel, skillSupplier, requiredPoints, title, desc, icon, x, y, SIZE);
+        super(skillId, categoryId, maxLevel, skillSupplier, requiredPoints, title, desc, icon, x, y, DEFAULT_SIZE);
         this.skillSlot = skillSlot;
     }
 
@@ -50,6 +50,6 @@ public abstract class ActiveSkillData extends SkillData {
 
     @Override
     public int getSize() {
-        return SIZE;
+        return DEFAULT_SIZE;
     }
 }
