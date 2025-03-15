@@ -1,4 +1,4 @@
-package me.cat.skilled.skill;
+package me.cat.skilled.experience;
 
 import me.cat.skilled.capability.manager.PlayerLevelManager;
 import net.minecraft.server.level.ServerPlayer;

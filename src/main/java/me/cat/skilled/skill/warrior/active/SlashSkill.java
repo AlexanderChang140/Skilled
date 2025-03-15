@@ -1,7 +1,7 @@
 package me.cat.skilled.skill.warrior.active;
 
 import me.cat.skilled.skill.ActiveSkill;
-import me.cat.skilled.util.GameUtil;
+import me.cat.skilled.util.MathUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,7 +44,7 @@ public class SlashSkill extends ActiveSkill {
                 continue;
             }
 
-            if (GameUtil.calculateAngleBetween(serverPlayer.getLookAngle(), livingEntity.position().subtract(serverPlayer.position())) > ANGLE) {
+            if (MathUtil.calculateAngleBetween(serverPlayer.getLookAngle(), livingEntity.position().subtract(serverPlayer.position())) > ANGLE) {
                 continue;
             }
 

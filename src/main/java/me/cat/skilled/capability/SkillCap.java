@@ -8,7 +8,6 @@ import me.cat.skilled.skill.ActiveSkillData;
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.registry.SkillRegistry;
 import me.cat.skilled.skill.SkillSlot;
-import me.cat.skilled.util.ExperienceUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;

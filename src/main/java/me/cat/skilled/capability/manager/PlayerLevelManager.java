@@ -4,7 +4,7 @@ import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.ISkillCap;
 import me.cat.skilled.capability.SkillCap;
 import me.cat.skilled.capability.SkillProvider;
-import me.cat.skilled.util.ExperienceUtil;
+import me.cat.skilled.experience.ExperienceUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
