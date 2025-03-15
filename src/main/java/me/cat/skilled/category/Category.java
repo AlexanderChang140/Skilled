@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public class Category {
-    private static final String DEFAULT_PATH = "textures/category";
+    private static final String DEFAULT_ICON_PATH = "textures/category/";
 
     private final String id;
     private final ResourceLocation icon;
@@ -21,7 +21,7 @@ public class Category {
 
     public Category(String id, String iconFileName, String title, String description) {
         this.id = id;
-        this.icon = new ResourceLocation(Skilled.MODID, DEFAULT_PATH + iconFileName);
+        this.icon = new ResourceLocation(Skilled.MODID, DEFAULT_ICON_PATH + iconFileName);
         this.title = title;
         this.description = description;
     }
