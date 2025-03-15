@@ -11,7 +11,7 @@ public class ShrapnelBarrageData extends SkillData {
         super(
                 "shrapnel_barrage",
                 CategoryRegistry.RANGER.getId(),
-                ShrapnelBarrageSkill.MAX_LEVEL,
+                1,
                 ShrapnelBarrageSkill::new,
                 0,
 
