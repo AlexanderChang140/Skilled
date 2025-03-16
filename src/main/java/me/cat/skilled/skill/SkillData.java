@@ -3,6 +3,8 @@ package me.cat.skilled.skill;
 import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.manager.PlayerLevelManager;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
+import me.cat.skilled.network.Messenger;
+import me.cat.skilled.network.packet.out.SyncSkillS2CPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
@@ -136,6 +138,8 @@ public abstract class SkillData {
     }
 
     public Skill getSkillInstance() {
+        Skill skill = skillSupplier.get();
+        skill.setSyncCallback(() -> Messenger.sendToServer(new SyncSkillS2CPacket(skillId, skill)));
         return skillSupplier.get();
     }
 

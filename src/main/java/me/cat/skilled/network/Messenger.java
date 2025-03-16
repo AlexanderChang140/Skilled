@@ -2,10 +2,7 @@ package me.cat.skilled.network;
 
 import me.cat.skilled.Skilled;
 import me.cat.skilled.network.packet.in.*;
-import me.cat.skilled.network.packet.out.ClearShaderS2C;
-import me.cat.skilled.network.packet.out.LoadShaderS2C;
-import me.cat.skilled.network.packet.out.SetScreenS2CPacket;
-import me.cat.skilled.network.packet.out.SyncSkillCapS2CPacket;
+import me.cat.skilled.network.packet.out.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -46,6 +43,12 @@ public class Messenger {
                 .decoder(SetCategoryC2S::new)
                 .encoder(SetCategoryC2S::toBytes)
                 .consumerMainThread(SetCategoryC2S::handle)
+                .add();
+
+        INSTANCE.messageBuilder(SyncSkillS2CPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(SyncSkillS2CPacket::new)
+                .encoder(SyncSkillS2CPacket::toBytes)
+                .consumerMainThread(SyncSkillS2CPacket::handle)
                 .add();
 
         // Out

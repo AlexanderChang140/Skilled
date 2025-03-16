@@ -7,6 +7,8 @@ public abstract class Skill {
     protected final int maxLevel;
     protected int level = 1;
 
+    private Runnable syncCallback;
+
     protected Skill(int maxLevel) {
         this.maxLevel = maxLevel;
     }
@@ -27,5 +29,13 @@ public abstract class Skill {
 
     public void loadNbt(CompoundTag tag) {
         level = tag.getInt("level");
+    }
+
+    public void setSyncCallback(Runnable syncCallback) {
+        this.syncCallback = syncCallback;
+    }
+
+    protected void syncSkill() {
+        syncCallback.run();
     }
 }
