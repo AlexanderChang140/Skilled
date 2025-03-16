@@ -7,6 +7,7 @@ import me.cat.skilled.capability.manager.SyncManager;
 import me.cat.skilled.registry.DamageSourceRegistry;
 import me.cat.skilled.skill.ActiveSkill;
 import me.cat.skilled.skill.Skill;
+import me.cat.skilled.skill.ToggleableSkill;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -75,6 +76,9 @@ public class ForgeEvents {
             Skill skill = PlayerSkillManager.getSkillInstance(player, activeSkillId);
             if (skill instanceof ActiveSkill activeSkill) {
                 activeSkill.tickSkillTimer();
+                if (activeSkill instanceof ToggleableSkill toggleableSkill) {
+                    toggleableSkill.tickToggleTimer();
+                }
             }
         }
     }
