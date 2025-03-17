@@ -19,8 +19,6 @@ import java.util.List;
 
 @Mod.EventBusSubscriber
 public class DashSkill extends ActiveSkill {
-    public static final int MAX_LEVEL = 1;
-
     public static final double DASH_SPEED = 1.5;
     private static final double DASH_HIT_RADIUS = 1.5;
     private static final float DASH_HIT_DAMAGE = 5.0f;

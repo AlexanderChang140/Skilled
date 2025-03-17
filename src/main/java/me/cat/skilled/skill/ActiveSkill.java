@@ -33,10 +33,6 @@ public abstract class ActiveSkill extends Skill {
         }
     }
 
-    public void consume() {
-
-    }
-
     public void tickSkillTimer() {
         if (doSkillTimer() && !isSkillReady && skillTimer.doTick()) {
             isSkillReady = true;

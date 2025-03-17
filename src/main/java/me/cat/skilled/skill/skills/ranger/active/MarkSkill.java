@@ -72,7 +72,7 @@ public class MarkSkill extends ActiveSkill {
     }
 
     @Mod.EventBusSubscriber
-    public static class EventHandler {
+    public static class MarkEventHandler {
         @SubscribeEvent
         public static void onEntityLeaveLevel(EntityLeaveLevelEvent event) {
             if (!event.getEntity().level().isClientSide() && event.getEntity() instanceof LivingEntity livingEntity) {

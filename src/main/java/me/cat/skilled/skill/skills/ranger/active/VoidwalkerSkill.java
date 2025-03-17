@@ -45,7 +45,7 @@ public class VoidwalkerSkill extends ActiveSkill {
     }
 
     @Mod.EventBusSubscriber
-    public static class VoidwalkerEvents {
+    public static class VoidwalkerEventHandler {
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
             if (PlayerSkillManager.getSkillInstance(event.player, SkillRegistry.VOIDWALKER.getSkillId()) instanceof VoidwalkerSkill voidwalkerSkill

@@ -13,7 +13,7 @@ public class EnderShotData extends ActiveSkillData {
         super(
                 "ender_shot",
                 CategoryRegistry.RANGER.getId(),
-                EnderShotSkill.MAX_LEVEL,
+                1,
                 EnderShotSkill::new,
 
                 "Ender Shot",

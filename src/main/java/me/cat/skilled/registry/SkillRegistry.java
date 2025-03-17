@@ -1,18 +1,18 @@
 package me.cat.skilled.registry;
 
 import me.cat.skilled.skill.SkillData;
-import me.cat.skilled.skill.paladin.active.DivineSmiteData;
-import me.cat.skilled.skill.ranger.active.VoidwalkerData;
-import me.cat.skilled.skill.ranger.active.EnderShotData;
-import me.cat.skilled.skill.ranger.active.MarkData;
-import me.cat.skilled.skill.warrior.active.DashData;
-import me.cat.skilled.skill.warrior.active.SecondWindData;
-import me.cat.skilled.skill.warrior.active.SlashData;
-import me.cat.skilled.skill.warrior.passive.FrenzyData;
-import me.cat.skilled.skill.warrior.passive.LastStandData;
-import me.cat.skilled.skill.warrior.passive.LifestealData;
-import me.cat.skilled.skill.warrior.passive.ParryData;
-import me.cat.skilled.skill.ranger.passive.*;
+import me.cat.skilled.skill.skills.paladin.active.DivineSmiteData;
+import me.cat.skilled.skill.skills.ranger.active.VoidwalkerData;
+import me.cat.skilled.skill.skills.ranger.active.EnderShotData;
+import me.cat.skilled.skill.skills.ranger.active.MarkData;
+import me.cat.skilled.skill.skills.ranger.passive.*;
+import me.cat.skilled.skill.skills.warrior.active.DashData;
+import me.cat.skilled.skill.skills.warrior.active.SecondWindData;
+import me.cat.skilled.skill.skills.warrior.active.SlashData;
+import me.cat.skilled.skill.skills.warrior.passive.FrenzyData;
+import me.cat.skilled.skill.skills.warrior.passive.LastStandData;
+import me.cat.skilled.skill.skills.warrior.passive.LifestealData;
+import me.cat.skilled.skill.skills.warrior.passive.ParryData;
 
 import java.util.Collections;
 import java.util.HashMap;
