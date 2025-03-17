@@ -9,7 +9,7 @@ import java.awt.*;
 public class ToggleableSkill extends ActiveSkill {
     private final TickTimer toggleTimer = new TickTimer(20);
     private boolean canToggle = true;
-    protected boolean isToggled = false;
+    private boolean isToggled = false;
     protected Color toggledColor = Color.YELLOW;
 
     public ToggleableSkill(int ticksPerAction) {
@@ -23,6 +23,12 @@ public class ToggleableSkill extends ActiveSkill {
             canToggle = false;
         }
         return false;
+    }
+
+    protected void consume() {
+        isSkillReady = false;
+        isToggled = false;
+        syncSkill();
     }
 
     public void tickToggleTimer() {
@@ -48,8 +54,8 @@ public class ToggleableSkill extends ActiveSkill {
         isToggled = tag.getBoolean("is_toggled");
     }
 
-    protected void setToggled(boolean toggled) {
-        isToggled = toggled;
+    protected boolean isToggled() {
+        return isToggled;
     }
 
     @Override

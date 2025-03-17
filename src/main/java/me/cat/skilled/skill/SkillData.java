@@ -140,7 +140,7 @@ public abstract class SkillData {
     public Skill getSkillInstance() {
         Skill skill = skillSupplier.get();
         skill.setSyncCallback(() -> Messenger.sendToServer(new SyncSkillS2CPacket(skillId, skill)));
-        return skillSupplier.get();
+        return skill;
     }
 
     public int getMaxLevel() {
