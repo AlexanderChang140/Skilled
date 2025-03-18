@@ -18,7 +18,7 @@ public abstract class Skill {
     }
 
     public void setLevel(int level) {
-        this.level = Mth.clamp(level, 1, maxLevel);
+        this.level = level;
     }
 
     public CompoundTag saveNbt() {
