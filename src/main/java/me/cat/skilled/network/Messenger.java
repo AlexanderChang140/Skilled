@@ -45,17 +45,23 @@ public class Messenger {
                 .consumerMainThread(SetCategoryC2S::handle)
                 .add();
 
-        INSTANCE.messageBuilder(SyncSkillS2CPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(SyncSkillS2CPacket::new)
-                .encoder(SyncSkillS2CPacket::toBytes)
-                .consumerMainThread(SyncSkillS2CPacket::handle)
-                .add();
-
         // Out
         INSTANCE.messageBuilder(SyncSkillCapS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(SyncSkillCapS2CPacket::new)
                 .encoder(SyncSkillCapS2CPacket::toBytes)
                 .consumerMainThread(SyncSkillCapS2CPacket::handle)
+                .add();
+
+        INSTANCE.messageBuilder(SyncNodeCapS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SyncNodeCapS2CPacket::new)
+                .encoder(SyncNodeCapS2CPacket::toBytes)
+                .consumerMainThread(SyncNodeCapS2CPacket::handle)
+                .add();
+
+        INSTANCE.messageBuilder(SyncSkillS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SyncSkillS2CPacket::new)
+                .encoder(SyncSkillS2CPacket::toBytes)
+                .consumerMainThread(SyncSkillS2CPacket::handle)
                 .add();
 
         INSTANCE.messageBuilder(SetScreenS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)

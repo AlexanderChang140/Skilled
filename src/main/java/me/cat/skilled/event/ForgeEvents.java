@@ -1,6 +1,7 @@
 package me.cat.skilled.event;
 
 import me.cat.skilled.Skilled;
+import me.cat.skilled.capability.NodeProvider;
 import me.cat.skilled.capability.SkillProvider;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
 import me.cat.skilled.capability.manager.SyncManager;
@@ -30,13 +31,14 @@ public class ForgeEvents {
     public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player && !event.getObject().getCapability(SkillProvider.SKILLS).isPresent()) {
             event.addCapability(new ResourceLocation(Skilled.MODID, "properties"), new SkillProvider());
+            event.addCapability(new ResourceLocation(Skilled.MODID, "properties"), new NodeProvider());
         }
     }
 
     @SubscribeEvent
     public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
-            SyncManager.syncSkillCap(serverPlayer);
+            SyncManager.syncCaps(serverPlayer);
         }
     }
 
@@ -46,17 +48,20 @@ public class ForgeEvents {
         event.getOriginal().getCapability(SkillProvider.SKILLS).ifPresent(
                 oldStore -> event.getEntity().getCapability(SkillProvider.SKILLS).ifPresent(
                         newStore -> newStore.copyFrom(oldStore)));
+        event.getOriginal().getCapability(NodeProvider.NODES).ifPresent(
+                oldStore -> event.getEntity().getCapability(NodeProvider.NODES).ifPresent(
+                        newStore -> newStore.copyFrom(oldStore)));
         event.getOriginal().invalidateCaps();
 
         if ((event.getEntity() instanceof ServerPlayer serverPlayer)){
-            serverPlayer.getServer().execute(() -> SyncManager.syncSkillCap(serverPlayer));
+            serverPlayer.getServer().execute(() -> SyncManager.syncCaps(serverPlayer));
         }
     }
 
     @SubscribeEvent
     public static void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if ((event.getEntity() instanceof ServerPlayer serverPlayer)){
-            SyncManager.syncSkillCap(serverPlayer);
+            SyncManager.syncCaps(serverPlayer);
         }
     }
 
