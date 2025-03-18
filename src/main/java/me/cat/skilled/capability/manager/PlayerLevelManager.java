@@ -13,10 +13,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 
 public class PlayerLevelManager {
-    private static final int MAX_LEVEL = 20;
-
     public static void addPlayerLevel(ServerPlayer serverPlayer, int level) {
-        updatePlayerLevel(serverPlayer, getPlayerLevel(serverPlayer) + level);
+        int newLevel = Math.min(SkillCap.MAX_LEVEL, getPlayerLevel(serverPlayer) + level);
+        updatePlayerLevel(serverPlayer, newLevel);
     }
 
     public static void updatePlayerLevel(ServerPlayer serverPlayer, int level) {
@@ -26,7 +25,8 @@ public class PlayerLevelManager {
     }
 
     public static void addPlayerExperience(ServerPlayer serverPlayer, int experience) {
-        updatePlayerExperience(serverPlayer, getPlayerExperience(serverPlayer) + experience);
+        int newExperience = Math.min(ExperienceUtil.levelToExperience(SkillCap.MAX_LEVEL), getPlayerExperience(serverPlayer) + experience);
+        updatePlayerExperience(serverPlayer, newExperience);
     }
 
     public static void updatePlayerExperience(ServerPlayer serverPlayer, int experience) {
@@ -57,7 +57,7 @@ public class PlayerLevelManager {
         }
         setSkillPoints(serverPlayer, getSkillPoints(serverPlayer) + skillPoints);
         serverPlayer.getCapability(SkillProvider.SKILLS)
-                .ifPresent(skills -> skills.setPlayerLevel(Mth.clamp(level, 1, MAX_LEVEL)));
+                .ifPresent(skills -> skills.setPlayerLevel(Mth.clamp(level, 1, SkillCap.MAX_LEVEL)));
     }
 
     private static void onLevelUp(ServerPlayer serverPlayer, int previousLevel, int currentLevel) {
