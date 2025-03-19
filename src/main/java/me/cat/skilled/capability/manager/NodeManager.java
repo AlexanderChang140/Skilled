@@ -9,7 +9,7 @@ public class NodeManager {
         return serverPlayer.getCapability(NodeProvider.NODES)
                 .map(nodes -> nodes.getNodeLevel(nodeId))
                 .orElseGet(() -> {
-                    Skilled.LOGGER.error("Failed to retrieve nod level for player: " + serverPlayer.getName() + " node: " + nodeId);
+                    Skilled.LOGGER.error("Failed to retrieve node level for player: " + serverPlayer.getName() + " node: " + nodeId);
                     return 0;
                 });
     }
