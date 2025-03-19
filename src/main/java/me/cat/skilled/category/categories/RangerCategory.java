@@ -1,4 +1,4 @@
-package me.cat.skilled.category.catagories;
+package me.cat.skilled.category.categories;
 
 import me.cat.skilled.category.Category;
 import me.cat.skilled.category.node.Node;

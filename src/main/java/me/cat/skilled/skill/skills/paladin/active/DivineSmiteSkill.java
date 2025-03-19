@@ -24,8 +24,7 @@ public class DivineSmiteSkill extends ToggleableSkill {
             if (event.getSource().getEntity() instanceof Player player
                     && PlayerSkillManager.getSkillInstance(player, SkillRegistry.DIVINE_SMITE.getSkillId()) instanceof DivineSmiteSkill skill
                     && skill.isToggled()) {
-                skill.setToggled(false);
-                skill.isSkillReady = false;
+                skill.consume();
                 if (player instanceof ServerPlayer serverPlayer) {
                     event.getEntity().hurt(DamageSourceRegistry.holyDamage(serverPlayer), event.getAmount() + DAMAGE);
                     event.setCanceled(true);

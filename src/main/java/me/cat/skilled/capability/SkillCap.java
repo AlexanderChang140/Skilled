@@ -16,6 +16,8 @@ import java.util.*;
 
 @AutoRegisterCapability
 public class SkillCap implements ISkillCap, ICapability {
+    public static final int MAX_LEVEL = 20;
+
     private Map<String, Skill> skillMap = new HashMap<>();
     private Map<SkillSlot, String> activeSkills = new EnumMap<>(SkillSlot.class);
     private int playerLevel = 1;
