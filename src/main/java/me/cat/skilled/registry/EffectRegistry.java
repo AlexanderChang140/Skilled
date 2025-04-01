@@ -19,10 +19,6 @@ public class EffectRegistry {
     public static final RegistryObject<MobEffect> BARRIER = MOB_EFFECTS.register("barrier",
             () -> new BarrierEffect(MobEffectCategory.BENEFICIAL, 5636095));
 
-    public static final RegistryObject<MobEffect> ENDER_SHOT = MOB_EFFECTS.register("ender_shot",
-            () -> new EnderShotEffect(MobEffectCategory.BENEFICIAL, 0));
-
-
     public static final RegistryObject<MobEffect> STEALTH = MOB_EFFECTS.register("stealth",
             () -> new StealthEffect(MobEffectCategory.BENEFICIAL, 0));
 

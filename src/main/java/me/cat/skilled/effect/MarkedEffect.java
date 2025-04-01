@@ -14,7 +14,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 
-@Mod.EventBusSubscriber
 public class MarkedEffect extends MobEffect {
     public static final float DAMAGE_MULTIPLIER = 0.25f;
     private static final String TEAM_NAME = "marked_team";
@@ -66,11 +65,15 @@ public class MarkedEffect extends MobEffect {
         scoreboard.removePlayerFromTeam(TEAM_NAME);
     }
 
-    @SubscribeEvent
-    public static void onLivingDamage(LivingDamageEvent event) {
-        LivingEntity livingEntity = event.getEntity();
-        if (livingEntity.hasEffect(EffectRegistry.MARKED.get())) {
-            event.setAmount(event.getAmount() * (1 + DAMAGE_MULTIPLIER * livingEntity.getEffect(EffectRegistry.MARKED.get()).getAmplifier()));
+    @Mod.EventBusSubscriber
+    public static class MarkedEffectEvents {
+        @SubscribeEvent
+        public static void onLivingDamage(LivingDamageEvent event) {
+            LivingEntity livingEntity = event.getEntity();
+            if (livingEntity.hasEffect(EffectRegistry.MARKED.get())) {
+                event.setAmount(event.getAmount() * (1 + DAMAGE_MULTIPLIER * livingEntity.getEffect(EffectRegistry.MARKED.get()).getAmplifier()));
+            }
         }
+
     }
 }

@@ -20,7 +20,7 @@ public class BarrierEffect extends MobEffect {
     }
 
     @Mod.EventBusSubscriber
-    public static class EffectEvents {
+    public static class BarrierEffectEvents {
         @SubscribeEvent
         public static void onLivingAttack(LivingAttackEvent event) {
             LivingEntity livingEntity = event.getEntity();

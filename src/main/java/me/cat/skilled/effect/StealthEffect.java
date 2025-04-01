@@ -11,7 +11,6 @@ import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber
 public class StealthEffect extends MobEffect {
     public static final double DETECTION_DECREASE = 0.2;
 
@@ -24,21 +23,24 @@ public class StealthEffect extends MobEffect {
         return true;
     }
 
-    @SubscribeEvent
-    public static void onLivingChangeTarget(LivingChangeTargetEvent event) {
-        if (event.getNewTarget() instanceof ServerPlayer serverPlayer && serverPlayer.hasEffect(EffectRegistry.STEALTH.get()) && serverPlayer.isCrouching()) {
-            MobEffectInstance mobEffectInstance = serverPlayer.getEffect(EffectRegistry.STEALTH.get());
-            double followRange = event.getEntity().getAttribute(Attributes.FOLLOW_RANGE).getValue() * (1 - DETECTION_DECREASE * mobEffectInstance.getAmplifier());
-            if (event.getTargetType() == LivingChangeTargetEvent.LivingTargetType.MOB_TARGET && (event.getEntity().position().distanceTo(serverPlayer.position()) > followRange)) {
-                event.setCanceled(true);
+    @Mod.EventBusSubscriber
+    public static class StealthEffectEvents {
+        @SubscribeEvent
+        public static void onLivingChangeTarget(LivingChangeTargetEvent event) {
+            if (event.getNewTarget() instanceof ServerPlayer serverPlayer && serverPlayer.hasEffect(EffectRegistry.STEALTH.get()) && serverPlayer.isCrouching()) {
+                MobEffectInstance mobEffectInstance = serverPlayer.getEffect(EffectRegistry.STEALTH.get());
+                double followRange = event.getEntity().getAttribute(Attributes.FOLLOW_RANGE).getValue() * (1 - DETECTION_DECREASE * mobEffectInstance.getAmplifier());
+                if (event.getTargetType() == LivingChangeTargetEvent.LivingTargetType.MOB_TARGET && (event.getEntity().position().distanceTo(serverPlayer.position()) > followRange)) {
+                    event.setCanceled(true);
+                }
             }
         }
-    }
 
-    @SubscribeEvent
-    public static void onLivingAttack(LivingAttackEvent event) {
-        if (event.getSource().getEntity() instanceof ServerPlayer serverPlayer && serverPlayer.hasEffect(EffectRegistry.STEALTH.get())) {
-            serverPlayer.removeEffect(EffectRegistry.STEALTH.get());
+        @SubscribeEvent
+        public static void onLivingAttack(LivingAttackEvent event) {
+            if (event.getSource().getEntity() instanceof ServerPlayer serverPlayer && serverPlayer.hasEffect(EffectRegistry.STEALTH.get())) {
+                serverPlayer.removeEffect(EffectRegistry.STEALTH.get());
+            }
         }
     }
 }
