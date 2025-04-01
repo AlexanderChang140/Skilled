@@ -1,12 +1,12 @@
 package me.cat.skilled.client.keybinding;
 
 import me.cat.skilled.Skilled;
+import me.cat.skilled.capability.manager.NodeManager;
 import me.cat.skilled.client.gui.CategoryScreen;
 import me.cat.skilled.client.gui.SkillScreen;
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.in.ActivateActiveSkillC2SPacket;
 import me.cat.skilled.skill.SkillSlot;
-import me.cat.skilled.capability.manager.PlayerSkillManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
@@ -35,7 +35,7 @@ public class KeyHandler {
             if (instance.screen instanceof SkillScreen || instance.screen instanceof CategoryScreen) {
                 instance.setScreen(null);
             }
-            else if (PlayerSkillManager.getCategoryId(instance.player).isEmpty()) {
+            else if (NodeManager.getCategoryId(instance.player).isEmpty()) {
                 instance.setScreen(new CategoryScreen());
             }
             else {

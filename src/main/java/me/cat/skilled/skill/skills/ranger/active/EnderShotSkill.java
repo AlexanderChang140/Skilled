@@ -1,20 +1,15 @@
 package me.cat.skilled.skill.skills.ranger.active;
 
 import me.cat.skilled.capability.manager.PlayerSkillManager;
+import me.cat.skilled.capability.manager.SyncManager;
 import me.cat.skilled.registry.SkillRegistry;
-import me.cat.skilled.skill.ActiveSkill;
 import me.cat.skilled.skill.ToggleableSkill;
-import me.cat.skilled.util.TickTimer;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import java.awt.*;
 
 public class EnderShotSkill extends ToggleableSkill {
     public EnderShotSkill() {
@@ -30,6 +25,7 @@ public class EnderShotSkill extends ToggleableSkill {
                     && PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.ENDER_SHOT.getSkillId()) instanceof EnderShotSkill skill
                     && skill.isToggled()) {
                 skill.consume();
+                SyncManager.syncSkill(serverPlayer, skill);
                 generateParticles(serverPlayer);
                 serverPlayer.teleportTo(arrow.getBlockX(), arrow.getBlockY(), arrow.getBlockZ());
                 generateParticles(serverPlayer);

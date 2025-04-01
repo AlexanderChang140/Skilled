@@ -3,32 +3,31 @@ package me.cat.skilled.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import me.cat.skilled.Skilled;
+import me.cat.skilled.capability.manager.NodeManager;
+import me.cat.skilled.category.Category;
+import me.cat.skilled.category.node.Connection;
+import me.cat.skilled.category.node.Node;
+import me.cat.skilled.category.node.NodeView;
 import me.cat.skilled.network.Messenger;
-import me.cat.skilled.network.packet.in.AddSkillLevelC2SPacket;
-import me.cat.skilled.registry.SkillRegistry;
-import me.cat.skilled.skill.SkillData;
+import me.cat.skilled.network.packet.in.RequestLevelNodeC2S;
+import me.cat.skilled.registry.CategoryRegistry;
 import me.cat.skilled.capability.manager.PlayerLevelManager;
-import me.cat.skilled.capability.manager.PlayerSkillManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
-public class SkillScreen extends Screen {
+public class SkillScreen extends WindowScreen {
     private static final Component TITLE = Component.translatable("gui." + Skilled.MODID + ".skill_screen");
     private static final ResourceLocation WINDOW_BACKGROUND = new ResourceLocation(Skilled.MODID, "textures/gui/window_background.png");
-    private static final ResourceLocation SCREEN_COMPONENTS = new ResourceLocation(Skilled.MODID, "textures/gui/screen_components.png");
 
     private static final int WINDOW_WIDTH = 250;
     private static final int WINDOW_HEIGHT = 150;
@@ -36,71 +35,35 @@ public class SkillScreen extends Screen {
     private static final double MAX_DRAG_X = 100;
     private static final double MAX_DRAG_Y = 100;
 
-    private final Map<String, SkillButton> skillButtons = new HashMap<>();
+    private static final int CONNECTION_SIZE = 1;
 
-    private final long startTime;
-
-    private int centerX;
-    private int centerY;
-    private int scale;
-
-    private double currDragX = 0;
-    private double currDragY = 0;
-    private boolean canDrag = false;
+    private final Map<String, NodeButton> nodeButtons = new HashMap<>();
+    private Category category;
 
     public SkillScreen() {
-        super(TITLE);
-        this.startTime = Minecraft.getInstance().level.getGameTime();
+        super(TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, MAX_DRAG_X, MAX_DRAG_Y, WINDOW_BACKGROUND);
     }
 
     @Override
     protected void init() {
         super.init();
-        scale = 1;
-        centerX = width / 2;
-        centerY = height / 2 ;
-
-        skillButtons.clear();
-        addSkillButtons();
+        nodeButtons.clear();
+        category = CategoryRegistry.getCategory(NodeManager.getCategoryId(minecraft.player));
+        addButtons();
     }
 
     @Override
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        renderBackground(pGuiGraphics);
-        renderWindow(pGuiGraphics);
-        renderInside(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+    public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         renderButtonToolTips(pGuiGraphics, pMouseX, pMouseY);
     }
 
-    private void renderWindow(GuiGraphics guiGraphics) {
-        int x = centerX - WINDOW_WIDTH / 2;
-        int y = centerY - WINDOW_HEIGHT / 2;
-        int sliceSize = 9;
-
-        guiGraphics.blit(
-                WINDOW_BACKGROUND,
-                x, y,
-                (int) -currDragX,  (int) -currDragY,
-                WINDOW_WIDTH, WINDOW_HEIGHT
-        );
-
-        guiGraphics.blitNineSliced(
-                SCREEN_COMPONENTS,
-                x - sliceSize, y - sliceSize,
-                WINDOW_WIDTH + sliceSize * 2, WINDOW_HEIGHT + sliceSize * 2,
-                sliceSize,
-                27, 27,
-                1, 1
-        );
-    }
-
-    private void renderInside(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        guiGraphics.enableScissor(centerX - WINDOW_WIDTH / 2, centerY - WINDOW_HEIGHT / 2, centerX + WINDOW_WIDTH / 2, centerY + WINDOW_HEIGHT / 2);
+    @Override
+    protected void renderInWindow(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         dragButtons();
         drawConnections();
         renderWidgets(guiGraphics, mouseX, mouseY, partialTick);
         renderPlayerLevel(guiGraphics);
-        guiGraphics.disableScissor();
     }
 
     public void renderWidgets(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -109,72 +72,63 @@ public class SkillScreen extends Screen {
         }
     }
 
-    public void addSkillButtons() {
-        Player player = getMinecraft().player;
-        String categoryId = PlayerSkillManager.getCategoryId(player);
-        var validSkills = SkillRegistry.getSkills().stream()
-                .filter(entry -> Objects.equals(entry.getValue().getCategoryId(), categoryId))
-                .collect(Collectors.toSet());
-        for (Map.Entry<String, SkillData> entry : validSkills) {
-            SkillData skillData = entry.getValue();
-            int offset = skillData.getSize() / 2;
-            SkillButton skillButton = addRenderableWidget(new SkillButton(
-                    skillData, (btn) -> onSkillButtonClick(btn, skillData),
-                    this::inWindow,
-                    centerX + skillData.getX() * scale - offset,
-                    centerY + skillData.getY() * scale - offset,
-                    scale
+    public void addButtons() {
+        for (var node : category.getNodes()) {
+            NodeView nodeView = node.getNodeView();
+            int offset = nodeView.size() / 2;
+            int nodeLevel = NodeManager.getNodeLevel(minecraft.player, node.getNodeId());
+            NodeButton nodeButton = addRenderableWidget(new NodeButton(
+                    centerX + nodeView.x() - offset,
+                    centerY + nodeView.y()- offset,
+                    (btn) -> onNodeButtonClick(node, nodeLevel),
+                    node,
+                    this::inWindow
             ));
-            skillButtons.put(skillData.getSkillId(), skillButton);
+            nodeButtons.put(node.getNodeId(), nodeButton);
         }
     }
 
     private void renderButtonToolTips(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        for (SkillButton skillButton : skillButtons.values()) {
-            skillButton.renderToolTip(guiGraphics, mouseX, mouseY);
+        for (NodeButton nodeButton : nodeButtons.values()) {
+            nodeButton.renderToolTip(guiGraphics, mouseX, mouseY);
         }
     }
 
-    private void onSkillButtonClick(Button button, SkillData skillData) {
-        Messenger.sendToServer(new AddSkillLevelC2SPacket(skillData));
+    private void onNodeButtonClick(Node node, int level) {
+        Messenger.sendToServer(new RequestLevelNodeC2S(node, level));
     }
 
     private void dragButtons() {
-        for (SkillButton skillButton : skillButtons.values()) {
-            skillButton.setX(skillButton.getBaseX() + (int) currDragX);
-            skillButton.setY(skillButton.getBaseY() + (int) currDragY);
+        for (NodeButton nodeButton : nodeButtons.values()) {
+            nodeButton.setX(nodeButton.getBaseX() + (int) currDragX);
+            nodeButton.setY(nodeButton.getBaseY() + (int) currDragY);
         }
-    }
-
-    @Override
-    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-        canDrag = inWindow(pMouseX, pMouseY);
-        return super.mouseClicked(pMouseX, pMouseY, pButton);
-    }
-
-    @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        if (button == 0 && canDrag) {
-            currDragX = Mth.clamp(currDragX + dragX, -MAX_DRAG_X, MAX_DRAG_X);
-            currDragY = Mth.clamp(currDragY + dragY, -MAX_DRAG_Y, MAX_DRAG_Y);
-        }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
     private void drawConnections() {
-        int connectionSize = scale;
-        for (var skillButton : skillButtons.values()) {
-            SkillData skillData = skillButton.getSkillData();
-            int skillOffset = skillButton.getWidth() / 2;
-            for (String prereqId: skillData.getPrerequisites()) {
-                SkillButton prereqButton = skillButtons.get(SkillRegistry.getSkillData(prereqId).getSkillId());
-                int preqreqOffset = prereqButton.getWidth() / 2;
-                int x1 = skillButton.getX() + skillOffset;
-                int y1 = skillButton.getY() + skillOffset;
-                int x2 = prereqButton.getX() + preqreqOffset;
-                int y2 = prereqButton.getY() + preqreqOffset;
-                drawLine(x1, y1, x2, y2, connectionSize);
+        Player player = getMinecraft().player;
+        String categoryId = NodeManager.getCategoryId(player);
+        Category category = CategoryRegistry.getCategory(categoryId);
+        var connectionMap = category.getNodeToConnections();
+        HashSet<String> visited = new HashSet<>();
+        for (var entry : connectionMap) {
+            String nodeId = entry.getKey();
+            NodeButton nodeButton = nodeButtons.get(nodeId);
+            List<Connection> connections = entry.getValue();
+            int skillOffset = 8;
+            for (Connection connection : connections) {
+                String connectedNodeId = connection.connectedNodeId();
+                if (!visited.contains(connectedNodeId)) {
+                    NodeButton prereqButton = nodeButtons.get(connectedNodeId);
+                    int preqreqOffset = prereqButton.getWidth() / 2;
+                    int x1 = nodeButton.getX() + skillOffset;
+                    int y1 = nodeButton.getY() + skillOffset;
+                    int x2 = prereqButton.getX() + preqreqOffset;
+                    int y2 = prereqButton.getY() + preqreqOffset;
+                    drawLine(x1, y1, x2, y2, CONNECTION_SIZE);
+                }
             }
+            visited.add(nodeId);
         }
     }
 
@@ -207,19 +161,9 @@ public class SkillScreen extends Screen {
 
     private void renderPlayerLevel(GuiGraphics guiGraphics) {
         int x = centerX;
-        int y = centerY - 40 * scale;
+        int y = centerY - 40;
 
         guiGraphics.drawCenteredString(minecraft.font, "Level: " + PlayerLevelManager.getPlayerLevel(minecraft.player), x, y, Color.WHITE.getRGB());
         guiGraphics.drawCenteredString(minecraft.font, "Skill Points: " + PlayerLevelManager.getSkillPoints(minecraft.player), x, y - 15, Color.WHITE.getRGB());
-    }
-
-    private boolean inWindow(double x, double y) {
-        // Account for rounding error by adding 1
-        return x + 1 > centerX - (double) WINDOW_WIDTH / 2 && x < centerX + (double) WINDOW_WIDTH / 2 && y + 1 > centerY - (double) WINDOW_HEIGHT / 2 && y < centerY + (double) WINDOW_HEIGHT / 2;
-    }
-
-    @Override
-    public boolean isPauseScreen() {
-        return false;
     }
 }

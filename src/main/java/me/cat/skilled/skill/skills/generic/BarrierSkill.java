@@ -21,10 +21,6 @@ public class BarrierSkill extends Skill {
     public static int MAX_LEVEL = 5;
     private final TickTimer barrierCooldown = new TickTimer(200);
 
-    public BarrierSkill() {
-        super(1);
-    }
-
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.player instanceof ServerPlayer serverPlayer && PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.BARRIER.getSkillId()) instanceof BarrierSkill barrierSkill) {
@@ -48,15 +44,15 @@ public class BarrierSkill extends Skill {
     }
 
     @Override
-    public CompoundTag saveNbt() {
-        CompoundTag tag = super.saveNbt();
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = super.serializeNBT();
         tag.putInt("barrier_cooldown", barrierCooldown.getTickCounter());
         return tag;
     }
 
     @Override
-    public void loadNbt(CompoundTag tag) {
-        super.loadNbt(tag);
+    public void deserializeNBT(CompoundTag tag) {
+        super.deserializeNBT(tag);
         barrierCooldown.setTickCounter(tag.getInt("barrier_cooldown"));
     }
 }

@@ -1,7 +1,7 @@
 package me.cat.skilled.network.packet.out;
 
 import me.cat.skilled.capability.NodeCap;
-import me.cat.skilled.capability.NodeProvider;
+import me.cat.skilled.registry.CapabilityRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
@@ -15,9 +15,7 @@ public class SyncNodeCapS2CPacket {
     private final CompoundTag nodeTag;
 
     public SyncNodeCapS2CPacket(NodeCap nodeCap) {
-        CompoundTag tag = new CompoundTag();
-        nodeCap.saveNBTData(tag);
-        nodeTag = tag;
+        nodeTag = nodeCap.serializeNBT();
     }
 
     public SyncNodeCapS2CPacket(FriendlyByteBuf buf) {
@@ -32,8 +30,8 @@ public class SyncNodeCapS2CPacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             LocalPlayer localPlayer = Minecraft.getInstance().player;
-            localPlayer.getCapability(NodeProvider.NODES)
-                    .ifPresent(skills -> skills.loadNBTData(nodeTag));
+            localPlayer.getCapability(CapabilityRegistry.NODES)
+                    .ifPresent(skills -> skills.deserializeNBT(nodeTag));
         });
     }
 }

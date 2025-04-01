@@ -33,29 +33,23 @@ public class Messenger {
                 .consumerMainThread(ActivateActiveSkillC2SPacket::handle)
                 .add();
 
-        INSTANCE.messageBuilder(AddSkillLevelC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(AddSkillLevelC2SPacket::new)
-                .encoder(AddSkillLevelC2SPacket::toBytes)
-                .consumerMainThread(AddSkillLevelC2SPacket::handle)
-                .add();
-
         INSTANCE.messageBuilder(SetCategoryC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(SetCategoryC2S::new)
                 .encoder(SetCategoryC2S::toBytes)
                 .consumerMainThread(SetCategoryC2S::handle)
                 .add();
 
-        // Out
-        INSTANCE.messageBuilder(SyncSkillCapS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(SyncSkillCapS2CPacket::new)
-                .encoder(SyncSkillCapS2CPacket::toBytes)
-                .consumerMainThread(SyncSkillCapS2CPacket::handle)
+        INSTANCE.messageBuilder(RequestLevelNodeC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(RequestLevelNodeC2S::new)
+                .encoder(RequestLevelNodeC2S::toBytes)
+                .consumerMainThread(RequestLevelNodeC2S::handle)
                 .add();
 
-        INSTANCE.messageBuilder(SyncNodeCapS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(SyncNodeCapS2CPacket::new)
-                .encoder(SyncNodeCapS2CPacket::toBytes)
-                .consumerMainThread(SyncNodeCapS2CPacket::handle)
+        // Out
+        INSTANCE.messageBuilder(SyncCapabilityS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SyncCapabilityS2CPacket::new)
+                .encoder(SyncCapabilityS2CPacket::toBytes)
+                .consumerMainThread(SyncCapabilityS2CPacket::handle)
                 .add();
 
         INSTANCE.messageBuilder(SyncSkillS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)

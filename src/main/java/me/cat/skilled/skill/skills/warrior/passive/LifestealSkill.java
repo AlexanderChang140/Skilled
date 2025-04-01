@@ -13,10 +13,6 @@ public class LifestealSkill extends Skill {
     public static final int MAX_LEVEL = 5;
     private final static float HEAL_PERCENT = 0.25F;
 
-    public LifestealSkill() {
-        super(1);
-    }
-
     public static float getHealPercent() {
         return HEAL_PERCENT;
     }

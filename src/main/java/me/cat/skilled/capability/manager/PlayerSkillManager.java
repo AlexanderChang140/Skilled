@@ -3,7 +3,7 @@ package me.cat.skilled.capability.manager;
 import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.ISkillCap;
 import me.cat.skilled.capability.SkillCap;
-import me.cat.skilled.capability.SkillProvider;
+import me.cat.skilled.registry.CapabilityRegistry;
 import me.cat.skilled.skill.SkillSlot;
 import me.cat.skilled.skill.ActiveSkillData;
 import me.cat.skilled.skill.ActiveSkill;
@@ -19,61 +19,41 @@ public class PlayerSkillManager {
 
     public static void updateSkillLevel(ServerPlayer serverPlayer, String skillId, int level) {
         level = Mth.clamp(level, 0, PlayerSkillManager.getSkillMaxLevel(skillId));
-        int currLevel = PlayerSkillManager.getSkillLevel(serverPlayer, skillId);
-        int skillPoints = currLevel - level;
         setSkillLevel(serverPlayer, skillId, level);
-        PlayerLevelManager.addSkillPoints(serverPlayer, skillPoints);
+        SyncManager.syncCapability(serverPlayer, CapabilityRegistry.SKILLS);
     }
 
     public static void clearSkills(ServerPlayer serverPlayer) {
-        serverPlayer.getCapability(SkillProvider.SKILLS)
+        serverPlayer.getCapability(CapabilityRegistry.SKILLS)
                 .ifPresent(ISkillCap::clearSkills);
-        SyncManager.syncSkillCap(serverPlayer);
-    }
-
-    public static void clearAll(ServerPlayer serverPlayer) {
-        serverPlayer.getCapability(SkillProvider.SKILLS)
-                .ifPresent(ISkillCap::clearAll);
-        SyncManager.syncSkillCap(serverPlayer);
-    }
-
-    public static String getCategoryId(Player player) {
-        return player.getCapability(SkillProvider.SKILLS)
-                .map(ISkillCap::getCategory)
-                .orElseThrow();
-    }
-
-    public static void setCategoryId(ServerPlayer serverPlayer, String categoryId) {
-        serverPlayer.getCapability(SkillProvider.SKILLS)
-                .ifPresent(skills -> skills.setCategory(categoryId));
-        SyncManager.syncSkillCap(serverPlayer);
+        SyncManager.syncCapability(serverPlayer, CapabilityRegistry.SKILLS);
     }
 
     public static int getSkillLevel(Player player, String skillId) {
-        return player.getCapability(SkillProvider.SKILLS)
+        return player.getCapability(CapabilityRegistry.SKILLS)
                 .map(skills -> skills.getSkillLevel(skillId))
                 .orElseGet(() -> {
-                    Skilled.LOGGER.error("Failed to retrieve skill level for player: " + player.getName() + " skill: " + skillId);
+                    Skilled.LOGGER.error("Failed to retrieve skill level for player: " + player.getName().getString() + " skill: " + skillId);
                     return 0;
                 });
     }
 
     private static void setSkillLevel(ServerPlayer serverPlayer, String skillId, int level) {
-        serverPlayer.getCapability(SkillProvider.SKILLS)
+        serverPlayer.getCapability(CapabilityRegistry.SKILLS)
                 .ifPresent(skills -> skills.updateSkill(skillId, level));
     }
 
     public static boolean hasSkill(Player player, String skillId) {
-        return player.getCapability(SkillProvider.SKILLS)
+        return player.getCapability(CapabilityRegistry.SKILLS)
                 .map(skills -> skills.hasSkill(skillId))
                 .orElseGet(() -> {
-                    Skilled.LOGGER.error("Failed to retrieve has skill for player: " + player.getName() + " skill: " + skillId);
+                    Skilled.LOGGER.error("Failed to retrieve has skill for player: " + player.getName().getString() + " skill: " + skillId);
                     return false;
                 });
     }
 
     public static Skill getSkillInstance(Player player, String skillId) {
-        return player.getCapability(SkillProvider.SKILLS)
+        return player.getCapability(CapabilityRegistry.SKILLS)
                 .resolve()
                 .map(skills -> skills.getSkillInstance(skillId))
                 .orElse(null);
@@ -87,20 +67,11 @@ public class PlayerSkillManager {
         return SkillRegistry.getSkillIds().contains(skillId);
     }
 
-    public static boolean hasPrerequisites(Player player, String skillId) {
-        for (String prereqId : SkillRegistry.getSkillData(skillId).getPrerequisites()) {
-            if (!hasSkill(player, prereqId)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static Map<String, Skill> getSkillMap(Player player) {
-        return player.getCapability(SkillProvider.SKILLS)
+        return player.getCapability(CapabilityRegistry.SKILLS)
                 .map(ISkillCap::getSkillMap)
                 .orElseGet(() -> {
-                    Skilled.LOGGER.error("Failed to retrieve skill map for player: " + player.getName());
+                    Skilled.LOGGER.error("Failed to retrieve skill map for player: " + player.getName().getString());
                     return null;
                 });
     }
@@ -110,23 +81,23 @@ public class PlayerSkillManager {
     }
 
     public static Collection<String> getActiveSkillIds(Player player) {
-        return player.getCapability(SkillProvider.SKILLS)
+        return player.getCapability(CapabilityRegistry.SKILLS)
                 .map(ISkillCap::getActiveSkills)
                 .orElseGet(() -> {
-                    Skilled.LOGGER.error("Failed to retrieve active skill ids for player: " + player.getName());
+                    Skilled.LOGGER.error("Failed to retrieve active skill ids for player: " + player.getName().getString());
                     return null;
                 });
     }
 
     public static String getActiveSkillId(Player player, SkillSlot skillSlot) {
-        return player.getCapability(SkillProvider.SKILLS)
+        return player.getCapability(CapabilityRegistry.SKILLS)
                 .resolve()
                 .map(skills -> skills.getActiveSkillId(skillSlot))
                 .orElse(null);
     }
 
     public static ActiveSkill getActiveSkillInstance(Player player, SkillSlot skillSlot) {
-        String activeSkillId = player.getCapability(SkillProvider.SKILLS)
+        String activeSkillId = player.getCapability(CapabilityRegistry.SKILLS)
                 .resolve()
                 .map(skills -> skills.getActiveSkillId(skillSlot))
                 .orElse(null);
@@ -134,7 +105,7 @@ public class PlayerSkillManager {
     }
 
     public static boolean hasActiveSkill(Player player, SkillSlot skillSlot) {
-        String skillId = player.getCapability(SkillProvider.SKILLS)
+        String skillId = player.getCapability(CapabilityRegistry.SKILLS)
                 .map(skills -> skills.getActiveSkillId(skillSlot))
                 .orElseGet(() -> {
                     Skilled.LOGGER.error("Failed to retrieve has active skill for player: " + player.getName() + " slot: " + skillSlot.toString());
@@ -144,7 +115,7 @@ public class PlayerSkillManager {
     }
 
     public static Map<SkillSlot, String> getActiveSkillMap(Player player) {
-        return Collections.unmodifiableMap(Objects.requireNonNull(player.getCapability(SkillProvider.SKILLS)
+        return Collections.unmodifiableMap(Objects.requireNonNull(player.getCapability(CapabilityRegistry.SKILLS)
                 .map(SkillCap::getActiveSkillMap)
                 .orElseGet(() -> {
                     Skilled.LOGGER.error("Failed to retrieve has active skill map for player: " + player.getName());

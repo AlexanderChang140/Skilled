@@ -50,12 +50,6 @@ public class SkillRegistry {
         return REGISTRY.get(skillId);
     }
 
-    static {
-        for (var skill : REGISTRY.values()) {
-            skill.registerPrerequisites();
-        }
-    }
-
     public static SkillData register(SkillData skillData) {
         REGISTRY.put(skillData.getSkillId(), skillData);
         return skillData;

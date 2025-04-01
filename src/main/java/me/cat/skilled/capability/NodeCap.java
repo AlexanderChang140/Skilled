@@ -1,34 +1,120 @@
 package me.cat.skilled.capability;
 
-import me.cat.skilled.network.Messenger;
-import me.cat.skilled.network.packet.out.SyncNodeCapS2CPacket;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @AutoRegisterCapability
-public class NodeCap implements ICapability {
-    private Map<String, Integer> nodes;
+public class NodeCap extends CapabilityInstance {
+    public static final int MAX_LEVEL = 20;
+
+    private Map<String, Integer> nodes = new HashMap<>();
+    private int playerLevel = 1;
+    private int playerExperience = 0;
+    private int skillPoints = 1;
+    private String category = "";
+
+    public Collection<Map.Entry<String, Integer>> getNodes() {
+        return Collections.unmodifiableCollection(nodes.entrySet());
+    }
+
+    public int getPlayerLevel() {
+        return playerLevel;
+    }
+
+    public void setPlayerLevel(int playerLevel) {
+        this.playerLevel = playerLevel;
+    }
+
+    public int getPlayerExperience() {
+        return playerExperience;
+    }
+
+    public void setPlayerExperience(int playerExperience) {
+        this.playerExperience = playerExperience;
+    }
+
+    public int getSkillPoints() {
+        return skillPoints;
+    }
+
+    public void setSkillPoints(int skillPoints) {
+        this.skillPoints = skillPoints;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void clearCategory() {
+        category = "";
+    }
+
+    public void clearNodes() {
+        nodes.clear();
+    }
+
+    public void updateNode(String nodeId, int level) {
+        if (level == 0){
+            nodes.remove(nodeId);
+        }
+        else {
+            nodes.put(nodeId, level);
+        }
+    }
 
     public int getNodeLevel(String nodeId) {
         return nodes.getOrDefault(nodeId, 0);
     }
 
-    public void copyFrom(NodeCap source) {
+    @Override
+    public void copyFrom(CapabilityInstance capabilityInstance) {
+        NodeCap source = (NodeCap) capabilityInstance;
         nodes = source.nodes;
+        playerLevel = source.playerLevel;
+        playerExperience = source.playerExperience;
+        skillPoints = source.skillPoints;
+        category = source.category;
     }
 
-    public void syncCapability(ServerPlayer serverPlayer) {
-        Messenger.sendToPlayer(new SyncNodeCapS2CPacket(this), serverPlayer);
+    @Override
+    public CompoundTag serializeNBT() {
+        CompoundTag nbt = new CompoundTag();
+        CompoundTag nodeDataTag = new CompoundTag();
+        for (var entry : nodes.entrySet()) {
+            String nodeId = entry.getKey();
+            int nodeLevel = entry.getValue();
+            nodeDataTag.putInt(nodeId, nodeLevel);
+        }
+        nbt.put("node_data", nodeDataTag);
+
+        nbt.putInt("player_level", playerLevel);
+        nbt.putInt("player_experience", playerExperience);
+        nbt.putInt("skill_points", skillPoints);
+        nbt.putString("category", category);
+        return nbt;
     }
 
-    public void saveNBTData(CompoundTag tag) {
+    @Override
+    public void deserializeNBT(CompoundTag nbt) {
+        nodes.clear();
+        CompoundTag nodeDataTag = nbt.getCompound("node_data");
+        for (String nodeId : nodeDataTag.getAllKeys()) {
+            int nodeLevel = nodeDataTag.getInt(nodeId);
+            nodes.put(nodeId, nodeLevel);
+        }
 
-    }
-
-    public void loadNBTData(CompoundTag tag) {
-
+        playerLevel = nbt.getInt("player_level");
+        playerExperience = nbt.getInt("player_experience");
+        skillPoints = nbt.getInt("skill_points");
+        category = nbt.getString("category");
     }
 }

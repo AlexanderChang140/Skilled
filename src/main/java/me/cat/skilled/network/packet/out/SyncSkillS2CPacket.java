@@ -14,9 +14,9 @@ public class SyncSkillS2CPacket {
     private final String skillId;
     private final CompoundTag skillTag;
 
-    public SyncSkillS2CPacket(String skillId, Skill skill) {
-        this.skillId = skillId;
-        skillTag = skill.saveNbt();
+    public SyncSkillS2CPacket(Skill skill) {
+        skillId = skill.getSkillData().getSkillId();
+        skillTag = skill.serializeNBT();
     }
 
     public SyncSkillS2CPacket(FriendlyByteBuf buf) {
@@ -33,7 +33,7 @@ public class SyncSkillS2CPacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             LocalPlayer localPlayer = Minecraft.getInstance().player;
-            PlayerSkillManager.getSkillInstance(localPlayer, skillId).loadNbt(skillTag);
+            PlayerSkillManager.getSkillInstance(localPlayer, skillId).deserializeNBT(skillTag);
         });
     }
 }

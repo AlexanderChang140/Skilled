@@ -29,7 +29,7 @@ public class DashSkill extends ActiveSkill {
     private boolean isDashing = false;
 
     public DashSkill() {
-        super(200, 1);
+        super(200);
     }
 
     @Override

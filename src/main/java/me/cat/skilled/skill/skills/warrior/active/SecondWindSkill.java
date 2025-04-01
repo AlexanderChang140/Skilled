@@ -7,7 +7,7 @@ public class SecondWindSkill extends ActiveSkill {
     public static final float HEAL_FACTOR = 0.5f;
 
     public SecondWindSkill() {
-        super(100, 1);
+        super(100);
     }
 
     @Override

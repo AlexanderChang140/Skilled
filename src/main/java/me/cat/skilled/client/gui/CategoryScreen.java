@@ -8,68 +8,40 @@ import me.cat.skilled.category.Category;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CategoryScreen extends Screen {
+public class CategoryScreen extends WindowScreen {
     private static final Component TITLE = Component.translatable("gui." + Skilled.MODID + ".category_screen");
     private static final ResourceLocation WINDOW_BACKGROUND = new ResourceLocation(Skilled.MODID, "textures/gui/window_background.png");
-    private static final ResourceLocation SCREEN_COMPONENTS = new ResourceLocation(Skilled.MODID, "textures/gui/screen_components.png");
 
     private final List<CategoryButton> categoryButtons = new ArrayList<>();
 
-    private int centerX;
-    private int centerY;
-
     public CategoryScreen() {
-        super(TITLE);
+        super(TITLE, 250, 150, 0, 0, WINDOW_BACKGROUND);
     }
 
     @Override
     protected void init() {
         super.init();
-
-        centerX = width / 2;
-        centerY = height / 2;
-
+        categoryButtons.clear();
         addCategoryButtons();
     }
 
     @Override
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        renderBackground(pGuiGraphics);
-        renderWindow(pGuiGraphics);
-        renderWidgets(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        renderToolTips(pGuiGraphics, pMouseX, pMouseY);
+    public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        renderButtonToolTips(pGuiGraphics, pMouseX, pMouseY);
     }
 
-    private void renderWindow(GuiGraphics guiGraphics) {
-        int windowWidth = 250;
-        int windowHeight = 150;
-        int x = centerX - windowWidth / 2;
-        int y = centerY - windowHeight / 2;
-        int sliceSize = 9;
-
-        guiGraphics.blit(
-                WINDOW_BACKGROUND,
-                x, y,
-                0, 0,
-                windowWidth, windowHeight
-        );
-
-        guiGraphics.blitNineSliced(
-                SCREEN_COMPONENTS,
-                x - sliceSize, y - sliceSize,
-                windowWidth + sliceSize * 2, windowHeight + sliceSize * 2,
-                sliceSize,
-                27, 27,
-                1, 1
-        );
+    @Override
+    protected void renderInWindow(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        renderWidgets(guiGraphics, mouseX, mouseY, partialTick);
     }
 
     public void renderWidgets(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -97,7 +69,7 @@ public class CategoryScreen extends Screen {
         }
     }
 
-    private void renderToolTips(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    private void renderButtonToolTips(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         for (CategoryButton categoryButton : categoryButtons) {
             categoryButton.renderToolTip(guiGraphics, mouseX, mouseY);
         }
@@ -112,10 +84,5 @@ public class CategoryScreen extends Screen {
         for (Button button : categoryButtons) {
             button.visible = isVisible;
         }
-    }
-
-    @Override
-    public boolean isPauseScreen() {
-        return false;
     }
 }

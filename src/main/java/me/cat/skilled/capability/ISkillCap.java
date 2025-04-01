@@ -7,17 +7,6 @@ import java.util.Collection;
 import java.util.Map;
 
 public interface ISkillCap {
-    int getPlayerLevel();
-
-    void setPlayerLevel(int playerLevel);
-
-    int getSkillPoints();
-
-    void setSkillPoints(int skillPoints);
-
-    String getCategory();
-
-    void setCategory(String category);
 
     boolean hasSkill(String skillId);
 
@@ -33,9 +22,6 @@ public interface ISkillCap {
 
     String getActiveSkillId(SkillSlot skillSlot);
 
-    void setActiveSkillId(SkillSlot skillSlot, String skillId);
-
-    void clearAll();
 
     void clearSkills();
 

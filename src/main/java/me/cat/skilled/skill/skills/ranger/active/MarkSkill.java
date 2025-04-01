@@ -28,7 +28,7 @@ public class MarkSkill extends ActiveSkill {
     public final HashSet<LivingEntity> markedSet = new HashSet<>();
 
     public MarkSkill() {
-        super(60, 1);
+        super(60);
     }
 
     @Override

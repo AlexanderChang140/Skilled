@@ -17,7 +17,7 @@ public class SlashSkill extends ActiveSkill {
     public static final double KNOCKBACK = 0.5;
 
     public SlashSkill() {
-        super(100, 1);
+        super(100);
     }
 
     public static float getDamageMultiplier() {

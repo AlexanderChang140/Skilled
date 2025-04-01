@@ -24,10 +24,6 @@ public class EvasionSkill extends Skill {
     private boolean isRecharging = false;
     private double currEvasion = MAX_EVASION;
 
-    public EvasionSkill() {
-        super(1);
-    }
-
     public static double getMaxEvasion(int level) {
         return MAX_EVASION;
     }
@@ -76,8 +72,8 @@ public class EvasionSkill extends Skill {
     }
 
     @Override
-    public CompoundTag saveNbt() {
-        CompoundTag tag = super.saveNbt();
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = super.serializeNBT();
         tag.putInt("recharge_start_timer", rechargeStartTimer.getTickCounter());
         tag.putBoolean("is_recharging", isRecharging);
         tag.putDouble("curr_evasion", currEvasion);
@@ -85,8 +81,8 @@ public class EvasionSkill extends Skill {
     }
 
     @Override
-    public void loadNbt(CompoundTag tag) {
-        super.loadNbt(tag);
+    public void deserializeNBT(CompoundTag tag) {
+        super.deserializeNBT(tag);
         rechargeStartTimer.setTickCounter(tag.getInt("recharge_start_timer"));
         isRecharging = tag.getBoolean("is_recharging");
         currEvasion = tag.getDouble("curr_evasion");

@@ -3,8 +3,8 @@ package me.cat.skilled.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.cat.skilled.Skilled;
-import me.cat.skilled.skill.SkillData;
-import me.cat.skilled.capability.manager.PlayerSkillManager;
+import me.cat.skilled.capability.manager.NodeManager;
+import me.cat.skilled.category.node.Node;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -18,59 +18,68 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 
-public class SkillButton extends Button {
+public class NodeButton extends Button {
     private static final ResourceLocation FRAME = new ResourceLocation(Skilled.MODID, "textures/gui/skill_button_frame.png");
     private static final int BASE_FRAME_OFFSET = 2;
 
-    private final SkillData skillData;
-
+    private final Node node;
+    private final ResourceLocation nodeIcon;
     private final BiPredicate<Double, Double> inWindow;
+
+    private final String nodeTitle;
+    private final Function<Integer, String> nodeDesc;
 
     private final int baseX;
     private final int baseY;
     private final int frameOffset;
     private final long startTime;
 
-    private enum SkillStatus {
+    private enum NodeStatus {
         LOCKED,
         UNLOCKED,
         ACQUIRED,
         MAXED
     }
 
-    public SkillButton(SkillData skillData, OnPress pOnPress, BiPredicate<Double, Double> inWindow, int pX, int pY, int scale) {
-        super(pX, pY, (skillData.getSize() + BASE_FRAME_OFFSET) * scale, (skillData.getSize() + BASE_FRAME_OFFSET) * scale, Component.empty(), pOnPress, Button.DEFAULT_NARRATION);
-        this.skillData = skillData;
+    public NodeButton(int pX, int pY, OnPress pOnPress, Node node, BiPredicate<Double, Double> inWindow) {
+        super(pX, pY, node.getNodeView().size() + BASE_FRAME_OFFSET, node.getNodeView().size() + BASE_FRAME_OFFSET, Component.empty(), pOnPress, Button.DEFAULT_NARRATION);
+        this.node = node;
+        this.nodeIcon = node.getNodeView().icon();
         this.inWindow = inWindow;
+
+        this.nodeTitle = node.getNodeView().title();
+        this.nodeDesc = node.getNodeView().desc();
+
         this.baseX = getX();
         this.baseY = getY();
-        this.frameOffset = BASE_FRAME_OFFSET * scale;
+        this.frameOffset = BASE_FRAME_OFFSET;
         this.startTime = Minecraft.getInstance().level.getGameTime();
     }
 
     @Override
     public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         Player player = Minecraft.getInstance().player;
-        SkillStatus skillStatus = getSkillStatus(player, skillData);
+        NodeStatus nodeStatus = getNodeStatus(player, node);
         long currTime = Minecraft.getInstance().level.getGameTime();
         float fade = (float) getAlphaFade(0.7, 0.8, 15, currTime % startTime);
 
-        switch (skillStatus) {
+        switch (nodeStatus) {
             case LOCKED -> pGuiGraphics.setColor(0.4f, 0.4f, 0.4f, 1.0f);
             case UNLOCKED -> pGuiGraphics.setColor(fade, fade, fade, 1.0f);
             case ACQUIRED -> pGuiGraphics.setColor(1.0f, 1.0f, 1.0f, 1.0f);
             case MAXED -> pGuiGraphics.setColor(1.0f, 0.85f, 0f, 1.0f);
         }
 
-        this.active = skillStatus == SkillStatus.UNLOCKED || skillStatus == SkillStatus.ACQUIRED;
+        this.active = nodeStatus == NodeStatus.UNLOCKED || nodeStatus == NodeStatus.ACQUIRED;
         RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         RenderSystem.enableBlend();
 
         pGuiGraphics.blit(
                 FRAME, getX(), getY(), 0, 0, getWidth(), getHeight(), getWidth(), getHeight());
         pGuiGraphics.blit(
-                skillData.getIcon(), getX() + frameOffset / 2, getY() + frameOffset / 2, 0, 0, getWidth() - frameOffset,  getHeight() - frameOffset, getWidth() - frameOffset, getHeight() - frameOffset);
+                nodeIcon, getX() + frameOffset / 2, getY() + frameOffset / 2, 0, 0, getWidth() - frameOffset,  getHeight() - frameOffset, getWidth() - frameOffset, getHeight() - frameOffset);
         pGuiGraphics.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         RenderSystem.disableBlend();
@@ -90,13 +99,14 @@ public class SkillButton extends Button {
 
         Player player = Minecraft.getInstance().player;
         Font font = Minecraft.getInstance().font;
-        int skillLevel = PlayerSkillManager.getSkillLevel(player, skillData.getSkillId());
+        int nodeLevel = NodeManager.getNodeLevel(player, node.getNodeId());
+        int nodeMaxLevel = node.getMaxLevel();
         String title = String.format("%s (%d/%d)",
-                skillData.getTitle(),
-                skillLevel,
-                skillData.getMaxLevel()
+                nodeTitle,
+                nodeLevel,
+                nodeMaxLevel
                 );
-        String desc = skillData.getDesc(skillLevel);
+        String desc = nodeDesc.apply(nodeLevel);
 
         List<Component> list = new ArrayList<>();
         list.add(Component.literal(title));
@@ -112,19 +122,20 @@ public class SkillButton extends Button {
         poseStack.popPose();
     }
 
-    private SkillStatus getSkillStatus(Player player, SkillData skillData) {
-        int skillLevel = PlayerSkillManager.getSkillLevel(player, skillData.getSkillId());
-        if (skillLevel == skillData.getMaxLevel()) {
-            return SkillStatus.MAXED;
+    private NodeStatus getNodeStatus(Player player, Node node) {
+        int nodeLevel = NodeManager.getNodeLevel(player, node.getNodeId());
+
+        if (nodeLevel >= node.getMaxLevel()) {
+            return NodeStatus.MAXED;
         }
-        else if (skillLevel > 0) {
-            return SkillStatus.ACQUIRED;
+        else if (nodeLevel > 0) {
+            return NodeStatus.ACQUIRED;
         }
-        else if (skillData.isUnlocked(player)) {
-            return SkillStatus.UNLOCKED;
+        else if (NodeManager.canAcquireNode(player, node)) {
+            return NodeStatus.UNLOCKED;
         }
         else {
-            return SkillStatus.LOCKED;
+            return NodeStatus.LOCKED;
         }
     }
 
@@ -148,9 +159,5 @@ public class SkillButton extends Button {
 
     public int getBaseY() {
         return baseY;
-    }
-
-    public SkillData getSkillData() {
-        return skillData;
     }
 }
