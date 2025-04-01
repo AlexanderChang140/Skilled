@@ -27,10 +27,6 @@ public class ParrySkill extends Skill {
     private final TickTimer parryCooldown = new TickTimer(100);
     private boolean isParryReady = true;
 
-    public ParrySkill() {
-        super(1);
-    }
-
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (!(event.player instanceof ServerPlayer serverPlayer)) {
@@ -76,16 +72,16 @@ public class ParrySkill extends Skill {
     }
 
     @Override
-    public CompoundTag saveNbt() {
-        CompoundTag tag = super.saveNbt();
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = super.serializeNBT();
         tag.putInt("parry_cooldown", parryCooldown.getTickCounter());
         tag.putBoolean("is_parry_ready", isParryReady);
         return tag;
     }
 
     @Override
-    public void loadNbt(CompoundTag tag) {
-        super.loadNbt(tag);
+    public void deserializeNBT(CompoundTag tag) {
+        super.deserializeNBT(tag);
         parryCooldown.setTickCounter(tag.getInt("parry_cooldown"));
         isParryReady = tag.getBoolean("is_parry_ready");
     }

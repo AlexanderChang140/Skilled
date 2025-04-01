@@ -8,9 +8,9 @@ import java.awt.*;
 
 public class ToggleableSkill extends ActiveSkill {
     private final TickTimer toggleTimer = new TickTimer(20);
+    protected final Color toggledColor = Color.YELLOW;
     private boolean canToggle = true;
-    protected boolean isToggled = false;
-    protected Color toggledColor = Color.YELLOW;
+    private boolean isToggled = false;
 
     public ToggleableSkill(int ticksPerAction) {
         super(ticksPerAction);
@@ -25,6 +25,11 @@ public class ToggleableSkill extends ActiveSkill {
         return false;
     }
 
+    protected void consume() {
+        isSkillReady = false;
+        isToggled = false;
+    }
+
     public void tickToggleTimer() {
         if (!canToggle && toggleTimer.doTick()) {
             canToggle = true;
@@ -32,8 +37,8 @@ public class ToggleableSkill extends ActiveSkill {
     }
 
     @Override
-    public CompoundTag saveNbt() {
-        CompoundTag tag = super.saveNbt();
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = super.serializeNBT();
         tag.putInt("toggle_timer", toggleTimer.getTickCounter());
         tag.putBoolean("can_toggle", canToggle);
         tag.putBoolean("is_toggled", isToggled);
@@ -41,15 +46,15 @@ public class ToggleableSkill extends ActiveSkill {
     }
 
     @Override
-    public void loadNbt(CompoundTag tag) {
-        super.loadNbt(tag);
+    public void deserializeNBT(CompoundTag tag) {
+        super.deserializeNBT(tag);
         toggleTimer.setTickCounter(tag.getInt("toggle_timer"));
         canToggle = tag.getBoolean("can_toggle");
         isToggled = tag.getBoolean("is_toggled");
     }
 
-    protected void setToggled(boolean toggled) {
-        isToggled = toggled;
+    protected boolean isToggled() {
+        return isToggled;
     }
 
     @Override

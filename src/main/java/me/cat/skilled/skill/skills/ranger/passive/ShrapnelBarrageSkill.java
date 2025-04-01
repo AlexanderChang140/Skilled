@@ -20,10 +20,6 @@ public class ShrapnelBarrageSkill extends Skill {
     public static final double BASE_DAMAGE_MULTIPLIER = 0.5;
     public static final double PER_LEVEL_ADDITIVE_DAMAGE_MULTIPLIER = 0.1;
 
-    public ShrapnelBarrageSkill() {
-        super(1);
-    }
-
     public static double getDamageMultiplier(int level) {
         return BASE_DAMAGE_MULTIPLIER + (level - 1) * PER_LEVEL_ADDITIVE_DAMAGE_MULTIPLIER;
     }

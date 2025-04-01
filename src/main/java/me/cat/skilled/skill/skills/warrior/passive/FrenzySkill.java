@@ -17,10 +17,6 @@ public class FrenzySkill extends Skill {
     private static final int FRENZY_DURATION = 100;
     private static final int MAX_FRENZY_STACKS = 4;
 
-    public FrenzySkill() {
-        super(1);
-    }
-
     @SubscribeEvent
     public static void onAttackEntity(AttackEntityEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) {

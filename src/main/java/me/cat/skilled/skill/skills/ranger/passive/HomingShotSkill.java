@@ -26,10 +26,6 @@ public class HomingShotSkill extends Skill {
     private static final double HOMING_SPEED = 0.5;
     private static final HashSet<Projectile> PROJECTILE_SET = new HashSet<>();
 
-    public HomingShotSkill() {
-        super(1);
-    }
-
     private static LivingEntity getClosestTarget(ServerPlayer serverPlayer, Vec3 position) {
         if (!((PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.MARK.getSkillId())) instanceof MarkSkill skill)) {
             return null;

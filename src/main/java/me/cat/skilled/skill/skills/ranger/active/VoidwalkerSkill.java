@@ -31,7 +31,7 @@ public class VoidwalkerSkill extends ActiveSkill {
     private boolean isVoidwalking = false;
 
     public VoidwalkerSkill() {
-        super(100, 1);
+        super(100);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class VoidwalkerSkill extends ActiveSkill {
     }
 
     @Mod.EventBusSubscriber
-    public static class VoidwalkerEvents {
+    public static class VoidwalkerEventHandler {
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
             if (PlayerSkillManager.getSkillInstance(event.player, SkillRegistry.VOIDWALKER.getSkillId()) instanceof VoidwalkerSkill voidwalkerSkill
@@ -108,16 +108,16 @@ public class VoidwalkerSkill extends ActiveSkill {
     }
 
     @Override
-    public CompoundTag saveNbt() {
-        CompoundTag tag = super.saveNbt();
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = super.serializeNBT();
         tag.putInt("voidwalkTimer", voidwalkTimer.getTickCounter());
         tag.putBoolean("is_voidwalking", isVoidwalking);
         return tag;
     }
 
     @Override
-    public void loadNbt(CompoundTag tag) {
-        super.loadNbt(tag);
+    public void deserializeNBT(CompoundTag tag) {
+        super.deserializeNBT(tag);
         voidwalkTimer.setTickCounter(tag.getInt("voidwalkTimer"));
         isVoidwalking = tag.getBoolean("is_voidwalking");
     }

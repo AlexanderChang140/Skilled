@@ -3,8 +3,8 @@ package me.cat.skilled.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import me.cat.skilled.Skilled;
+import me.cat.skilled.capability.manager.NodeManager;
 import me.cat.skilled.capability.manager.PlayerLevelManager;
-import me.cat.skilled.capability.manager.PlayerSkillManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -63,7 +63,7 @@ public class AdminCommand {
     private int resetClass(Entity entity) {
         try {
             ServerPlayer serverPlayer = (ServerPlayer) entity;
-            PlayerSkillManager.clearAll(serverPlayer);
+            NodeManager.clearAll(serverPlayer);
             return 1;
         }
         catch (Exception e) {
@@ -75,7 +75,7 @@ public class AdminCommand {
     private int resetSkills(Entity entity) {
         try {
             ServerPlayer serverPlayer = (ServerPlayer) entity;
-            PlayerSkillManager.clearSkills(serverPlayer);
+            NodeManager.clearNodes(serverPlayer);
             return 1;
         }
         catch (Exception e) {

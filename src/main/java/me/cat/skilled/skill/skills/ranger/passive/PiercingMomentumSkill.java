@@ -26,10 +26,6 @@ public class PiercingMomentumSkill extends Skill {
 
     public final List<Projectile> projectileList = new ArrayList<>();
 
-    public PiercingMomentumSkill() {
-        super(1);
-    }
-
     public static int getMaxStacks() {
         return MAX_STACKS;
     }

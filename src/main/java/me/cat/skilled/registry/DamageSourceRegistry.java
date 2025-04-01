@@ -10,7 +10,7 @@ import net.minecraft.world.entity.Entity;
 
 public class DamageSourceRegistry {
     public static final ResourceKey<DamageType> HOLY =
-            ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Skilled.MODID, "data/damage_type/holy.json"));
+            ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Skilled.MODID, "holy"));
 
     public static DamageSource holyDamage(Entity causer) {
         return new DamageSource(

@@ -25,10 +25,6 @@ public class LastStandSkill extends Skill {
     private final TickTimer invulnTimer = new TickTimer(DURATION);
     private boolean isInvuln = false;
 
-    public LastStandSkill() {
-        super(1);
-    }
-
     public static int getInvulnDuration() {
         return DURATION;
     }
@@ -84,8 +80,8 @@ public class LastStandSkill extends Skill {
     }
 
     @Override
-    public CompoundTag saveNbt() {
-        CompoundTag tag = super.saveNbt();
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = super.serializeNBT();
         tag.putInt("skill_cooldown", lastStandCooldown.getTickCounter());
         tag.putInt("invuln_timer", invulnTimer.getTickCounter());
         tag.putBoolean("is_skill_ready", isLastStandReady);
@@ -94,8 +90,8 @@ public class LastStandSkill extends Skill {
     }
 
     @Override
-    public void loadNbt(CompoundTag tag) {
-        super.loadNbt(tag);
+    public void deserializeNBT(CompoundTag tag) {
+        super.deserializeNBT(tag);
         lastStandCooldown.setTickCounter(tag.getInt("skill_cooldown"));
         invulnTimer.setTickCounter(tag.getInt("invuln_timer"));
         isLastStandReady = tag.getBoolean("is_skill_ready");

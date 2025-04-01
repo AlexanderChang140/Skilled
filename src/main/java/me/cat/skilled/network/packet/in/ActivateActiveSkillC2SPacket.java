@@ -33,7 +33,7 @@ public class ActivateActiveSkillC2SPacket {
             ActiveSkill activeSkill = PlayerSkillManager.getActiveSkillInstance(serverPlayer, skillSlot);
             if (activeSkill != null) {
                 activeSkill.activateSkill(serverPlayer);
-                SyncManager.syncSkillCap(serverPlayer);
+                SyncManager.syncSkill(serverPlayer, activeSkill);
             }
         });
     }

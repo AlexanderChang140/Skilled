@@ -6,9 +6,6 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import me.cat.skilled.Skilled;
-import me.cat.skilled.capability.ISkillCap;
-import me.cat.skilled.capability.SkillProvider;
-import me.cat.skilled.capability.manager.SyncManager;
 import me.cat.skilled.skill.SkillSlot;
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.registry.SkillRegistry;
@@ -128,8 +125,7 @@ public class SkillCommand {
     private int clearSkill(CommandSourceStack source) throws CommandSyntaxException {
         try {
             ServerPlayer serverPlayer = source.getPlayerOrException();
-            serverPlayer.getCapability(SkillProvider.SKILLS).ifPresent(ISkillCap::clearSkills);
-            SyncManager.syncSkillCap(serverPlayer);
+            PlayerSkillManager.clearSkills(serverPlayer);
             source.sendSystemMessage(Component.literal("Skills cleared"));
             return 1;
         }

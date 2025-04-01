@@ -1,9 +1,6 @@
 package me.cat.skilled.registry;
 
-import me.cat.skilled.command.AdminCommand;
-import me.cat.skilled.command.ClassCommand;
-import me.cat.skilled.command.ExperienceCommand;
-import me.cat.skilled.command.SkillCommand;
+import me.cat.skilled.command.*;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -17,6 +14,7 @@ public class CommandRegistry {
         new ClassCommand(event.getDispatcher());
         new ExperienceCommand(event.getDispatcher());
         new AdminCommand(event.getDispatcher());
+        new SyncCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }

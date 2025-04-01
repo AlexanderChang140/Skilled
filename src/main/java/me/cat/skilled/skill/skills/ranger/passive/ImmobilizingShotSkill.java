@@ -17,10 +17,6 @@ public class ImmobilizingShotSkill extends Skill {
 
     private static final int IMMOBILIZED_DURATION = 100;
 
-    public ImmobilizingShotSkill() {
-        super(1);
-    }
-
     @SubscribeEvent
     public static void onLivingAttackEvent(LivingAttackEvent event) {
         if (!(event.getSource().getEntity() instanceof ServerPlayer serverPlayer)) {

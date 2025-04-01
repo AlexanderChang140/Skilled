@@ -2,64 +2,19 @@ package me.cat.skilled.capability;
 
 import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
-import me.cat.skilled.network.Messenger;
-import me.cat.skilled.network.packet.out.SyncSkillCapS2CPacket;
 import me.cat.skilled.skill.ActiveSkillData;
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.registry.SkillRegistry;
 import me.cat.skilled.skill.SkillSlot;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 
 import java.util.*;
 
 @AutoRegisterCapability
-public class SkillCap implements ISkillCap {
+public class SkillCap extends CapabilityInstance implements ISkillCap {
     private Map<String, Skill> skillMap = new HashMap<>();
     private Map<SkillSlot, String> activeSkills = new EnumMap<>(SkillSlot.class);
-    private int playerLevel = 1;
-    private int playerExperience = 0;
-    private int skillPoints = 1;
-    private String category = "";
-
-    @Override
-    public int getPlayerLevel() {
-        return playerLevel;
-    }
-
-    @Override
-    public void setPlayerLevel(int playerLevel) {
-        this.playerLevel = playerLevel;
-    }
-
-    public int getPlayerExperience() {
-        return playerExperience;
-    }
-
-    public void setPlayerExperience(int playerExperience) {
-        this.playerExperience = playerExperience;
-    }
-
-    @Override
-    public int getSkillPoints() {
-        return skillPoints;
-    }
-
-    @Override
-    public void setSkillPoints(int skillPoints) {
-        this.skillPoints = skillPoints;
-    }
-
-    @Override
-    public String getCategory() {
-        return category;
-    }
-
-    @Override
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
     @Override
     public boolean hasSkill(String skillId) {
@@ -119,19 +74,7 @@ public class SkillCap implements ISkillCap {
     }
 
     @Override
-    public void setActiveSkillId(SkillSlot skillSlot, String skillId) {
-        activeSkills.put(skillSlot, skillId);
-    }
-
-    @Override
-    public void clearAll() {
-        category = "";
-        clearSkills();
-    }
-
-    @Override
     public void clearSkills() {
-        skillPoints = playerLevel;
         activeSkills.replaceAll((k, v) -> null);
         skillMap.clear();
     }
@@ -146,24 +89,21 @@ public class SkillCap implements ISkillCap {
         return Collections.unmodifiableMap(activeSkills);
     }
 
-    public void syncCapability(ServerPlayer serverPlayer) {
-        Messenger.sendToPlayer(new SyncSkillCapS2CPacket(this), serverPlayer);
+    @Override
+    public void copyFrom(CapabilityInstance capabilityInstance) {
+        SkillCap source = (SkillCap) capabilityInstance;
+        skillMap = source.skillMap;
+        activeSkills = source.activeSkills;
     }
 
-    public void copyFrom(SkillCap source) {
-        this.skillMap = source.skillMap;
-        this.activeSkills = source.activeSkills;
-        this.playerLevel = source.playerLevel;
-        this.skillPoints = source.skillPoints;
-        this.category = source.category;
-    }
-
-    public void saveNBTData(CompoundTag nbt) {
+    @Override
+    public CompoundTag serializeNBT() {
+        CompoundTag nbt = new CompoundTag();
         CompoundTag skillDataTag = new CompoundTag();
         for (Map.Entry<String, Skill> entry : skillMap.entrySet()) {
             String skillId = entry.getKey();
             Skill skillInstance = entry.getValue();
-            skillDataTag.put(skillId, skillInstance.saveNbt());
+            skillDataTag.put(skillId, skillInstance.serializeNBT());
         }
 
         CompoundTag activeSkillsTag = new CompoundTag();
@@ -177,20 +117,18 @@ public class SkillCap implements ISkillCap {
 
         nbt.put("skill_data", skillDataTag);
         nbt.put("active_skills", activeSkillsTag);
-        nbt.putInt("player_level", playerLevel);
-        nbt.putInt("player_experience", playerExperience);
-        nbt.putInt("skill_points", skillPoints);
-        nbt.putString("category", category);
+        return nbt;
     }
 
-    public void loadNBTData(CompoundTag nbt) {
+    @Override
+    public void deserializeNBT(CompoundTag nbt) {
         skillMap.clear();
         activeSkills.clear();
         CompoundTag skillDataTag = nbt.getCompound("skill_data");
         for (String skillId : skillDataTag.getAllKeys()) {
             if (PlayerSkillManager.skillExists(skillId)) {
                 Skill skillInstance = SkillRegistry.getSkillData(skillId).getSkillInstance();
-                skillInstance.loadNbt(skillDataTag.getCompound(skillId));
+                skillInstance.deserializeNBT(skillDataTag.getCompound(skillId));
                 skillMap.put(skillId, skillInstance);
             }
             else {
@@ -208,10 +146,5 @@ public class SkillCap implements ISkillCap {
                 Skilled.LOGGER.error("Attempted to load invalid active skill");
             }
         }
-
-        playerLevel = nbt.getInt("player_level");
-        playerExperience = nbt.getInt("player_experience");
-        skillPoints = nbt.getInt("skill_points");
-        category = nbt.getString("category");
     }
 }

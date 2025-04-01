@@ -1,7 +1,7 @@
 package me.cat.skilled.network.packet.out;
 
-import me.cat.skilled.capability.SkillCap;
-import me.cat.skilled.capability.SkillProvider;
+import me.cat.skilled.capability.NodeCap;
+import me.cat.skilled.registry.CapabilityRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
@@ -10,29 +10,28 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class SyncSkillCapS2CPacket {
-    private final CompoundTag skillTag;
+public class SyncNodeCapS2CPacket {
 
-    public SyncSkillCapS2CPacket(SkillCap skillCap) {
-        CompoundTag tag = new CompoundTag();
-        skillCap.saveNBTData(tag);
-        skillTag = tag;
+    private final CompoundTag nodeTag;
+
+    public SyncNodeCapS2CPacket(NodeCap nodeCap) {
+        nodeTag = nodeCap.serializeNBT();
     }
 
-    public SyncSkillCapS2CPacket(FriendlyByteBuf buf) {
-        this.skillTag = buf.readNbt();
+    public SyncNodeCapS2CPacket(FriendlyByteBuf buf) {
+        this.nodeTag = buf.readNbt();
     }
 
     public void toBytes(FriendlyByteBuf buf) {
-        buf.writeNbt(skillTag);
+        buf.writeNbt(nodeTag);
     }
 
     public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             LocalPlayer localPlayer = Minecraft.getInstance().player;
-            localPlayer.getCapability(SkillProvider.SKILLS)
-                    .ifPresent(skills -> skills.loadNBTData(skillTag));
+            localPlayer.getCapability(CapabilityRegistry.NODES)
+                    .ifPresent(skills -> skills.deserializeNBT(nodeTag));
         });
     }
 }

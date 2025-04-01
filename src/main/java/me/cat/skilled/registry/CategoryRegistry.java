@@ -1,9 +1,9 @@
 package me.cat.skilled.registry;
 
 import me.cat.skilled.category.Category;
-import me.cat.skilled.category.catagories.PaladinCategory;
-import me.cat.skilled.category.catagories.RangerCategory;
-import me.cat.skilled.category.catagories.WarriorCategory;
+import me.cat.skilled.category.categories.PaladinCategory;
+import me.cat.skilled.category.categories.RangerCategory;
+import me.cat.skilled.category.categories.WarriorCategory;
 
 import java.util.Collections;
 import java.util.HashMap;
