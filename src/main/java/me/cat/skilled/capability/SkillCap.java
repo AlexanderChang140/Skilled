@@ -31,6 +31,12 @@ public class SkillCap extends CapabilityInstance implements ISkillCap {
         return skillMap.getOrDefault(skillId, null);
     }
 
+    private Skill createSkillInstance(String skillId) {
+        Skill skill = SkillRegistry.getSkillData(skillId).getSkillInstance();
+        skill.setSkills(skillMap);
+        return skill;
+    }
+
     @Override
     public void updateSkill(String skillId, int level) {
         if (level == 0) {
@@ -48,15 +54,17 @@ public class SkillCap extends CapabilityInstance implements ISkillCap {
 
         skillMap.compute(skillId, (id, skill) -> {
             if (skill == null) {
-                skill = SkillRegistry.getSkillData(id).getSkillInstance();
+                skill = createSkillInstance(skillId);
             }
             skill.setLevel(level);
+            skill.init();
             return skill;
         });
     }
 
     @Override
     public void removeSkill(String skillId) {
+        skillMap.get(skillId).onRemove();
         skillMap.remove(skillId);
         if (SkillRegistry.getSkillData(skillId) instanceof ActiveSkillData activeSkillData) {
             activeSkills.put(activeSkillData.getSkillSlot(), null);
@@ -76,6 +84,9 @@ public class SkillCap extends CapabilityInstance implements ISkillCap {
     @Override
     public void clearSkills() {
         activeSkills.replaceAll((k, v) -> null);
+        for (var skill : skillMap.values()){
+            skill.onRemove();
+        }
         skillMap.clear();
     }
 
@@ -127,13 +138,17 @@ public class SkillCap extends CapabilityInstance implements ISkillCap {
         CompoundTag skillDataTag = nbt.getCompound("skill_data");
         for (String skillId : skillDataTag.getAllKeys()) {
             if (PlayerSkillManager.skillExists(skillId)) {
-                Skill skillInstance = SkillRegistry.getSkillData(skillId).getSkillInstance();
+                Skill skillInstance = createSkillInstance(skillId);
                 skillInstance.deserializeNBT(skillDataTag.getCompound(skillId));
                 skillMap.put(skillId, skillInstance);
             }
             else {
                 Skilled.LOGGER.error("Attempted to load invalid skill");
             }
+        }
+
+        for (Skill skill : skillMap.values()) {
+            skill.init();
         }
 
         CompoundTag activeSkillsTag = nbt.getCompound("active_skills");
