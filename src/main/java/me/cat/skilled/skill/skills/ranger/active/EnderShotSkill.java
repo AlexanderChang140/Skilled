@@ -4,6 +4,8 @@ import me.cat.skilled.capability.manager.PlayerSkillManager;
 import me.cat.skilled.capability.manager.SyncManager;
 import me.cat.skilled.registry.SkillRegistry;
 import me.cat.skilled.skill.ToggleableSkill;
+import me.cat.skilled.util.event.Event;
+import me.cat.skilled.util.event.EventHandler;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.projectile.Arrow;
@@ -12,6 +14,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 public class EnderShotSkill extends ToggleableSkill {
+    private final Event<Void, Void> onTeleport = new Event<>(callback -> { });
+    private final EventHandler<Void, Void> onTeleportHandler = new EventHandler<>(onTeleport);
+
     public EnderShotSkill() {
         super(200);
     }
@@ -28,6 +33,7 @@ public class EnderShotSkill extends ToggleableSkill {
                 SyncManager.syncSkill(serverPlayer, skill);
                 generateParticles(serverPlayer);
                 serverPlayer.teleportTo(arrow.getBlockX(), arrow.getBlockY(), arrow.getBlockZ());
+                skill.onTeleport.notifySubscribers(null);
                 generateParticles(serverPlayer);
             }
         }
@@ -44,5 +50,9 @@ public class EnderShotSkill extends ToggleableSkill {
                     0.5,
                     0.1);
         }
+    }
+
+    public EventHandler<Void, Void> getTeleportEvent() {
+        return onTeleportHandler;
     }
 }
