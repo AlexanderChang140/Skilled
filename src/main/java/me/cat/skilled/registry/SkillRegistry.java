@@ -23,6 +23,7 @@ public class SkillRegistry {
     private static final Map<String, SkillData> REGISTRY = new HashMap<>();
     public static final SkillData BARRIER = register(new PowerShotData());
     public static final SkillData ENDER_SHOT = register(new EnderShotData());
+    public static final SkillData BLINK_SLASH = register(new BlinkSlashData());
     public static final SkillData MARK = register(new MarkData());
     public static final SkillData EVASION = register(new EvasionData());
     public static final SkillData FLEETFOOTED = register(new FleetfootedData());
