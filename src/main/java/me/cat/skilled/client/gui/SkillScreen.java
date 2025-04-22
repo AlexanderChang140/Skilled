@@ -17,7 +17,6 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,14 +72,17 @@ public class SkillScreen extends WindowScreen {
     }
 
     public void addButtons() {
+        if (category == null) {
+            return;
+        }
+
         for (var node : category.getNodes()) {
             NodeView nodeView = node.getNodeView();
             int offset = nodeView.size() / 2;
-            int nodeLevel = NodeManager.getNodeLevel(minecraft.player, node.getNodeId());
             NodeButton nodeButton = addRenderableWidget(new NodeButton(
                     centerX + nodeView.x() - offset,
                     centerY + nodeView.y()- offset,
-                    (btn) -> onNodeButtonClick(node, nodeLevel),
+                    (btn) -> onNodeButtonClick(node),
                     node,
                     this::inWindow
             ));
@@ -94,8 +96,9 @@ public class SkillScreen extends WindowScreen {
         }
     }
 
-    private void onNodeButtonClick(Node node, int level) {
-        Messenger.sendToServer(new RequestLevelNodeC2S(node, level));
+    private void onNodeButtonClick(Node node) {
+        int nodeLevel = NodeManager.getNodeLevel(minecraft.player, node.getNodeId());
+        Messenger.sendToServer(new RequestLevelNodeC2S(node, nodeLevel));
     }
 
     private void dragButtons() {
@@ -106,9 +109,10 @@ public class SkillScreen extends WindowScreen {
     }
 
     private void drawConnections() {
-        Player player = getMinecraft().player;
-        String categoryId = NodeManager.getCategoryId(player);
-        Category category = CategoryRegistry.getCategory(categoryId);
+        if (category == null) {
+            return;
+        }
+
         var connectionMap = category.getNodeToConnections();
         HashSet<String> visited = new HashSet<>();
         for (var entry : connectionMap) {
