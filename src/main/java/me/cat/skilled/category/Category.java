@@ -42,21 +42,31 @@ public class Category {
         nodeToConnections.put(id, new ArrayList<>());
     }
 
-    public void addConnections(List<String> nodes, Connection.ConnectionType type) {
+    public void addBidirectionalConnections(Connection.ConnectionType type, List<Node> nodes) {
         int n = nodes.size();
         for (int i = 0; i < n; i++) {
-            String a = nodes.get(i);
+            String a = nodes.get(i).getNodeId();
             for (int j = i + 1; j < n; j++) {
-                String b = nodes.get(j);
-                addConnection(a, b, type);
+                String b = nodes.get(j).getNodeId();
+                addBidirectionalConnection(type, a, b);
             }
         }
     }
 
-    private void addConnection(String a, String b, Connection.ConnectionType type) {
+    public void addManyToOneConnections(Connection.ConnectionType type, Node from, List<Node> to) {
+        to.forEach(t -> addDirectionalConnection(type, from, t));
+    }
+
+    private void addBidirectionalConnection(Connection.ConnectionType type, String a, String b) {
         if (nodeToConnections.containsKey(a) && nodeToConnections.containsKey(b)) {
             nodeToConnections.get(a).add(new Connection(b, type));
             nodeToConnections.get(b).add(new Connection(a, type));
+        }
+    }
+
+    private void addDirectionalConnection(Connection.ConnectionType type, Node from, Node to) {
+        if (nodeToConnections.containsKey(from.getNodeId()) && nodeToConnections.containsKey(to.getNodeId())) {
+            nodeToConnections.get(from.getNodeId()).add(new Connection(to.getNodeId(), type));
         }
     }
 
