@@ -4,6 +4,7 @@ import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.manager.NodeManager;
 import me.cat.skilled.category.node.Connection;
 import me.cat.skilled.category.node.Node;
+import me.cat.skilled.util.Grid;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
@@ -11,6 +12,7 @@ import java.util.*;
 
 public class Category {
     private static final String DEFAULT_ICON_PATH = "textures/category/";
+    protected static final Grid DEFAULT_GRID = new Grid(8);
 
     private final String id;
     private final String title;
