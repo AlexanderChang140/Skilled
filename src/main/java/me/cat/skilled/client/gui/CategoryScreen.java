@@ -1,6 +1,7 @@
 package me.cat.skilled.client.gui;
 
 import me.cat.skilled.Skilled;
+import me.cat.skilled.capability.manager.NodeManager;
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.in.SetCategoryC2S;
 import me.cat.skilled.registry.CategoryRegistry;
@@ -77,6 +78,7 @@ public class CategoryScreen extends WindowScreen {
 
     private void onCategoryButtonClicked(Button button, Category category) {
         setButtonsVisibility(false);
+        NodeManager.clientSetCategoryId(minecraft.player, category.getId());
         Messenger.sendToServer(new SetCategoryC2S(category));
     }
 
