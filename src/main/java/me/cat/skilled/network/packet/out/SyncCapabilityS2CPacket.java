@@ -22,7 +22,6 @@ public class SyncCapabilityS2CPacket {
                 .ifPresent(cap -> {
                     if (cap instanceof CapabilityInstance instance) {
                         capabilityTag = instance.serializeNBT();
-
                     }
                 });
     }
