@@ -63,7 +63,7 @@ public class Category {
         boolean flag = false;
         for (Connection connection : nodeToConnections.get(nodeId)) {
             switch (connection.type()) {
-                case STANDARD -> {
+                case MUTUAL -> {
                     if (NodeManager.hasNode(player, nodeId)) flag = true;
                 }
                 case REQUIRED -> {
