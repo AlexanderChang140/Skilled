@@ -1,5 +1,6 @@
 package me.cat.skilled.capability.manager;
 
+import me.cat.skilled.capability.CapabilityInstance;
 import me.cat.skilled.network.Messenger;
 import me.cat.skilled.network.packet.out.SyncCapabilityS2CPacket;
 import me.cat.skilled.network.packet.out.SyncSkillS2CPacket;
@@ -17,9 +18,19 @@ public class SyncManager {
 
     public static void syncCapability(ServerPlayer serverPlayer, Capability<?> capability) {
         Messenger.sendToPlayer(new SyncCapabilityS2CPacket(serverPlayer, capability), serverPlayer);
+        setDirty(serverPlayer, capability, false);
     }
 
     public static void syncSkill(ServerPlayer serverPlayer, Skill skill) {
         Messenger.sendToPlayer(new SyncSkillS2CPacket(skill), serverPlayer);
+    }
+
+    public static void setDirty(ServerPlayer serverPlayer, Capability<?> capability, boolean isDirty) {
+        serverPlayer.getCapability(capability)
+                .ifPresent(cap -> {
+                    if (cap instanceof CapabilityInstance instance) {
+                        instance.setDirty(isDirty);
+                    }
+                });
     }
 }

@@ -28,6 +28,7 @@ public class NodeCap extends CapabilityInstance {
 
     public void setPlayerLevel(int playerLevel) {
         this.playerLevel = playerLevel;
+        setDirty(true);
     }
 
     public int getPlayerExperience() {
@@ -36,6 +37,7 @@ public class NodeCap extends CapabilityInstance {
 
     public void setPlayerExperience(int playerExperience) {
         this.playerExperience = playerExperience;
+        setDirty(true);
     }
 
     public int getSkillPoints() {
@@ -44,6 +46,7 @@ public class NodeCap extends CapabilityInstance {
 
     public void setSkillPoints(int skillPoints) {
         this.skillPoints = skillPoints;
+        setDirty(true);
     }
 
     public String getCategory() {
@@ -52,14 +55,17 @@ public class NodeCap extends CapabilityInstance {
 
     public void setCategory(String category) {
         this.category = category;
+        setDirty(true);
     }
 
     public void clearCategory() {
         category = "";
+        setDirty(true);
     }
 
     public void clearNodes() {
         nodes.clear();
+        setDirty(true);
     }
 
     public void updateNode(String nodeId, int level) {
@@ -69,6 +75,7 @@ public class NodeCap extends CapabilityInstance {
         else {
             nodes.put(nodeId, level);
         }
+        setDirty(true);
     }
 
     public int getNodeLevel(String nodeId) {

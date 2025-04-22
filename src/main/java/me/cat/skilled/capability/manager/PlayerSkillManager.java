@@ -20,13 +20,11 @@ public class PlayerSkillManager {
     public static void updateSkillLevel(ServerPlayer serverPlayer, String skillId, int level) {
         level = Mth.clamp(level, 0, PlayerSkillManager.getSkillMaxLevel(skillId));
         setSkillLevel(serverPlayer, skillId, level);
-        SyncManager.syncCapability(serverPlayer, CapabilityRegistry.SKILLS);
     }
 
     public static void clearSkills(ServerPlayer serverPlayer) {
         serverPlayer.getCapability(CapabilityRegistry.SKILLS)
                 .ifPresent(ISkillCap::clearSkills);
-        SyncManager.syncCapability(serverPlayer, CapabilityRegistry.SKILLS);
     }
 
     public static int getSkillLevel(Player player, String skillId) {

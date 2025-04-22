@@ -20,7 +20,6 @@ public class PlayerLevelManager {
     public static void updatePlayerLevel(ServerPlayer serverPlayer, int level) {
         setPlayerLevel(serverPlayer, level);
         setPlayerExperience(serverPlayer, ExperienceUtil.levelToExperience(level));
-        SyncManager.syncCapability(serverPlayer, CapabilityRegistry.SKILLS);
     }
 
     public static void addPlayerExperience(ServerPlayer serverPlayer, int experience) {
@@ -31,12 +30,10 @@ public class PlayerLevelManager {
     public static void updatePlayerExperience(ServerPlayer serverPlayer, int experience) {
         setPlayerLevel(serverPlayer, ExperienceUtil.experienceToLevel(experience));
         setPlayerExperience(serverPlayer, experience);
-        SyncManager.syncCapability(serverPlayer, CapabilityRegistry.SKILLS);
     }
 
     public static void addSkillPoints(ServerPlayer serverPlayer, int points) {
         setSkillPoints(serverPlayer, getSkillPoints(serverPlayer) + points);
-        SyncManager.syncCapability(serverPlayer, CapabilityRegistry.SKILLS);
     }
 
     public static int getPlayerLevel(Player player) {

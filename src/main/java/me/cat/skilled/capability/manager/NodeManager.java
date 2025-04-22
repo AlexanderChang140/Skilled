@@ -6,6 +6,7 @@ import me.cat.skilled.category.Category;
 import me.cat.skilled.category.node.Node;
 import me.cat.skilled.registry.CapabilityRegistry;
 import me.cat.skilled.registry.CategoryRegistry;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
@@ -27,7 +28,6 @@ public class NodeManager {
         }
         serverPlayer.getCapability(CapabilityRegistry.NODES)
                 .ifPresent(nodes -> nodes.updateNode(nodeId, level));
-        SyncManager.syncCapability(serverPlayer, CapabilityRegistry.NODES);
     }
 
     public static int getNodeLevel(Player player, String nodeId) {
@@ -40,7 +40,7 @@ public class NodeManager {
     }
 
     public static boolean hasNode(Player player, String nodeId) {
-        return getNodeLevel(player, nodeId) == 0;
+        return getNodeLevel(player, nodeId) > 0;
     }
 
     public static Node getNode(Player player, String nodeId) {
@@ -75,13 +75,12 @@ public class NodeManager {
         }
         serverPlayer.getCapability(CapabilityRegistry.NODES)
                 .ifPresent(NodeCap::clearNodes);
-        SyncManager.syncCapability(serverPlayer, CapabilityRegistry.NODES);
     }
 
     public static void clearAll(ServerPlayer serverPlayer) {
+        clearNodes(serverPlayer);
         serverPlayer.getCapability(CapabilityRegistry.NODES)
                 .ifPresent(NodeCap::clearCategory);
-        clearNodes(serverPlayer);
     }
 
     public static String getCategoryId(Player player) {
@@ -96,7 +95,11 @@ public class NodeManager {
     public static void setCategoryId(ServerPlayer serverPlayer, String categoryId) {
         serverPlayer.getCapability(CapabilityRegistry.NODES)
                 .ifPresent(nodes -> nodes.setCategory(categoryId));
-        SyncManager.syncCapability(serverPlayer, CapabilityRegistry.NODES);
+    }
+
+    public static void clientSetCategoryId(LocalPlayer localPlayer, String categoryId) {
+        localPlayer.getCapability(CapabilityRegistry.NODES)
+                .ifPresent(nodes -> nodes.setCategory(categoryId));
     }
 
     public static Category getCategory(Player player) {

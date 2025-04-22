@@ -92,6 +92,14 @@ public class ForgeEvents {
                 }
             }
         }
+
+        if (event.phase == TickEvent.Phase.END && player instanceof ServerPlayer serverPlayer) {
+            CapabilityRegistry.getCapabilities().forEach(token -> serverPlayer.getCapability(token).ifPresent(cap -> {
+                if (cap instanceof CapabilityInstance instance && instance.isDirty()) {
+                    SyncManager.syncCapability(serverPlayer, token);
+                }
+            }));
+        }
     }
 
     @SubscribeEvent

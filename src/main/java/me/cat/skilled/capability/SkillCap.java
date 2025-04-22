@@ -60,6 +60,7 @@ public class SkillCap extends CapabilityInstance implements ISkillCap {
             skill.init();
             return skill;
         });
+        setDirty(true);
     }
 
     @Override
@@ -69,6 +70,7 @@ public class SkillCap extends CapabilityInstance implements ISkillCap {
         if (SkillRegistry.getSkillData(skillId) instanceof ActiveSkillData activeSkillData) {
             activeSkills.put(activeSkillData.getSkillSlot(), null);
         }
+        setDirty(true);
     }
 
     @Override
@@ -88,6 +90,7 @@ public class SkillCap extends CapabilityInstance implements ISkillCap {
             skill.onRemove();
         }
         skillMap.clear();
+        setDirty(true);
     }
 
     @Override
