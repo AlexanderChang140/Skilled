@@ -45,9 +45,9 @@ public class Category {
     public void addBidirectionalConnections(Connection.ConnectionType type, List<Node> nodes) {
         int n = nodes.size();
         for (int i = 0; i < n; i++) {
-            String a = nodes.get(i).getNodeId();
+            Node a = nodes.get(i);
             for (int j = i + 1; j < n; j++) {
-                String b = nodes.get(j).getNodeId();
+                Node b = nodes.get(j);
                 addBidirectionalConnection(type, a, b);
             }
         }
@@ -57,14 +57,14 @@ public class Category {
         to.forEach(t -> addDirectionalConnection(type, from, t));
     }
 
-    private void addBidirectionalConnection(Connection.ConnectionType type, String a, String b) {
-        if (nodeToConnections.containsKey(a) && nodeToConnections.containsKey(b)) {
-            nodeToConnections.get(a).add(new Connection(b, type));
-            nodeToConnections.get(b).add(new Connection(a, type));
+    public void addBidirectionalConnection(Connection.ConnectionType type, Node a, Node b) {
+        if (nodeToConnections.containsKey(a.getNodeId()) && nodeToConnections.containsKey(b.getNodeId())) {
+            nodeToConnections.get(a.getNodeId()).add(new Connection(b.getNodeId(), type));
+            nodeToConnections.get(b.getNodeId()).add(new Connection(a.getNodeId(), type));
         }
     }
 
-    private void addDirectionalConnection(Connection.ConnectionType type, Node from, Node to) {
+    public void addDirectionalConnection(Connection.ConnectionType type, Node from, Node to) {
         if (nodeToConnections.containsKey(from.getNodeId()) && nodeToConnections.containsKey(to.getNodeId())) {
             nodeToConnections.get(from.getNodeId()).add(new Connection(to.getNodeId(), type));
         }
