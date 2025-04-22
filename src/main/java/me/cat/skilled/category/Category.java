@@ -62,17 +62,18 @@ public class Category {
 
     public boolean isNodeUnlocked(Player player, Node node) {
         String nodeId = node.getNodeId();
-        boolean flag = false;
+        boolean flag = node.isRoot();
         for (Connection connection : nodeToConnections.get(nodeId)) {
+            String connectionId = connection.connectedNodeId();
             switch (connection.type()) {
                 case MUTUAL -> {
-                    if (NodeManager.hasNode(player, nodeId)) flag = true;
+                    if (NodeManager.hasNode(player, connectionId)) flag = true;
                 }
                 case REQUIRED -> {
-                    if (!NodeManager.hasNode(player, nodeId)) return false;
+                    if (!NodeManager.hasNode(player, connectionId)) return false;
                 }
                 case EXCLUSIVE -> {
-                    if (NodeManager.hasNode(player, nodeId)) return false;
+                    if (NodeManager.hasNode(player, connectionId)) return false;
                 }
             }
         }
