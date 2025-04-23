@@ -22,6 +22,20 @@ public abstract class ActiveSkillData extends SkillData {
         this.skillSlot = skillSlot;
     }
 
+    public ActiveSkillData(
+            String skillId,
+            int maxLevel,
+            Supplier<Skill> skillSupplier,
+
+            String title,
+            String desc,
+            ResourceLocation icon,
+            SkillSlot skillSlot
+    ) {
+        super(skillId, maxLevel, skillSupplier, title, desc, icon);
+        this.skillSlot = skillSlot;
+    }
+
     public SkillSlot getSkillSlot() {
         return skillSlot;
     }

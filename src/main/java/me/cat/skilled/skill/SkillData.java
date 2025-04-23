@@ -32,6 +32,24 @@ public abstract class SkillData {
         this.icon = icon;
     }
 
+    public SkillData(
+            String skillId,
+            int maxLevel,
+            Supplier<Skill> skillSupplier,
+
+            String title,
+            String desc,
+            ResourceLocation icon
+    ) {
+        this.skillId = skillId;
+        this.maxLevel = maxLevel;
+        this.skillSupplier = skillSupplier;
+
+        this.title = title;
+        this.desc = (level) -> desc;
+        this.icon = icon;
+    }
+
     public String getSkillId() {
         return skillId;
     }
