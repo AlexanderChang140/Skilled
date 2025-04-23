@@ -9,4 +9,8 @@ public class Utilities {
     public static ResourceLocation getDefaultSkillIconPath(String fileName) {
         return new ResourceLocation(Skilled.MODID, DEFAULT_ICON_PATH + fileName);
     }
+
+    public static void failedSubscription(String from, String to) {
+        Skilled.LOGGER.error("Failed to subscribe: " + "' '");
+    }
 }
