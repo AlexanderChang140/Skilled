@@ -1,7 +1,7 @@
 package me.cat.skilled.mixin;
 
 import me.cat.skilled.registry.SkillRegistry;
-import me.cat.skilled.skill.skills.ranger.passive.FleetfootedSkill;
+import me.cat.skilled.skill.skills.rogue.passive.FleetfootedSkill;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;

@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.skills.ranger.passive;
+package me.cat.skilled.skill.skills.rogue.passive;
 
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.registry.SkillRegistry;

@@ -2,10 +2,11 @@ package me.cat.skilled.registry;
 
 import me.cat.skilled.skill.SkillData;
 import me.cat.skilled.skill.skills.paladin.active.DivineSmiteData;
-import me.cat.skilled.skill.skills.ranger.active.VoidwalkerData;
 import me.cat.skilled.skill.skills.ranger.active.EnderShotData;
 import me.cat.skilled.skill.skills.ranger.active.MarkData;
 import me.cat.skilled.skill.skills.ranger.passive.*;
+import me.cat.skilled.skill.skills.rogue.active.VoidwalkerData;
+import me.cat.skilled.skill.skills.rogue.passive.*;
 import me.cat.skilled.skill.skills.warrior.active.DashData;
 import me.cat.skilled.skill.skills.warrior.active.SecondWindData;
 import me.cat.skilled.skill.skills.warrior.active.SlashData;
@@ -22,18 +23,16 @@ import java.util.Set;
 public class SkillRegistry {
     private static final Map<String, SkillData> REGISTRY = new HashMap<>();
     public static final SkillData BARRIER = register(new PowerShotData());
+
+    // Ranger
     public static final SkillData ENDER_SHOT = register(new EnderShotData());
     public static final SkillData BLINK_SLASH = register(new BlinkSlashData());
     public static final SkillData MARK = register(new MarkData());
-    public static final SkillData EVASION = register(new EvasionData());
-    public static final SkillData FLEETFOOTED = register(new FleetfootedData());
     public static final SkillData HOMING_SHOT = register(new HomingShotData());
     public static final SkillData IMMOBILIZING_SHOT = register(new ImmobilizingShotData());
     public static final SkillData POWER_SHOT = register(new PowerShotData());
-    public static final SkillData STEALTH = register(new StealthData());
     public static final SkillData PIERCING_MOMENTUM = register(new PiercingMomentumData());
     public static final SkillData SHRAPNEL_BARRAGE = register(new ShrapnelBarrageData());
-    public static final SkillData VOIDWALKER = register(new VoidwalkerData());
 
     // Warrior
     public static final SkillData DASH = register(new DashData());
@@ -46,6 +45,12 @@ public class SkillRegistry {
 
     // Paladin
     public static final SkillData DIVINE_SMITE = register(new DivineSmiteData());
+
+    // Rogue
+    public static final SkillData VOIDWALKER = register(new VoidwalkerData());
+    public static final SkillData EVASION = register(new EvasionData());
+    public static final SkillData FLEETFOOTED = register(new FleetfootedData());
+    public static final SkillData STEALTH = register(new StealthData());
 
     public static SkillData getSkillData(String skillId) {
         return REGISTRY.get(skillId);

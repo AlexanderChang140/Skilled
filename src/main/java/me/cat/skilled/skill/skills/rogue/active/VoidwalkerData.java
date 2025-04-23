@@ -1,4 +1,4 @@
-package me.cat.skilled.skill.skills.ranger.active;
+package me.cat.skilled.skill.skills.rogue.active;
 
 import me.cat.skilled.Skilled;
 import me.cat.skilled.skill.ActiveSkillData;

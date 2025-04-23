@@ -2,7 +2,7 @@ package me.cat.skilled.mixin;
 
 import me.cat.skilled.capability.manager.PlayerSkillManager;
 import me.cat.skilled.registry.SkillRegistry;
-import me.cat.skilled.skill.skills.ranger.active.VoidwalkerSkill;
+import me.cat.skilled.skill.skills.rogue.active.VoidwalkerSkill;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import org.spongepowered.asm.mixin.Mixin;
