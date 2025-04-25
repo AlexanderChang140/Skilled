@@ -74,6 +74,5 @@ public class MarkedEffect extends MobEffect {
                 event.setAmount(event.getAmount() * (1 + DAMAGE_MULTIPLIER * livingEntity.getEffect(EffectRegistry.MARKED.get()).getAmplifier()));
             }
         }
-
     }
 }
