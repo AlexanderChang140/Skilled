@@ -3,12 +3,11 @@ package me.cat.skilled.skill.skills.warrior.active;
 import me.cat.skilled.skill.ActiveSkill;
 import me.cat.skilled.util.MathUtil;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.AABB;
 
-import java.util.List;
+import java.util.Objects;
 
 public class SlashSkill extends ActiveSkill {
     public static final double RADIUS = 3.5;
@@ -26,35 +25,19 @@ public class SlashSkill extends ActiveSkill {
 
     @Override
     protected boolean onActivateSkill(ServerPlayer serverPlayer) {
-        AABB area = new AABB(
-                serverPlayer.getX() - RADIUS,
-                serverPlayer.getY() - RADIUS,
-                serverPlayer.getZ() - RADIUS,
-                serverPlayer.getX() + RADIUS,
-                serverPlayer.getY() + RADIUS,
-                serverPlayer.getZ() + RADIUS
-        );
+        AABB area = serverPlayer.getBoundingBox().inflate(RADIUS);
 
-        List<Entity> nearbyEntities = serverPlayer.level().getEntities(serverPlayer, area, entity -> entity instanceof LivingEntity);
+        serverPlayer.level().getEntitiesOfClass(LivingEntity.class, area).forEach(livingEntity ->  {
+            if (!serverPlayer.position().closerThan(livingEntity.position(), RADIUS)) return;
+            if (MathUtil.calculateAngleBetween(serverPlayer.getLookAngle(), livingEntity.position().subtract(serverPlayer.position())) > ANGLE) return;
 
-        for (Entity entity : nearbyEntities) {
-            LivingEntity livingEntity = (LivingEntity) entity;
-
-            if (!serverPlayer.position().closerThan(livingEntity.position(), RADIUS)) {
-                continue;
-            }
-
-            if (MathUtil.calculateAngleBetween(serverPlayer.getLookAngle(), livingEntity.position().subtract(serverPlayer.position())) > ANGLE) {
-                continue;
-            }
-
-            float damage = (float) (serverPlayer.getAttribute(Attributes.ATTACK_DAMAGE).getValue() * DAMAGE_MULTIPLIER);
+            float damage = (float) (Objects.requireNonNull(serverPlayer.getAttribute(Attributes.ATTACK_DAMAGE)).getValue() * DAMAGE_MULTIPLIER);
             livingEntity.hurt(livingEntity.damageSources().playerAttack(serverPlayer), damage);
 
             double xDir = serverPlayer.position().x - livingEntity.position().x;
             double zDir = serverPlayer.position().z - livingEntity.position().z;
             livingEntity.knockback(KNOCKBACK, xDir, zDir);
-        }
+        });
         return true;
     }
 }
