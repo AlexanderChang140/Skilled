@@ -1,8 +1,7 @@
 package me.cat.skilled.skill.skills.warrior.passive;
 
-import me.cat.skilled.Skilled;
 import me.cat.skilled.skill.SkillData;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.util.Utilities;
 
 public class ParryData extends SkillData {
     public ParryData() {
@@ -13,7 +12,7 @@ public class ParryData extends SkillData {
 
                 "Parry",
                 (level) -> "Blocking an enemy's attack with a shield knocks them back and slows them.",
-                new ResourceLocation(Skilled.MODID, "textures/skill/parry.png")
+                Utilities.getDefaultSkillIcon()
         );
     }
 }

@@ -1,9 +1,8 @@
 package me.cat.skilled.skill.skills.rogue.active;
 
-import me.cat.skilled.Skilled;
 import me.cat.skilled.skill.ActiveSkillData;
 import me.cat.skilled.skill.SkillSlot;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.util.Utilities;
 
 public class VoidwalkerData extends ActiveSkillData {
 
@@ -14,7 +13,7 @@ public class VoidwalkerData extends ActiveSkillData {
                 VoidwalkerSkill::new,
                 "Voidwalker",
                 (level) -> "temp",
-                new ResourceLocation(Skilled.MODID, "textures/skill/voidwalker.png"),
+                Utilities.getDefaultSkillIcon(),
                 SkillSlot.TERTIARY
         );
     }

@@ -1,9 +1,8 @@
 package me.cat.skilled.skill.skills.warrior.active;
 
-import me.cat.skilled.Skilled;
 import me.cat.skilled.skill.ActiveSkillData;
 import me.cat.skilled.skill.SkillSlot;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.util.Utilities;
 
 public class SecondWindData extends ActiveSkillData {
     public SecondWindData() {
@@ -17,7 +16,7 @@ public class SecondWindData extends ActiveSkillData {
                         "Heal %.0f%% percent of your missing health.",
                         SecondWindSkill.HEAL_FACTOR
                 ),
-                new ResourceLocation(Skilled.MODID, "textures/skill/second_wind.png"),
+                Utilities.getSkillIconWithDefaultPath("second_wind.png"),
                 SkillSlot.TERTIARY
         );
     }

@@ -1,8 +1,7 @@
 package me.cat.skilled.skill.skills.rogue.passive;
 
-import me.cat.skilled.Skilled;
 import me.cat.skilled.skill.SkillData;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.util.Utilities;
 
 public class EvasionData extends SkillData {
     public EvasionData() {
@@ -16,7 +15,7 @@ public class EvasionData extends SkillData {
                         "You have a %.0f%% chance to evade attacks. This chance is reduced every hit evaded and recharges over time.",
                         EvasionSkill.getMaxEvasion(level)
                 ),
-                new ResourceLocation(Skilled.MODID, "textures/skill/power_shot.png")
+                Utilities.getDefaultSkillIcon()
         );
     }
 }

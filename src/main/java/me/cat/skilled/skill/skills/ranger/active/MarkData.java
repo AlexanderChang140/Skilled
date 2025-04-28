@@ -1,10 +1,9 @@
 package me.cat.skilled.skill.skills.ranger.active;
 
-import me.cat.skilled.Skilled;
 import me.cat.skilled.effect.MarkedEffect;
-import me.cat.skilled.skill.SkillSlot;
 import me.cat.skilled.skill.ActiveSkillData;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.skill.SkillSlot;
+import me.cat.skilled.util.Utilities;
 
 public class MarkData extends ActiveSkillData {
     public MarkData() {
@@ -15,7 +14,7 @@ public class MarkData extends ActiveSkillData {
 
                 "Mark",
                 (level) -> String.format("Inflict §lMarked§r on an enemy, causing them to take %.0f%% more damage.", toPercent(MarkedEffect.DAMAGE_MULTIPLIER)),
-                new ResourceLocation(Skilled.MODID, "textures/skill/mark.png"),
+                Utilities.getSkillIconWithDefaultPath("mark.png"),
                 SkillSlot.PRIMARY
         );
     }

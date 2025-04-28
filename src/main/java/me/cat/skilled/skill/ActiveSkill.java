@@ -17,8 +17,8 @@ public abstract class ActiveSkill extends Skill {
     protected abstract boolean onActivateSkill(ServerPlayer serverPlayer);
 
     public void activateSkill(ServerPlayer serverPlayer) {
-        if (isSkillReady) {
-            isSkillReady = !onActivateSkill(serverPlayer);
+        if (isSkillReady && onActivateSkill(serverPlayer)) {
+            startCooldown();
         }
     }
 
@@ -41,6 +41,11 @@ public abstract class ActiveSkill extends Skill {
         super.deserializeNBT(tag);
         skillTimer.setTickCounter(tag.getInt("skill_cooldown"));
         isSkillReady = tag.getBoolean("is_skill_ready");
+    }
+
+    public void startCooldown() {
+        isSkillReady = false;
+        skillTimer.setTickCounter(0);
     }
 
     protected boolean doSkillTimer() {

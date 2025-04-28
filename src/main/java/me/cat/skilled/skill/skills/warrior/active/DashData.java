@@ -1,9 +1,8 @@
 package me.cat.skilled.skill.skills.warrior.active;
 
-import me.cat.skilled.Skilled;
-import me.cat.skilled.skill.SkillSlot;
 import me.cat.skilled.skill.ActiveSkillData;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.skill.SkillSlot;
+import me.cat.skilled.util.Utilities;
 
 public class DashData extends ActiveSkillData {
     public DashData() {
@@ -14,7 +13,7 @@ public class DashData extends ActiveSkillData {
 
                 "Dash",
                 (level) -> "Dash forward, knocking back and damaging enemies in your path.",
-                new ResourceLocation(Skilled.MODID, "textures/skill/dash.png"),
+                Utilities.getSkillIconWithDefaultPath("dash.png"),
                 SkillSlot.SECONDARY
         );
     }

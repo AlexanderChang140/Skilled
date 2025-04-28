@@ -1,9 +1,8 @@
 package me.cat.skilled.skill.skills.warrior.active;
 
-import me.cat.skilled.Skilled;
-import me.cat.skilled.skill.SkillSlot;
 import me.cat.skilled.skill.ActiveSkillData;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.skill.SkillSlot;
+import me.cat.skilled.util.Utilities;
 
 public class SlashData extends ActiveSkillData {
 
@@ -18,7 +17,7 @@ public class SlashData extends ActiveSkillData {
                         "Slash in front of you, dealing %.0f%% melee damage in an area.",
                         toPercent(SlashSkill.getDamageMultiplier())
                 ),
-                new ResourceLocation(Skilled.MODID, "textures/gui/skill/slash.png"),
+                Utilities.getSkillIconWithDefaultPath("slash.png"),
                 SkillSlot.PRIMARY
         );
     }

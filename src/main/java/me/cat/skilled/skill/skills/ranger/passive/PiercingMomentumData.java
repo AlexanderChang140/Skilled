@@ -1,9 +1,8 @@
 package me.cat.skilled.skill.skills.ranger.passive;
 
-import me.cat.skilled.Skilled;
 import me.cat.skilled.effect.PiercingMomentumEffect;
 import me.cat.skilled.skill.SkillData;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.util.Utilities;
 
 
 public class PiercingMomentumData extends SkillData {
@@ -19,7 +18,7 @@ public class PiercingMomentumData extends SkillData {
                         PiercingMomentumEffect.DAMAGE_MULTIPLIER,
                         PiercingMomentumSkill.getMaxStacks()
                 ),
-                new ResourceLocation(Skilled.MODID, "textures/skill/piercing_momentum.png")
+                Utilities.getSkillIconWithDefaultPath("piercing_momentum.png")
         );
     }
 }

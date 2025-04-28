@@ -1,8 +1,7 @@
 package me.cat.skilled.skill.skills.ranger.passive;
 
-import me.cat.skilled.Skilled;
 import me.cat.skilled.skill.SkillData;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.util.Utilities;
 
 public class ImmobilizingShotData extends SkillData {
     public ImmobilizingShotData() {
@@ -13,7 +12,7 @@ public class ImmobilizingShotData extends SkillData {
 
                 "Immobilizing Shot",
                 (level) -> "Your ranged attacks §lImmobilize§r enemies, slowing them.",
-                new ResourceLocation(Skilled.MODID, "textures/skill/immobilizing_shot.png")
+                Utilities.getDefaultSkillIcon()
         );
     }
 }

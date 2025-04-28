@@ -1,9 +1,8 @@
 package me.cat.skilled.skill.skills.rogue.passive;
 
-import me.cat.skilled.Skilled;
 import me.cat.skilled.effect.StealthEffect;
 import me.cat.skilled.skill.SkillData;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.util.Utilities;
 
 public class StealthData extends SkillData {
     public StealthData() {
@@ -17,7 +16,7 @@ public class StealthData extends SkillData {
                         "Your detection range is reduced by %.0f%% while crouching. Attacking breaks stealth.",
                         toPercent(level * StealthEffect.DETECTION_DECREASE)
                 ),
-                new ResourceLocation(Skilled.MODID, "textures/skill/stealth.png")
+                Utilities.getSkillIconWithDefaultPath("stealth.png")
         );
     }
 }

@@ -12,6 +12,7 @@ public class BlinkSlashData extends SkillData {
 
                 "Blink Slash",
                 (level) -> "Deal additional melee damage after teleporting",
-                Utilities.getDefaultSkillIconPath("blink_slash.png"));
+                Utilities.getDefaultSkillIcon()
+        );
     }
 }

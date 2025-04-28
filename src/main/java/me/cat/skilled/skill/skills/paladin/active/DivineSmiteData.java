@@ -1,9 +1,8 @@
 package me.cat.skilled.skill.skills.paladin.active;
 
-import me.cat.skilled.Skilled;
 import me.cat.skilled.skill.ActiveSkillData;
 import me.cat.skilled.skill.SkillSlot;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.util.Utilities;
 
 public class DivineSmiteData extends ActiveSkillData {
     public DivineSmiteData() {
@@ -14,7 +13,7 @@ public class DivineSmiteData extends ActiveSkillData {
 
                 "Divine Smite",
                 (level) -> "Deal extra damage",
-                new ResourceLocation(Skilled.MODID, "textures/skill/divine_smite.png"),
+                Utilities.getSkillIconWithDefaultPath("divine_smite.png"),
                 SkillSlot.SECONDARY
         );
     }

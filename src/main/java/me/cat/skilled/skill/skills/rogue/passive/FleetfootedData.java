@@ -1,14 +1,13 @@
 package me.cat.skilled.skill.skills.rogue.passive;
 
-import me.cat.skilled.Skilled;
 import me.cat.skilled.skill.SkillData;
-import net.minecraft.resources.ResourceLocation;
+import me.cat.skilled.util.Utilities;
 
 public class FleetfootedData extends SkillData {
     public FleetfootedData() {
         super(
                 "fleetfooted",
-                FleetfootedSkill.MAX_LEVEL,
+                1,
                 FleetfootedSkill::new,
 
                 "Fleetfooted",
@@ -16,7 +15,7 @@ public class FleetfootedData extends SkillData {
                         "You move at %.0f%% speed when crouching or using a ranged weapon.",
                         toPercent(FleetfootedSkill.getCrouchMovementSpeed(level))
                 ),
-                new ResourceLocation(Skilled.MODID, "textures/skill/fleetfooted.png")
+                Utilities.getSkillIconWithDefaultPath("fleetfooted.png")
         );
     }
 }
