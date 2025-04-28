@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import java.util.*;
 
 public class Category {
-    private static final String DEFAULT_ICON_PATH = "textures/category/";
     protected static final Grid DEFAULT_GRID = new Grid(8);
 
     private final String id;
@@ -27,13 +26,6 @@ public class Category {
         this.title = title;
         this.description = description;
         this.icon = icon;
-    }
-
-    public Category(String id, String iconFileName, String title, String description) {
-        this.id = id;
-        this.icon = new ResourceLocation(Skilled.MODID, DEFAULT_ICON_PATH + iconFileName);
-        this.title = title;
-        this.description = description;
     }
 
     public void addNode(Node node) {
