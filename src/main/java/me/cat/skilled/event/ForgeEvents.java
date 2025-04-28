@@ -7,6 +7,7 @@ import me.cat.skilled.capability.manager.SyncManager;
 import me.cat.skilled.registry.CapabilityRegistry;
 import me.cat.skilled.registry.DamageSourceRegistry;
 import me.cat.skilled.skill.ActiveSkill;
+import me.cat.skilled.skill.DurationSkill;
 import me.cat.skilled.skill.Skill;
 import me.cat.skilled.skill.ToggleableSkill;
 import net.minecraft.resources.ResourceLocation;
@@ -89,6 +90,12 @@ public class ForgeEvents {
                 activeSkill.tickSkillTimer();
                 if (activeSkill instanceof ToggleableSkill toggleableSkill) {
                     toggleableSkill.tickToggleTimer();
+                }
+                if (activeSkill instanceof DurationSkill durationSkill && durationSkill.isActive() && durationSkill.tickActiveTimer()) {
+                    durationSkill.setActive(false);
+                    if (player instanceof ServerPlayer serverPlayer) {
+                        durationSkill.onEnd(serverPlayer);
+                    }
                 }
             }
         }

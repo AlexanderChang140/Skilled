@@ -18,7 +18,7 @@ public class EntityRendererDispatcherMixin {
             at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/entity/EntityRenderDispatcher;shouldRenderShadow:Z"))
     public boolean test(EntityRenderDispatcher instance) {
         if (PlayerSkillManager.getSkillInstance(Minecraft.getInstance().player, SkillRegistry.VOIDWALKER.getSkillId()) instanceof VoidwalkerSkill voidwalkerSkill) {
-            return !voidwalkerSkill.isVoidwalking();
+            return !voidwalkerSkill.isActive();
         }
         return this.shouldRenderShadow;
     }
