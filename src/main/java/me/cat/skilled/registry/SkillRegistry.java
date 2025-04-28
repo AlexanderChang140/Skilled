@@ -4,6 +4,7 @@ import me.cat.skilled.skill.SkillData;
 import me.cat.skilled.skill.skills.paladin.active.DivineSmiteData;
 import me.cat.skilled.skill.skills.ranger.active.EnderShotData;
 import me.cat.skilled.skill.skills.ranger.active.MarkData;
+import me.cat.skilled.skill.skills.ranger.active.VolleyData;
 import me.cat.skilled.skill.skills.ranger.passive.*;
 import me.cat.skilled.skill.skills.rogue.active.VoidwalkerData;
 import me.cat.skilled.skill.skills.rogue.passive.*;
@@ -33,6 +34,8 @@ public class SkillRegistry {
     public static final SkillData POWER_SHOT = register(new PowerShotData());
     public static final SkillData PIERCING_MOMENTUM = register(new PiercingMomentumData());
     public static final SkillData SHRAPNEL_BARRAGE = register(new ShrapnelBarrageData());
+    public static final SkillData VOLLEY = register(new VolleyData());
+    public static final SkillData REPOSITION = register(new RepositionData());
 
     // Warrior
     public static final SkillData DASH = register(new DashData());
