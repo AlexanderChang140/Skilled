@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PiercingMomentumSkill extends Skill {
-    public static final int MAX_LEVEL = 1;
-
     private static final int EFFECT_DURATION = 100;
     private static final int MAX_STACKS = 5;
 
@@ -34,74 +32,35 @@ public class PiercingMomentumSkill extends Skill {
     public static class EventHandler {
         @SubscribeEvent
         public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
-            if (!(event.getEntity() instanceof Projectile projectile)) {
-                return;
-            }
-
-            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) {
-                return;
-            }
-
-            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.PIERCING_MOMENTUM.getSkillId()) instanceof PiercingMomentumSkill skill)) {
-                return;
-            }
-
+            if (!(event.getEntity() instanceof Projectile projectile)) return;
+            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) return;
+            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.PIERCING_MOMENTUM.getSkillId()) instanceof PiercingMomentumSkill skill)) return;
             skill.projectileList.add(projectile);
         }
 
         @SubscribeEvent
         public static void onEntityLeaveLevel(EntityLeaveLevelEvent event) {
-            if (!(event.getEntity() instanceof Projectile projectile)) {
-                return;
-            }
-
-            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) {
-                return;
-            }
-
-            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.PIERCING_MOMENTUM.getSkillId()) instanceof PiercingMomentumSkill skill)) {
-                return;
-            }
-
+            if (!(event.getEntity() instanceof Projectile projectile)) return;
+            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) return;
+            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.PIERCING_MOMENTUM.getSkillId()) instanceof PiercingMomentumSkill skill)) return;
             skill.projectileList.remove(projectile);
         }
 
         @SubscribeEvent
         public static void onProjectileImpactEvent(ProjectileImpactEvent event) {
-            if (!(event.getEntity() instanceof Projectile projectile)) {
-                return;
-            }
-
-            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) {
-                return;
-            }
-
-            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.PIERCING_MOMENTUM.getSkillId()) instanceof PiercingMomentumSkill skill)) {
-                return;
-            }
-
-            if (event.getRayTraceResult().getType() == HitResult.Type.ENTITY) {
-                return;
-            }
-
+            if (!(event.getEntity() instanceof Projectile projectile)) return;
+            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) return;
+            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.PIERCING_MOMENTUM.getSkillId()) instanceof PiercingMomentumSkill skill)) return;
+            if (event.getRayTraceResult().getType() == HitResult.Type.ENTITY) return;
             serverPlayer.removeEffect(EffectRegistry.PIERCING_MOMENTUM.get());
             skill.projectileList.remove(projectile);
         }
 
         @SubscribeEvent
         public static void onPlayerAttack(LivingAttackEvent event) {
-            if (!(event.getSource().getDirectEntity() instanceof Projectile projectile)) {
-                return;
-            }
-
-            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) {
-                return;
-            }
-
-            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.PIERCING_MOMENTUM.getSkillId()) instanceof PiercingMomentumSkill skill)) {
-                return;
-            }
-
+            if (!(event.getSource().getDirectEntity() instanceof Projectile projectile)) return;
+            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) return;
+            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.PIERCING_MOMENTUM.getSkillId()) instanceof PiercingMomentumSkill skill)) return;
             EffectUtil.stackEffect(serverPlayer, true, getMaxStacks(), EffectRegistry.PIERCING_MOMENTUM.get(), EFFECT_DURATION, 0, false, true);
             skill.projectileList.remove(projectile);
         }

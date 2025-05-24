@@ -51,8 +51,7 @@ public class DashSkill extends ActiveSkill {
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
             if (!(event.player instanceof ServerPlayer serverPlayer)) return;
-            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.DASH.getSkillId()) instanceof DashSkill dashSkill))
-                return;
+            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.DASH.getSkillId()) instanceof DashSkill dashSkill)) return;
             if (!dashSkill.isDashing) return;
             if (dashSkill.dashDuration.doTick()) {
                 dashSkill.dashDuration.resetTickCounter();
@@ -78,8 +77,7 @@ public class DashSkill extends ActiveSkill {
         @SubscribeEvent
         public static void onLivingAttack(LivingAttackEvent event) {
             if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) return;
-            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.DASH.getSkillId()) instanceof DashSkill dashSkill))
-                return;
+            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.DASH.getSkillId()) instanceof DashSkill dashSkill)) return;
             if (dashSkill.isDashing) {
                 event.setCanceled(true);
             }

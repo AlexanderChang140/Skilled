@@ -5,6 +5,7 @@ import me.cat.skilled.skill.Skill;
 import me.cat.skilled.skill.skills.ranger.active.EnderShotSkill;
 import me.cat.skilled.util.Utilities;
 import me.cat.skilled.util.event.Subscriber;
+import net.minecraft.world.entity.player.Player;
 
 public class BlinkSlashSkill extends Skill implements Subscriber<Void, Void> {
     @Override
@@ -18,7 +19,7 @@ public class BlinkSlashSkill extends Skill implements Subscriber<Void, Void> {
     }
 
     @Override
-    public void onRemove() {
+    public void onRemove(Player player) {
         if (skillMap.get(SkillRegistry.ENDER_SHOT.getSkillId()) instanceof EnderShotSkill enderShotSkill) {
             enderShotSkill.getTeleportEvent().unsubscribe(this);
         }

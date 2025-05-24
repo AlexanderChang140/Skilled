@@ -1,11 +1,10 @@
 package me.cat.skilled.skill.skills.ranger.passive;
 
+import me.cat.skilled.capability.manager.PlayerSkillManager;
 import me.cat.skilled.registry.EffectRegistry;
 import me.cat.skilled.registry.SkillRegistry;
 import me.cat.skilled.skill.Skill;
-import me.cat.skilled.capability.manager.PlayerSkillManager;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.AABB;
@@ -28,41 +27,21 @@ public class ShrapnelBarrageSkill extends Skill {
     public static class EventHandler {
         @SubscribeEvent
         public static void onLivingAttack(LivingAttackEvent event) {
-            if (!event.getEntity().hasEffect(EffectRegistry.MARKED.get())) {
-                return;
-            }
+            if (!event.getEntity().hasEffect(EffectRegistry.MARKED.get())) return;
+            if (!(event.getSource().getDirectEntity() instanceof Projectile projectile)) return;
+            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) return;
+            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.SHRAPNEL_BARRAGE.getSkillId()) instanceof ShrapnelBarrageSkill skill)) return;
 
-            if (!(event.getSource().getDirectEntity() instanceof Projectile projectile)) {
-                return;
-            }
-
-            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) {
-                return;
-            }
-
-            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.SHRAPNEL_BARRAGE.getSkillId()) instanceof ShrapnelBarrageSkill skill)) {
-                return;
-            }
 
             LivingEntity target = event.getEntity();
-            AABB area = new AABB(
-                    target.getX() - RADIUS,
-                    target.getY() - RADIUS,
-                    target.getZ() - RADIUS,
-                    target.getX() + RADIUS,
-                    target.getY() + RADIUS,
-                    target.getZ() + RADIUS
-            );
+            AABB area = target.getBoundingBox().inflate(RADIUS);
 
-            List<Entity> nearbyEntities = serverPlayer.level().getEntities(serverPlayer, area, entity -> entity instanceof LivingEntity && entity != target);
-            for (Entity entity : nearbyEntities) {
-                LivingEntity livingEntity = (LivingEntity) entity;
-                if (!target.position().closerThan(livingEntity.position(), RADIUS)) {
-                    continue;
+            List<LivingEntity> nearbyEntities = serverPlayer.level().getEntitiesOfClass(LivingEntity.class, area, entity -> entity != target);
+            for (LivingEntity livingEntity : nearbyEntities) {
+                if (target.position().closerThan(livingEntity.position(), RADIUS)) {
+                    float damage = (float) (event.getAmount() * getDamageMultiplier(skill.getLevel()));
+                    livingEntity.hurt(livingEntity.damageSources().playerAttack(serverPlayer), damage);
                 }
-
-                float damage = (float) (event.getAmount() * getDamageMultiplier(skill.getLevel()));
-                livingEntity.hurt(livingEntity.damageSources().playerAttack(serverPlayer), damage);
             }
         }
     }

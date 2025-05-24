@@ -56,6 +56,9 @@ public class ForgeEvents {
                             newStore -> {
                                 if (oldStore instanceof CapabilityInstance source && newStore instanceof CapabilityInstance instance) {
                                     instance.copyFrom(source);
+                                    if (instance instanceof SkillCap skillCap) {
+                                        skillCap.getSkillMap().forEach((k,v) -> v.onUpdate(event.getEntity()));
+                                    }
                                 }
                             }));
         }

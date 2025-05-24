@@ -7,7 +7,7 @@ public class LifestealData extends SkillData {
     public LifestealData() {
         super(
                 "lifesteal",
-                LifestealSkill.MAX_LEVEL,
+                1,
                 LifestealSkill::new,
 
                 "Lifesteal",

@@ -7,7 +7,7 @@ public class ParryData extends SkillData {
     public ParryData() {
         super(
                 "parry",
-                ParrySkill.MAX_LEVEL,
+                1,
                 ParrySkill::new,
 
                 "Parry",

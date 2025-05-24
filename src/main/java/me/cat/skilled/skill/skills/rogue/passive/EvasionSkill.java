@@ -1,8 +1,8 @@
 package me.cat.skilled.skill.skills.rogue.passive;
 
-import me.cat.skilled.skill.Skill;
-import me.cat.skilled.registry.SkillRegistry;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
+import me.cat.skilled.registry.SkillRegistry;
+import me.cat.skilled.skill.Skill;
 import me.cat.skilled.util.TickTimer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -30,12 +30,8 @@ public class EvasionSkill extends Skill {
 
     @SubscribeEvent
     public static void onLivingEntityAttack(LivingAttackEvent event) {
-        if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) {
-            return;
-        }
-        if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.EVASION.getSkillId()) instanceof EvasionSkill evasionSkill)) {
-            return;
-        }
+        if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) return;
+        if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.EVASION.getSkillId()) instanceof EvasionSkill evasionSkill)) return;
 
         evasionSkill.isRecharging = false;
         evasionSkill.rechargeStartTimer.resetTickCounter();
@@ -49,13 +45,8 @@ public class EvasionSkill extends Skill {
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (!(event.player instanceof ServerPlayer serverPlayer)) {
-            return;
-        }
-
-        if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.EVASION.getSkillId()) instanceof EvasionSkill evasionSkill)) {
-            return;
-        }
+        if (!(event.player instanceof ServerPlayer serverPlayer)) return;
+        if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.EVASION.getSkillId()) instanceof EvasionSkill evasionSkill)) return;
 
         if (evasionSkill.currEvasion >= MAX_EVASION) {
             evasionSkill.currEvasion = Math.max(evasionSkill.currEvasion, MAX_EVASION);

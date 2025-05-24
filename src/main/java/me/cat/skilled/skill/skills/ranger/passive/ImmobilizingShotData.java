@@ -7,7 +7,7 @@ public class ImmobilizingShotData extends SkillData {
     public ImmobilizingShotData() {
         super(
                 "immobilizing_shot",
-                ImmobilizingShotSkill.MAX_LEVEL,
+                1,
                 ImmobilizingShotSkill::new,
 
                 "Immobilizing Shot",

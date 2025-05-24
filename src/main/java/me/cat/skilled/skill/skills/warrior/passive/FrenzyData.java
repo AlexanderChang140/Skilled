@@ -8,7 +8,7 @@ public class FrenzyData extends SkillData {
     public FrenzyData() {
         super(
                 "frenzy",
-                FrenzySkill.MAX_LEVEL,
+                1,
                 FrenzySkill::new,
 
                 "Frenzy",

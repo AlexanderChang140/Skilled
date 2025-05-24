@@ -8,7 +8,7 @@ public class StealthData extends SkillData {
     public StealthData() {
         super(
                 "stealth",
-                StealthSkill.MAX_LEVEL,
+                1,
                 StealthSkill::new,
 
                 "Stealth",

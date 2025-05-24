@@ -4,27 +4,36 @@ import me.cat.skilled.Skilled;
 import me.cat.skilled.capability.ISkillCap;
 import me.cat.skilled.capability.SkillCap;
 import me.cat.skilled.registry.CapabilityRegistry;
-import me.cat.skilled.skill.SkillSlot;
-import me.cat.skilled.skill.ActiveSkillData;
-import me.cat.skilled.skill.ActiveSkill;
-import me.cat.skilled.skill.Skill;
 import me.cat.skilled.registry.SkillRegistry;
+import me.cat.skilled.skill.ActiveSkill;
+import me.cat.skilled.skill.ActiveSkillData;
+import me.cat.skilled.skill.Skill;
+import me.cat.skilled.skill.SkillSlot;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
 
 public class PlayerSkillManager {
 
     public static void updateSkillLevel(ServerPlayer serverPlayer, String skillId, int level) {
-        level = Mth.clamp(level, 0, PlayerSkillManager.getSkillMaxLevel(skillId));
+        level = Mth.clamp(level, 0, getSkillMaxLevel(skillId));
         setSkillLevel(serverPlayer, skillId, level);
+        if (hasSkill(serverPlayer, skillId)) {
+            getSkillInstance(serverPlayer, skillId).onUpdate(serverPlayer);
+        }
     }
 
     public static void clearSkills(ServerPlayer serverPlayer) {
         serverPlayer.getCapability(CapabilityRegistry.SKILLS)
-                .ifPresent(ISkillCap::clearSkills);
+                .ifPresent(skillCap -> {
+                    skillCap.getSkillMap().forEach((k,v) -> v.onRemove(serverPlayer));
+                    skillCap.clearSkills();
+                });
     }
 
     public static int getSkillLevel(Player player, String skillId) {
@@ -99,7 +108,7 @@ public class PlayerSkillManager {
                 .resolve()
                 .map(skills -> skills.getActiveSkillId(skillSlot))
                 .orElse(null);
-        return activeSkillId != null ? (ActiveSkill) PlayerSkillManager.getSkillInstance(player, activeSkillId) : null;
+        return activeSkillId != null ? (ActiveSkill) getSkillInstance(player, activeSkillId) : null;
     }
 
     public static boolean hasActiveSkill(Player player, SkillSlot skillSlot) {

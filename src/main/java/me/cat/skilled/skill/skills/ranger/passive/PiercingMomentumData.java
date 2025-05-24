@@ -9,7 +9,7 @@ public class PiercingMomentumData extends SkillData {
     public PiercingMomentumData() {
         super(
                 "piercing_momentum",
-                PiercingMomentumSkill.MAX_LEVEL,
+                1,
                 PiercingMomentumSkill::new,
 
                 "Piercing Momentum",

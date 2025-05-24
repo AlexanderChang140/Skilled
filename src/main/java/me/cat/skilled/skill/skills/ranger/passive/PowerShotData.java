@@ -7,7 +7,7 @@ public class PowerShotData extends SkillData {
     public PowerShotData() {
         super(
                 "power_shot",
-                PowerShotSkill.MAX_LEVEL,
+                1,
                 PowerShotSkill::new,
 
                 "Power Shot",

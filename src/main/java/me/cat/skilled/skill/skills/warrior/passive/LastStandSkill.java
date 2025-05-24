@@ -1,9 +1,9 @@
 package me.cat.skilled.skill.skills.warrior.passive;
 
-import me.cat.skilled.skill.Skill;
-import me.cat.skilled.registry.SkillRegistry;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
-import me.cat.skilled.util.TickTimer ;
+import me.cat.skilled.registry.SkillRegistry;
+import me.cat.skilled.skill.Skill;
+import me.cat.skilled.util.TickTimer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,53 +29,43 @@ public class LastStandSkill extends Skill {
         return DURATION;
     }
 
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (!(event.player instanceof ServerPlayer serverPlayer)) {
-            return;
+    @Mod.EventBusSubscriber
+    public static class LastStandEventHandler {
+        @SubscribeEvent
+        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+            if (!(event.player instanceof ServerPlayer serverPlayer)) return;
+            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.LAST_STAND.getSkillId()) instanceof LastStandSkill lastStandSkill)) return;
+            if (!lastStandSkill.isLastStandReady && lastStandSkill.lastStandCooldown.doTick()) {
+                lastStandSkill.isLastStandReady = true;
+            }
+            if (lastStandSkill.isInvuln && lastStandSkill.invulnTimer.doTick()) {
+                lastStandSkill.isInvuln = false;
+            }
         }
 
-        if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.LAST_STAND.getSkillId()) instanceof LastStandSkill lastStandSkill)) {
-            return;
-        }
+        @SubscribeEvent
+        public static void onLivingDamage(LivingDamageEvent event) {
+            if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) return;
+            if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.LAST_STAND.getSkillId()) instanceof LastStandSkill lastStandSkill)) return;
+            if (lastStandSkill.isInvuln) {
+                event.setCanceled(true);
+                return;
+            }
 
-        if (!lastStandSkill.isLastStandReady && lastStandSkill.lastStandCooldown.doTick()) {
-            lastStandSkill.isLastStandReady = true;
-        }
+            LivingEntity livingEntity = event.getEntity();
+            float damage = event.getAmount();
 
-        if (lastStandSkill.isInvuln && lastStandSkill.invulnTimer.doTick()) {
-            lastStandSkill.isInvuln = false;
-        }
-    }
+            if (lastStandSkill.isLastStandReady && damage >= livingEntity.getHealth()) {
+                event.setCanceled(true);
 
-    @SubscribeEvent
-    public static void onLivingDamage(LivingDamageEvent event) {
-        if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) {
-            return;
-        }
+                lastStandSkill.isLastStandReady = false;
+                lastStandSkill.isInvuln = true;
 
-        if (!(PlayerSkillManager.getSkillInstance(serverPlayer, SkillRegistry.LAST_STAND.getSkillId()) instanceof LastStandSkill lastStandSkill)) {
-            return;
-        }
-
-        if (lastStandSkill.isInvuln) {
-            event.setCanceled(true);
-            return;
-        }
-
-        LivingEntity livingEntity = event.getEntity();
-        float damage = event.getAmount();
-
-        if (lastStandSkill.isLastStandReady && damage >= livingEntity.getHealth()) {
-            event.setCanceled(true);
-
-            lastStandSkill.isLastStandReady = false;
-            lastStandSkill.isInvuln = true;
-
-            livingEntity.getCombatTracker().recordDamage(event.getSource(), damage);
-            livingEntity.setHealth(1);
-            livingEntity.setAbsorptionAmount(0);
-            livingEntity.gameEvent(GameEvent.ENTITY_DAMAGE);
+                livingEntity.getCombatTracker().recordDamage(event.getSource(), damage);
+                livingEntity.setHealth(1);
+                livingEntity.setAbsorptionAmount(0);
+                livingEntity.gameEvent(GameEvent.ENTITY_DAMAGE);
+            }
         }
     }
 

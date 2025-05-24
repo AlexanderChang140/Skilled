@@ -1,9 +1,9 @@
 package me.cat.skilled.skill.skills.ranger.passive;
 
-import me.cat.skilled.skill.Skill;
-import me.cat.skilled.registry.SkillRegistry;
-import me.cat.skilled.skill.skills.ranger.active.MarkSkill;
 import me.cat.skilled.capability.manager.PlayerSkillManager;
+import me.cat.skilled.registry.SkillRegistry;
+import me.cat.skilled.skill.Skill;
+import me.cat.skilled.skill.skills.ranger.active.MarkSkill;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -84,46 +84,23 @@ public class HomingShotSkill extends Skill {
 
         @SubscribeEvent
         public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
-            if (event.getLevel().isClientSide()) {
-                return;
-            }
-
-            if (!(event.getEntity() instanceof Projectile projectile)) {
-                return;
-            }
-
-            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) {
-                return;
-            }
-
-            if (!(PlayerSkillManager.hasSkill(serverPlayer, SkillRegistry.HOMING_SHOT.getSkillId()))) {
-                return;
-            }
-
+            if (event.getLevel().isClientSide()) return;
+            if (!(event.getEntity() instanceof Projectile projectile)) return;
+            if (!(projectile.getOwner() instanceof ServerPlayer serverPlayer)) return;
+            if (!(PlayerSkillManager.hasSkill(serverPlayer, SkillRegistry.HOMING_SHOT.getSkillId()))) return;
             PROJECTILE_SET.add(projectile);
         }
 
         @SubscribeEvent
         public static void onEntityLeaveLevel(EntityLeaveLevelEvent event) {
-            if (event.getLevel().isClientSide) {
-                return;
-            }
-
-            if (!(event.getEntity() instanceof Projectile projectile)) {
-                return;
-            }
-
+            if (event.getLevel().isClientSide) return;
+            if (!(event.getEntity() instanceof Projectile projectile)) return;
             PROJECTILE_SET.remove(projectile);
         }
 
         @SubscribeEvent
         public static void onProjectileImpact(ProjectileImpactEvent event) {
-            Projectile projectile = event.getProjectile();
-
-            if (projectile.level().isClientSide) {
-                return;
-            }
-
+            if (event.getProjectile().level().isClientSide) return;
             PROJECTILE_SET.remove(event.getProjectile());
         }
     }
