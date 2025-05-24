@@ -55,9 +55,9 @@ public class SkillCap extends CapabilityInstance implements ISkillCap {
         skillMap.compute(skillId, (id, skill) -> {
             if (skill == null) {
                 skill = createSkillInstance(skillId);
+                skill.init();
             }
             skill.setLevel(level);
-            skill.init();
             return skill;
         });
         setDirty(true);
@@ -65,7 +65,6 @@ public class SkillCap extends CapabilityInstance implements ISkillCap {
 
     @Override
     public void removeSkill(String skillId) {
-        skillMap.get(skillId).onRemove();
         skillMap.remove(skillId);
         if (SkillRegistry.getSkillData(skillId) instanceof ActiveSkillData activeSkillData) {
             activeSkills.put(activeSkillData.getSkillSlot(), null);
@@ -86,9 +85,6 @@ public class SkillCap extends CapabilityInstance implements ISkillCap {
     @Override
     public void clearSkills() {
         activeSkills.replaceAll((k, v) -> null);
-        for (var skill : skillMap.values()){
-            skill.onRemove();
-        }
         skillMap.clear();
         setDirty(true);
     }

@@ -1,6 +1,7 @@
 package me.cat.skilled.skill;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.Map;
@@ -10,11 +11,24 @@ public abstract class Skill implements INBTSerializable<CompoundTag> {
     protected Map<String, Skill> skillMap;
     protected int level = 1;
 
+    /**
+     * Called every time the skill is instantiated.
+     */
     public void init() {
 
     }
 
-    public void onRemove() {
+    /**
+     * Called every time the skill is updated.
+     */
+    public void onUpdate(Player player) {
+
+    }
+
+    /**
+     * Called every time the skill is removed.
+     */
+    public void onRemove(Player player) {
 
     }
 
