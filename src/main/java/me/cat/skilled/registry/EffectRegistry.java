@@ -10,8 +10,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import net.puffish.attributesmod.*;
+import net.puffish.attributesmod.AttributesMod;
 
 public class EffectRegistry {
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Skilled.MODID);
@@ -31,6 +30,15 @@ public class EffectRegistry {
                             Attributes.ATTACK_SPEED,
                             FrenzyEffect.FRENZY_ATTACK_SPEED_UUID.toString(),
                             FrenzyEffect.FRENZY_ATTACK_SPEED_INCREASE,
+                            AttributeModifier.Operation.MULTIPLY_TOTAL
+                    ));
+
+    public static final RegistryObject<MobEffect> BLOODLUST = MOB_EFFECTS.register("bloodlust",
+            () -> new BloodlustEffect(MobEffectCategory.BENEFICIAL, 0)
+                    .addAttributeModifier(
+                            Attributes.ATTACK_DAMAGE,
+                            BloodlustEffect.BLOODLUST_ATTACK_DAMAGE_MULTIPLIER_UUID.toString(),
+                            BloodlustEffect.BLOODLUST_ATTACK_DAMAGE_MULTIPLIER,
                             AttributeModifier.Operation.MULTIPLY_TOTAL
                     ));
 

@@ -2,6 +2,8 @@ package me.cat.skilled.registry;
 
 import me.cat.skilled.skill.SkillData;
 import me.cat.skilled.skill.skills.paladin.active.DivineSmiteData;
+import me.cat.skilled.skill.skills.paladin.active.MendWoundsSkillData;
+import me.cat.skilled.skill.skills.paladin.passive.AuraOfProtectionData;
 import me.cat.skilled.skill.skills.ranger.active.EnderShotData;
 import me.cat.skilled.skill.skills.ranger.active.MarkData;
 import me.cat.skilled.skill.skills.ranger.active.VolleyData;
@@ -11,10 +13,7 @@ import me.cat.skilled.skill.skills.rogue.passive.*;
 import me.cat.skilled.skill.skills.warrior.active.DashData;
 import me.cat.skilled.skill.skills.warrior.active.SecondWindData;
 import me.cat.skilled.skill.skills.warrior.active.SlashData;
-import me.cat.skilled.skill.skills.warrior.passive.FrenzyData;
-import me.cat.skilled.skill.skills.warrior.passive.LastStandData;
-import me.cat.skilled.skill.skills.warrior.passive.LifestealData;
-import me.cat.skilled.skill.skills.warrior.passive.ParryData;
+import me.cat.skilled.skill.skills.warrior.passive.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,14 +44,20 @@ public class SkillRegistry {
     public static final SkillData PARRY = register(new ParryData());
     public static final SkillData SLASH = register(new SlashData());
     public static final SkillData SECOND_WIND = register(new SecondWindData());
+    public static final SkillData TENACITY = register(new TenacityData());
+    public static final SkillData BLOODLUST = register(new BloodlustData());
 
     // Paladin
     public static final SkillData DIVINE_SMITE = register(new DivineSmiteData());
+    public static final SkillData MEND_WOUNDS = register(new MendWoundsSkillData());
+    public static final SkillData AURA_OF_PROTECTION = register(new AuraOfProtectionData());
 
     // Rogue
     public static final SkillData VOIDWALKER = register(new VoidwalkerData());
     public static final SkillData EVASION = register(new EvasionData());
     public static final SkillData FLEETFOOTED = register(new FleetfootedData());
+    public static final SkillData PICKPOCKET = register(new PickpocketData());
+    public static final SkillData SLOW_FALL = register(new AcrobatData());
     public static final SkillData STEALTH = register(new StealthData());
 
     public static SkillData getSkillData(String skillId) {
